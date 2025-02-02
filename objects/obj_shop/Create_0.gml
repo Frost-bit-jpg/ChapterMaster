@@ -663,7 +663,6 @@ if (shop = "equipment2") {
             if (research.armour[0] < 2 && mk_4_able){
                 tooltip_overide[i] += $"     {research_pathways.armour[0][1]}#";
             } else {
-                tooltip_overide[i] += $"#     {research_pathways.armour[0][1]}#";
 				tooltip_overide[i] = mk_4_tool_tip;
             }
         }
