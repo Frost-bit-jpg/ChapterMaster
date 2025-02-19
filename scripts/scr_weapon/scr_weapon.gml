@@ -2057,12 +2057,12 @@ global.gear = {
 			"ranged_mod": {
 				"standard": -5,
 				"master_crafted": 0,
-				"artifact": 0
+				"artifact": 10
 			},
 			"melee_mod": {
-				"standard": 20,
-				"master_crafted": 25,
-				"artifact": 30
+				"standard": 5,
+				"master_crafted": 10,
+				"artifact": 20
 			},
 			"description": "A hastily assembled Power Armor that first started appearing during the Horus Heresy to act as a stopgap while new suits were produced and sent to loyalist legions. It excels in close combat but it has limited sensors for ranged combat.",
 			"tags": ["power_armour"],
