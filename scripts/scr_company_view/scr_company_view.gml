@@ -1,13 +1,13 @@
 function reset_ship_manage_arrays() {
     with (obj_controller) {
-        array_resize(sh_ide, 0);
-        array_resize(sh_uid, 0);
-        array_resize(sh_name, 0);
-        array_resize(sh_class, 0);
-        array_resize(sh_loc, 0);
-        array_resize(sh_hp, 0);
-        array_resize(sh_cargo, 0);
-        array_resize(sh_cargo_max, 0);
+        sh_ide = [];
+        sh_uid = [];
+        sh_name = [];
+        sh_class = [];
+        sh_loc = [];
+        sh_hp = [];
+        sh_cargo = [];
+        sh_cargo_max = [];
     }
 }
 
@@ -459,7 +459,7 @@ function switch_view_company(new_view){
 				scr_company_order(new_view);
 			}
 			scr_company_view(new_view);		
-			company_data = new CompanyStruct(managing);
+			new_company_struct();
 		}
 	}
 }

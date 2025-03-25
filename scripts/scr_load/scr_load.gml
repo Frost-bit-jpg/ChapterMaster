@@ -159,6 +159,7 @@ function scr_load(save_part, save_id) {
 	    var livery_picker = new ColourItem(0,0);
 		livery_picker.scr_unit_draw_data();
 	    obj_ini.full_liveries = return_json_from_ini("Ini", "full_liveries",array_create(21,DeepCloneStruct(livery_picker.map_colour)));
+	    obj_ini.culture_styles = return_json_from_ini("Ini", "styles", []);
 	    obj_ini.custom_advisors = return_json_from_ini("Ini", "custom_advisors",{});
 	    obj_ini.home_name=ini_read_string("Ini","home_name","Error");
 	    obj_ini.home_type=ini_read_string("Ini","home_type","Error");
@@ -173,7 +174,7 @@ function scr_load(save_part, save_id) {
 	    obj_ini.man_size=ini_read_real("Ini","man_size",0);
 	    // obj_ini.strin=ini_read_string("Ini","strin1","");
 	    // obj_ini.strin2=ini_read_string("Ini","strin2","");
-	    obj_ini.psy_powers=ini_read_string("Ini","psy_powers","default");
+	    obj_ini.psy_powers=ini_read_string("Ini","psy_powers","librarius");
 
 		
 		global.chapter_icon_sprite = ini_read_real("Ini", "global_chapter_icon_sprite", spr_icon_chapters);
@@ -327,6 +328,7 @@ function scr_load(save_part, save_id) {
 
 	                    obj_ini.veh_hp[coh,mah]=ini_read_real("Veh","hp"+string(coh)+"."+string(mah),0);
 	                    obj_ini.veh_chaos[coh,mah]=ini_read_real("Veh","cha"+string(coh)+"."+string(mah),0);
+	                    obj_ini.last_ship[coh,mah]=return_json_from_ini("Veh","last_ship"+string(coh)+"."+string(mah),{uid : "", name : ""});
 	                    // ini_write_real("Veh","pil"+string(coh)+"."+string(mah),obj_ini.veh_pilots[coh,mah]);
 	                // }
 	                if (coh=1) and (mah=1) then good=1;
@@ -344,6 +346,9 @@ function scr_load(save_part, save_id) {
 	            obj_ini.gear[coh,mah]=ini_read_string("Mar","ge"+string(coh)+"."+string(mah),"");
 	            obj_ini.mobi[coh,mah]=ini_read_string("Mar","mb"+string(coh)+"."+string(mah),"");	
 	        }
+
+			// TODO: When modding support is implemented, uncomment this init. Otherwise traits are initialized at compile.
+	       	// initialize_marine_traits();
 	        for (coh=0;coh<=10;coh++){
 	        	for (mah=0;mah<=500;mah++){
 

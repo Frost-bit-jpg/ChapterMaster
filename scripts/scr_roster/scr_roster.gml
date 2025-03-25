@@ -128,17 +128,17 @@ function Roster() constructor{
 		    	 	_add = true;
 		    	 }
 		   	} else {
-                 if (!array_contains(_valid_companies, _unit[0])) then continue;
+                if (!array_contains(_valid_companies, _unit[0])) then continue;
                 var _role = obj_ini.veh_role[_unit[0]][_unit[1]];
 		   		var _vehic_lid = obj_ini.veh_lid[_unit[0]][_unit[1]];
                 if (array_contains(_valid_vehicles, _role)){
     		   		if (_vehic_lid>-1){
     		    	 	if (array_contains(_valid_ship ,_vehic_lid)){
     		    	 		_add = true;  	 		
-    		    	 	} else if (local_button.active){
-    		    	 		_add = true;
     		    	 	}
-    		   		}
+    		   		}else if (local_button.active){
+                        _add = true;
+                    }
                 }
 		   	}
 
@@ -344,9 +344,11 @@ function Roster() constructor{
             array_push(company_buttons,_button);
         }
         var _ships = get_player_ships(roster_location);
+        var _ship_index;
         for (var s=0;s<array_length(_ships);s++){
-            if (obj_ini.ship_carrying[s]>0){
-                new_ship_button(obj_ini.ship[_ships[s]],_ships[s]);
+            _ship_index = _ships[s];
+            if (obj_ini.ship_carrying[_ship_index]>0){
+                new_ship_button(obj_ini.ship[_ship_index],_ship_index);
             }
         }
     }
@@ -483,7 +485,9 @@ function setup_battle_formations(){
     obj_controller.bat_dreadnought_column = obj_controller.bat_drea_for[new_combat.formation_set];
     obj_controller.bat_rhino_column = obj_controller.bat_rhin_for[new_combat.formation_set];
     obj_controller.bat_predator_column = obj_controller.bat_pred_for[new_combat.formation_set];
-    obj_controller.bat_landraider_column = obj_controller.bat_land_for[new_combat.formation_set];
+    obj_controller.bat_landraider_column = obj_controller.bat_landraid_for[new_combat.formation_set];
+    obj_controller.bat_landspeeder_column = obj_controller.bat_landspee_for[new_combat.formation_set];
+    obj_controller.bat_whirlwind_column = obj_controller.bat_whirl_for[new_combat.formation_set];
     obj_controller.bat_scout_column = obj_controller.bat_scou_for[new_combat.formation_set];  
 }
 
@@ -695,8 +699,12 @@ function add_vehicle_to_battle(company, veh_index, is_local){
             col = obj_controller.bat_landraider_column;
             new_combat.land_raiders++;
             break;
+            case "Land Speeder":
+            col = obj_controller.bat_landspeeder_column;
+            new_combat.land_speeders++;
+            break;
          case "Whirlwind":
-            col = 1;
+            col = obj_controller.bat_whirlwind_column;
             new_combat.whirlwinds++;
             break;                                    
     }

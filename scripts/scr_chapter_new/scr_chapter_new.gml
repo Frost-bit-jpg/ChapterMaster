@@ -27,13 +27,14 @@ function ChapterData() constructor {
 	home_spawn_loc = 1;
 	recruit_home_relationship = 1;
 	home_warp = 1;
+	culture_styles = [];
 	home_planets = 1;
 
 	flagship_name = global.name_generator.generate_imperial_ship_name();
 	monastary_name = "";
 	advantages = array_create(9);
 	disadvantages = array_create(9);
-	discipline = "default"; // todo convert to enum
+	discipline = "librarius"; // todo convert to enum
 
 	full_liveries = "";
 	complex_livery_data = complex_livery_default();
@@ -86,7 +87,7 @@ function ChapterData() constructor {
 	battle_cry = "For the Emperor";
 	equal_specialists = 0;
 	load_to_ships = {
-		escort_load: 0,
+		escort_load: 2,
 		split_scouts: 0,
 		split_vets: 0,
 	};
@@ -175,7 +176,7 @@ function ChapterData() constructor {
 			// Treat incoming empty vals as 'use default' and don't overwrite
 			// a value if it was already set in the chapter constructor
 			if (struct_exists(self, key)){
-				if(self[key] != "" && val == ""){
+				if(self[$key] != "" && val == ""){
 					continue;
 				}
 			}
@@ -213,7 +214,7 @@ function scr_chapter_new(argument0) {
 	world_feature = array_create(20, "");
 	
 
-	points=100;maxpoints=100;custom=0;
+	points=100;maxpoints=100;
 	
 	function load_default_gear(_role_id, _role_name, _wep1, _wep2, _armour, _mobi, _gear){
 		for(var i = 100; i <=102; i++){
@@ -322,6 +323,7 @@ function scr_chapter_new(argument0) {
 		obj_creation.adv = chapter_object.advantages;
 		obj_creation.dis = chapter_object.disadvantages;
 
+		obj_creation.buttons.culture_styles.set(chapter_object.culture_styles);
 		obj_creation.full_liveries = chapter_object.full_liveries;
 		obj_creation.complex_livery_data = chapter_object.complex_livery_data;
 		if (obj_creation.full_liveries!=""){
@@ -369,32 +371,45 @@ function scr_chapter_new(argument0) {
 			        color_to_weapon = "";
 			    }
 			}
-			if (obj_creation.full_liveries==""){
-			    var struct_cols = {
-			        main_color :main_color,
-			        secondary_color:secondary_color,
-			        main_trim:main_trim,
-			        right_pauldron:right_pauldron,
-			        left_pauldron:left_pauldron,
-			        lens_color:lens_color,
-			        weapon_color:weapon_color
-			    }
-			    obj_creation.livery_picker = new ColourItem(100,230);
-			    obj_creation.livery_picker.scr_unit_draw_data();
-			    obj_creation.livery_picker.set_default_armour(struct_cols,col_special);
-			    obj_creation.full_liveries = array_create(21,DeepCloneStruct(obj_creation.livery_picker.map_colour)); 			    
-			    obj_creation.full_liveries[eROLE.Librarian] = obj_creation.livery_picker.set_default_librarian(struct_cols);
+			var struct_cols = {
+		        main_color :main_color,
+		        secondary_color:secondary_color,
+		        main_trim:main_trim,
+		        right_pauldron:right_pauldron,
+		        left_pauldron:left_pauldron,
+		        lens_color:lens_color,
+		        weapon_color:weapon_color
+		    }
+			if (full_liveries==""){
 
-			    obj_creation.full_liveries[eROLE.Chaplain] = obj_creation.livery_picker.set_default_chaplain(struct_cols);
+			    livery_picker = new ColourItem(100,230);
+			    livery_picker.scr_unit_draw_data();
+			    livery_picker.set_default_armour(struct_cols,col_special);
+			    full_liveries = array_create(21,DeepCloneStruct(livery_picker.map_colour)); 			    
+			    full_liveries[eROLE.Librarian] = livery_picker.set_default_librarian(struct_cols);
 
-			    obj_creation.full_liveries[eROLE.Apothecary] = obj_creation.livery_picker.set_default_apothecary(struct_cols);
+			    full_liveries[eROLE.Chaplain] = livery_picker.set_default_chaplain(struct_cols);
 
-			    obj_creation.full_liveries[eROLE.Techmarine] = obj_creation.livery_picker.set_default_techmarines(struct_cols);
-			    obj_creation.livery_picker.scr_unit_draw_data();
-			    obj_creation.livery_picker.set_default_armour(struct_cols,col_special); 			
+			    full_liveries[eROLE.Apothecary] = livery_picker.set_default_apothecary(struct_cols);
+
+			    full_liveries[eROLE.Techmarine] = livery_picker.set_default_techmarines(struct_cols);
+			    livery_picker.scr_unit_draw_data();
+			    livery_picker.set_default_armour(struct_cols,col_special); 			
+			} else {
+				if (array_length(full_liveries) != 21){
+					full_liveries = array_create(21,DeepCloneStruct(full_liveries[0])); 
+					struct_cols.left_pauldron = full_liveries[0].left_pauldron;
+				    full_liveries[eROLE.Librarian] = livery_picker.set_default_librarian(struct_cols);
+
+				    full_liveries[eROLE.Chaplain] = livery_picker.set_default_chaplain(struct_cols);
+
+				    full_liveries[eROLE.Apothecary] = livery_picker.set_default_apothecary(struct_cols);
+
+				    full_liveries[eROLE.Techmarine] = livery_picker.set_default_techmarines(struct_cols);					
+				}
 			}
-			obj_creation.livery_picker.map_colour = full_liveries[0];
-			obj_creation.livery_picker.role_set = 0;  			 			
+			livery_picker.map_colour = full_liveries[0];
+			livery_picker.role_set = 0;  			 			
 		}
 		// handles making sure blank names are generated properly and only 
 		// actual values being set in the json will overwrite them

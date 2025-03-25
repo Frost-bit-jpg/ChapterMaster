@@ -30,6 +30,7 @@ penitent_max=0;
 penitent_current=0;
 penitent_end=0;
 man_size=0;
+home_planet = 2;
 
 // Equipment- maybe the bikes should go here or something?          yes they should
 i=-1;
@@ -60,6 +61,7 @@ var company=-1;
 repeat(11){
     company+=1;v=-1;// show_message("v company: "+string(company));
     repeat(205){v+=1;// show_message(string(company)+"."+string(v));
+        last_ship[company,v] = {uid : "", name : ""};
         veh_race[company,v]=0;
         veh_loc[company,v]="";
         veh_name[company,v]="";

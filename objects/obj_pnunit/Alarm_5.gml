@@ -28,26 +28,47 @@ if (obj_ncombat.defeat == 0) {
     }
 
     // Techmarines saving vehicles
-    var rand1;
-    var survival;
-    for (var i = 0; i < array_length(veh_dead); i++) {
-        if (veh_type[i] != "") && (veh_dead[i]) && (!veh_ally[i] ) {
+    if (obj_ncombat.techmarines_alive > 0) {
+        show_debug_message($"vehicle_recovery_score: {obj_ncombat.vehicle_recovery_score}");
+        var _dice_roll;
+        var _survival_roll;
+        var _dead_vehicles_pq = ds_priority_create();
+        var _vehicles_priority = {
+            "Land Raider": 10,
+            "Predator": 5,
+            "Whirlwind": 4,
+            "Rhino": 3,
+            "Land Speeder": 3,
+            "Bike": 1
+        }
+    
+        for (var i = 0; i < array_length(veh_dead); i++) {
+            if (struct_exists(_vehicles_priority, veh_type[i])) && (veh_dead[i]) && (!veh_ally[i] ) {
+                ds_priority_add(_dead_vehicles_pq, i, _vehicles_priority[$ veh_type[i]]);
+            }
+        }
+    
+        while (!ds_priority_empty(_dead_vehicles_pq)) {
+            var i = ds_priority_delete_max(_dead_vehicles_pq);
+    
             if (obj_controller.stc_bonus[3] = 4) {
-                survival = 20;
-                rand1 = floor(random(100)) + 1;
-                if (rand1 <= survival) && (veh_dead[i] != 2) {
+                _survival_roll = 80 + _vehicles_priority[$ veh_type[i]];
+                _dice_roll = irandom_range(1, 100);
+                if (_dice_roll > _survival_roll) && (veh_dead[i] != 2) {
                     veh_hp[i] = 10;
                     veh_dead[i] = 0;
                     obj_ncombat.vehicles_saved += 1;
                 }
             }
-            if (veh_dead[i] == 1 && obj_ncombat.vehicle_recovery_score > 0) {
-                obj_ncombat.vehicle_recovery_score -= 1;
+            if (obj_ncombat.vehicle_recovery_score > 0) {
+                obj_ncombat.vehicle_recovery_score -= _vehicles_priority[$ veh_type[i]];
                 veh_hp[i] = 10;
                 veh_dead[i] = 0;
                 obj_ncombat.vehicles_saved += 1;
             }
         }
+    
+        ds_priority_destroy(_dead_vehicles_pq);
     }
 }
 
@@ -119,10 +140,22 @@ for (var i=0;i<array_length(unit_struct);i++){
             obj_controller.penitent_turnly=0;
         }
 
-        if  (obj_ini.race[marine_co[i],marine_id[i]]=1){
-            var age=obj_ini.age[marine_co[i],marine_id[i]];
-            if (age<=((obj_controller.millenium*1000)+obj_controller.year)-10) and (obj_ini.zygote=0) then obj_ncombat.seed_max+=1;
-            if (age<=((obj_controller.millenium*1000)+obj_controller.year)-5) then obj_ncombat.seed_max+=1;
+        if (obj_ini.race[marine_co[i], marine_id[i]] == 1) {
+            var _birthday = obj_ini.age[marine_co[i], marine_id[i]];
+            var _current_year = (obj_controller.millenium * 1000) + obj_controller.year;
+            var _harvestable_seed = 0;
+
+            if (_birthday <= (_current_year - 10) && obj_ini.zygote == 0) {
+                if (irandom_range(1, 20) > 1) {
+                    _harvestable_seed++;
+                }
+            }
+            if (_birthday <= (_current_year - 5)) {
+                if (irandom_range(1, 20) > 1) {
+                    _harvestable_seed++;
+                }
+            }
+            obj_ncombat.seed_max += _harvestable_seed;
         }
 
         var last=0;

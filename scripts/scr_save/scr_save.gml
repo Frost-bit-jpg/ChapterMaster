@@ -22,7 +22,7 @@ function scr_save(save_part,save_id) {
 
 
 	if (save_part=2) or (save_part=0){
-		log_message("Saving to slot "+string(save_id)+" part 2");
+		log_message("Saving to slot "+string(save_id)+" - Part 2");
 	    ini_open($"save{save_id}.ini");
 	    // Stars
 
@@ -266,6 +266,7 @@ function scr_save(save_part,save_id) {
 	    // obj_ini
 	    ini_encode_and_json("Ini", "full_liveries", obj_ini.full_liveries);
 	    ini_encode_and_json("Ini", "custom_advisors", obj_ini.custom_advisors);
+	    ini_encode_and_json("Ini", "styles", obj_ini.culture_styles);
 	    ini_write_string("Ini","home_name",obj_ini.home_name);
 	    ini_write_string("Ini","home_type",obj_ini.home_type);
 	    ini_write_string("Ini","recruiting_name",obj_ini.recruiting_name);
@@ -398,7 +399,7 @@ function scr_save(save_part,save_id) {
 	}
 
 
-	if (save_part=3) or (save_part=0){log_message($"Saving to slot {save_id} part 3");
+	if (save_part=3) or (save_part=0){log_message($"Saving to slot {save_id} - Part 3");
 	    ini_open($"save{save_id}.ini");
 	    var coh,mah,good;
 	    for (coh=1;coh<=10;coh++){
@@ -419,6 +420,7 @@ function scr_save(save_part,save_id) {
     
                     ini_write_real("Veh",$"hp{coh}.{mah}",obj_ini.veh_hp[coh,mah]);
                     ini_write_real("Veh",$"cha{coh}.{mah}",obj_ini.veh_chaos[coh,mah]);
+                    ini_encode_and_json("Veh",$"last_ship{coh}.{mah}",obj_ini.last_ship[coh,mah]);
                 }
             }
 	    }
@@ -426,10 +428,11 @@ function scr_save(save_part,save_id) {
 	}
 
 	if (save_part=4) or (save_part=0){
-		log_message("Saving to slot "+string(save_id)+" part 4");
+		log_message("Saving to slot "+string(save_id)+" - Part 4");
 	    ini_open($"save{save_id}.ini");
 	    var coh,mah,good;
 	    good=0;coh=100;mah=0;
+		log_message("Saving to slot "+string(save_id)+" - First Loop");
 	    repeat(30){mah+=1;
 	        if (obj_ini.role[coh,mah]!=""){
 	            ini_write_real("Mar",$"co{coh}.{mah}",obj_ini.race[coh,mah]);
@@ -442,6 +445,7 @@ function scr_save(save_part,save_id) {
 	            ini_write_string("Mar",$"mb{coh}.{mah}",obj_ini.mobi[coh,mah]);	
 	        }
 	    }
+		log_message("Saving to slot "+string(save_id)+" - Second Loop");
 	    for (coh=0;coh<=10;coh++){
 	    	with (obj_ini){
 	    		scr_company_order(coh);
@@ -471,6 +475,7 @@ function scr_save(save_part,save_id) {
 				}
 	        }
 	    }
+		log_message("Saving to slot "+string(save_id)+" - Squad Saving");
 	    var squad_copies = [];
 		if (array_length(obj_ini.squads)> 0){
 			for (var i = 0;i < array_length(obj_ini.squads);i++){
@@ -481,6 +486,7 @@ function scr_save(save_part,save_id) {
         ini_write_string("Mar","squad_types",base64_encode(json_stringify(obj_ini.squad_types)));
 
 	    coh=100;mah=-1;
+		log_message("Saving to slot "+string(save_id)+" - Third Loop");
 	    repeat(21){mah+=1;
 	    	coh=100
 	        if (obj_ini.role[coh,mah]!=""){
@@ -506,6 +512,7 @@ function scr_save(save_part,save_id) {
 	}
 
 	if (save_part=5) or (save_part=0){
+		log_message("Saving to slot "+string(save_id)+" - Part 5");
 	    ini_open($"save{save_id}.ini");
 	    instance_activate_object(obj_event_log);
 	    ini_encode_and_json("Event", "loglist", obj_event_log.event);
@@ -534,7 +541,7 @@ function scr_save(save_part,save_id) {
 
 	    obj_saveload.save[save_id]=1;
 
-	    log_message("Saving to slot "+string(save_id)+" complete");
+	    log_message("Saving to slot "+string(save_id)+" - Complete");
 	}
 
 	// Finish here

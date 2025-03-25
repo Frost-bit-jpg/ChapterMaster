@@ -72,6 +72,7 @@
     
     The Machine God watches over you.
 */
+marine_surface = surface_create(600, 600);
 scr_colors_initialize();
 is_test_map=false;
 target_navy_number=5;
@@ -539,6 +540,7 @@ command_set[20]=1;
 command_set[24]=1;
 modest_livery=0;
 progenitor_visuals=0;
+tagged_training=0;
 
 // ** Default menu items **
 selecting_planet=0;
@@ -931,7 +933,6 @@ income_base=0;
 income_home=0;
 income_forge=0;
 income_agri=0;
-income_recruiting=0;
 income_training=0;
 income_fleet=0;
 income_trade=0;
@@ -960,7 +961,9 @@ for(var i=0; i<16; i++){
     bat_drea_for[i]=5;
     bat_rhin_for[i]=6;
     bat_pred_for[i]=7;
-    bat_land_for[i]=7;
+    bat_landraid_for[i]=7;
+    bat_landspee_for[i]=4;
+    bat_whirl_for[i]=1;
     bat_scou_for[i]=1;
 }
 // ground=1    raid=2
@@ -985,6 +988,8 @@ bat_dreadnought_column=5;
 bat_rhino_column=6;
 bat_predator_column=7;
 bat_landraider_column=7;
+bat_whirlwind_column=1;
+bat_landspeeder_column=4;
 bat_scout_column=1;
 // ** Sets up disposition per faction **
 enum eFACTION {
@@ -1376,6 +1381,32 @@ tech_aspirant=0;
 recruiting=0;
 penitorium=0;
 end_turn_insights = {};
+spec_train_data = [
+    {
+        name : "Techmarine",
+        min_exp : 30,
+        coord_offset : [0, 0],
+        req : [["technology",34, "exmore"]]
+    },
+    {
+        name : "Librarian",
+        min_exp : 30,
+        coord_offset : [0, -7],
+        req : [["psionic", 1, "exmore"]]
+    },
+    {
+        name : "Chaplain",
+        min_exp : 60,
+        coord_offset : [7, -7],
+        req : [["piety", 34, "exmore"], ["charisma", 29, "exmore"]]
+    },
+    {
+        name : "Apothecary",
+        min_exp : 60,
+        coord_offset : [7, 0],
+        req : [["technology", 29, "exmore"], ["intelligence",44, "exmore"]]
+    },
+];
 // Redefines training based on chapter
 if (instance_exists(obj_ini)){
     if (scr_has_disadv("Psyker Intolerant")) then training_psyker=0;
@@ -1435,16 +1466,18 @@ loyalty=100;
 loyalty_hidden=100;// Updated when inquisitors do an inspection
 // ** Sets up gene seed **
 gene_seed=20;
-if (scr_has_disadv("Sieged")) then gene_seed = floor(random_range(250, 400));
+if scr_has_disadv("Sieged") then gene_seed=floor(random_range(250,400));
 if scr_has_disadv("Obliterated") then gene_seed=floor(random_range(50,200));
-if (global.chapter_name=="Lamenters") then gene_seed=30;
+if scr_has_disadv("Serpents Delight") then gene_seed=floor(random_range(50,250)); 
+if scr_has_disadv("Enduring Angels") then gene_seed=floor(random_range(50,250)); 
+if scr_has_disadv("Depleted Gene-seed Stocks") then gene_seed=0;
 if (global.chapter_name=="Soul Drinkers") then gene_seed=60;
 
 //   ** sets up the starting squads**
 squads = true;
 game_start_squads();
 squads = false;
-
+system_fleet_strength = 0;
 // **sets up starting forge_points
 specialist_point_handler = new SpecialistPointHandler();
 specialist_point_handler.calculate_research_points();

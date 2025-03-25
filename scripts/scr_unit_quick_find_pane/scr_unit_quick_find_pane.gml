@@ -23,7 +23,7 @@ function UnitQuickFindPanel() constructor{
 	    garrison_log = {};
 	    obj_controller.specialist_point_handler.calculate_research_points(false);
 	    var _ship_count = array_length(obj_ini.ship_carrying);
-	    show_debug_message(obj_controller.specialist_point_handler.point_breakdown);
+	    // show_debug_message(obj_controller.specialist_point_handler.point_breakdown);
 	    for (var co=0;co<=obj_ini.companies;co++){
 	    	for (var u=0;u<array_length(obj_ini.TTRPG[co]);u++){
 				/// @type {Struct.TTRPG_stats}
@@ -442,7 +442,7 @@ function exit_adhoc_manage(){
 	if (struct_exists(location_viewer.garrison_log, selection_data.system.name)){
 		var sys_name = selection_data.system.name;
 		group_selection(location_viewer.garrison_log[$sys_name].units,selection_data);
-		company_data={};
+		new_company_struct();
 	} else {
 		exit_adhoc_manage();		
 	} 	
@@ -698,6 +698,16 @@ function unload_selection(){
         var unload_star = star_by_name(selecting_location);
         if (unload_star != "none"){
             if (unload_star.space_hulk!=1){
+                for (var t = 0; t < array_length(display_unit); t++) {
+                    if (man_sel[t] == 1) {
+                    	var _unit = display_unit[t];
+                        if (is_array(_unit)) {
+                        	set_vehicle_last_ship(_unit);
+                        } else {
+                        	_unit.set_last_ship();
+                        }
+                    }
+                }
                 boba=instance_create(unload_star.x,unload_star.y,obj_star_select);
                 boba.loading=1;
                 // selecting location is the ship right now; get it's orbit location
@@ -777,7 +787,7 @@ function setup_planet_mission_group(){
 
 
 function planet_selection_action(){
-	var garrison_assignment = (obj_controller.managing>0 && obj_controller.view_squad && loading);
+	var garrison_assignment = obj_controller.view_squad && loading;
 	var xx=__view_get( e__VW.XView, 0 )+0;
 	var yy=__view_get( e__VW.YView, 0 )+0;
 	if (instance_exists(target)){

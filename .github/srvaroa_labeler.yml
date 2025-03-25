@@ -40,7 +40,3 @@ labels:
   title: "^perf"
 - label: "PR: Performance"
   body: "(?i)(\\[performance\\]|\\[perf\\])"
-
-- label: "PR: Major Coding"
-  size:
-    above: 800
