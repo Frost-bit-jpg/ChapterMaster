@@ -2066,7 +2066,7 @@ global.gear = {
 			},
 			"description": " A patchwork of salvaged components and battlefield modifications, a relic of a galaxy torn asunder, this battle plate screams of betrayal, fire, and the unending war that brought Humanity to its knees. Each plate is a testament to the desperate struggle for survival during the Horus Heresy, bearing the scars of countless battles fought in the name of a dying Imperium. To wear this armor is to carry the weight of a shattered age, a constant reminder that even the Astartes were forged in the fires of galactic conflict and betrayal.",
 			"tags": ["power_armour"],
-			"maintenance" : 0.05,
+			"maintenance" : 0.01,
 		},
 		"MK6 Corvus": {
 			"abbreviation": "MK6",
