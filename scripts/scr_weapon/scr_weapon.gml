@@ -2064,7 +2064,7 @@ global.gear = {
 				"master_crafted": 15,
 				"artifact": 25
 			},
-			"description": " A patchwork of salvaged components and battlefield modifications, a relic of a galaxy torn asunder, this battle plate screams of betrayal, fire, and the unending war that brought Humanity to its knees. Each plate is a testament to the desperate struggle for survival during the Horus Heresy, bearing the scars of countless battles fought in the name of a dying Imperium. To wear this armor is to carry the weight of a shattered age, a constant reminder that even the Astartes were forged in the fires of galactic conflict and betrayal.",
+			"description": " A hastily assembled Power Armor that first started appearing during the Horus Heresy to act as a stopgap while new suits were produced and sent to loyalist legions. It excels in close combat but it has limited sensors for ranged combat.",
 			"tags": ["power_armour"],
 			"maintenance" : 0.01,
 		},
@@ -2087,7 +2087,7 @@ global.gear = {
 			},
 			"description": "A suit dating back to the Horus Heresy, first tested by the Raven Guard. It contains boosted olfactory and auditory sensors that increase the ranged accuracy of the wearer. This however makes it more fragile to an extent.",
 			"tags": ["power_armour"],
-			"maintenance" : 0.05,
+			"maintenance" : 0.03,
 		},
 		"MK7 Aquila": {
 			"abbreviation": "MK7",
@@ -2108,7 +2108,7 @@ global.gear = {
 			},
 			"description": "The most common power armour of the Adeptus Astartes and the only power armour still widely manufactured by the Imperium.",
 			"tags": ["power_armour"],
-			"maintenance" : 0.01,
+			"maintenance" : 0.02,
 		},
 		"MK8 Errant": {
 			"abbreviation": "MK8",
@@ -2129,7 +2129,7 @@ global.gear = {
 			},
 			"description": "The newest and most advanced of the standard mark power armours as such production has not yet reached maximum capacity creating a supply shortage while chapters rush to get access to them.",
 			"tags": ["power_armour"],
-			"maintenance" : 0.02,
+			"maintenance" : 0.04,
 		},
 		"MK10 Tacticus": {
 			"abbreviation": "MK10",
