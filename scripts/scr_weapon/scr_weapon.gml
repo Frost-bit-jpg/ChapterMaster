@@ -2052,9 +2052,9 @@ global.gear = {
 		"MK5 Heresy": {
 			"abbreviation": "MK5",
 			"armour_value": {
-				"standard": 15,
-				"master_crafted": 17,
-				"artifact": 21
+				"standard": 13,
+				"master_crafted": 15,
+				"artifact": 18
 			},
 			"ranged_mod": {
 				"standard": -5,
