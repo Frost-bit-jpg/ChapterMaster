@@ -79,7 +79,7 @@ function CompanyStruct(comp) constructor{
 		y1 : yy+center_height[0]+150,
 		color:c_red,
 		label : "Garrison Duty",
-		tooltip : "Having squads assigned to Garrison Duty will increase relations with a planet over time, it will also bolster planet defence forces in case of attack, and reduce corruption growth."
+		tooltip : "Having squads assigned to Garrison Duty will increase relations with a planet over time, it will also bolster planet defence forces in case of attack, and reduce corruption growth. Press G to toggle"
 	});
 
 	sabotage_button = new UnitButtonObject({
