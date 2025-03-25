@@ -2064,7 +2064,7 @@ global.gear = {
 				"master_crafted": 15,
 				"artifact": 25
 			},
-			"description": " A hastily assembled Power Armor that first started appearing during the Horus Heresy to act as a stopgap while new suits were produced and sent to loyalist legions. It excels in close combat but it has limited sensors for ranged combat.",
+			"description": "A hastily assembled Power Armor that first started appearing during the Horus Heresy to act as a stopgap while new suits were produced and sent to loyalist legions. It excels in close combat but it has limited sensors for ranged combat.",
 			"tags": ["power_armour"],
 			"maintenance" : 0.01,
 		},
