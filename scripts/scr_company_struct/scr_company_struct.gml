@@ -231,10 +231,10 @@ function CompanyStruct(comp) constructor{
 			draw_set_halign(fa_left);
 
 			if (array_length(company_squads) > 0){
-				if (previous_squad_button.draw()){
+				if (previous_squad_button.draw()|| keyboard_check_pressed(vk_left)){
 					next_squad(false);
 				}
-				if (next_squad_button.draw()){
+				if (next_squad_button.draw() || keyboard_check_pressed(vk_tab) || keyboard_check_pressed(vk_right)){
 					next_squad();				
 				}
 			}
@@ -264,7 +264,7 @@ function CompanyStruct(comp) constructor{
 
 				var _squad_sys = squad_loc.system;
 				if (squad_loc.same_system) and (_squad_sys!="Warp" && _squad_sys!="Lost"){
-					if (garrison_button.draw()){
+					if (garrison_button.draw()|| keyboard_check_pressed(ord("G"))){
 						send_on_mission=true;
 						mission_type="garrison";
 					}
@@ -286,7 +286,7 @@ function CompanyStruct(comp) constructor{
 					draw_text_transformed(xx+bound_width[0]+5, yy+bound_height[0]+125, $"Assignment : {cur_assignment.type}",1,1,0);
 					var tooltip_text =  "Cancel Assignment"
 					var cancel_but = draw_unit_buttons([xx+bound_width[0]+5, yy+bound_height[0]+150],tooltip_text,[1,1],c_red,,,,true);
-					if(point_and_click(cancel_but)){
+					if(point_and_click(cancel_but) || keyboard_check_pressed(ord("C"))){
 						var cancel_system=noone;
 						with (obj_star){
 							if (name == squad_loc.system){
