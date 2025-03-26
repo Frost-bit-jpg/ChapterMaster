@@ -64,14 +64,16 @@ function CompanyStruct(comp) constructor{
 		x1 : xx+center_width[0],
 		y1 : yy+center_height[0]+6,
 		color:c_red,
-		label : "<--"
+		label : "<--",
+                tooltip : "Press Left arrow to toggle"
 	});
 
 	next_squad_button = new UnitButtonObject({
 		x1 : xx+center_width[1]-44,
 		y1 : yy+center_height[0]+6,
 		color:c_red,
-		label : "-->"
+		label : "-->",
+                tooltip : "Press tab to toggle"
 	});
 
 	garrison_button = new UnitButtonObject({
@@ -231,10 +233,10 @@ function CompanyStruct(comp) constructor{
 			draw_set_halign(fa_left);
 
 			if (array_length(company_squads) > 0){
-				if (previous_squad_button.draw()|| keyboard_check_pressed(vk_left)){
+				if (previous_squad_button.draw()){
 					next_squad(false);
 				}
-				if (next_squad_button.draw() || keyboard_check_pressed(vk_tab) || keyboard_check_pressed(vk_right)){
+				if (next_squad_button.draw()){
 					next_squad();				
 				}
 			}
@@ -264,11 +266,17 @@ function CompanyStruct(comp) constructor{
 
 				var _squad_sys = squad_loc.system;
 				if (squad_loc.same_system) and (_squad_sys!="Warp" && _squad_sys!="Lost"){
-					if (garrison_button.draw()|| keyboard_check_pressed(ord("G"))){
+					if (garrison_button.draw()){
 						send_on_mission=true;
 						mission_type="garrison";
 					}
-					
+
+		garrison_button.keystroke = press_exclusive(ord("G"));		//Shortcut for hotkeys feel free to move them anywhere
+		previous_squad_button.keystroke = press_exclusive(vk_left);
+	        next_squad_button.keystroke = press_exclusive(vk_tab);
+
+
+
 					if (array_contains(current_squad.class, "scout")) || (array_contains(current_squad.class, "bike")){
 						if (sabotage_button.draw()){
 							send_on_mission=true;
