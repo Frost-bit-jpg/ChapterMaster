@@ -274,9 +274,6 @@ function CompanyStruct(comp) constructor{
 		garrison_button.keystroke = press_exclusive(ord("G"));		//Shortcut for hotkeys feel free to move them anywhere
 		previous_squad_button.keystroke = press_exclusive(vk_left);
 	        next_squad_button.keystroke = press_exclusive(vk_tab);
-
-
-
 					if (array_contains(current_squad.class, "scout")) || (array_contains(current_squad.class, "bike")){
 						if (sabotage_button.draw()){
 							send_on_mission=true;
