@@ -271,9 +271,9 @@ function CompanyStruct(comp) constructor{
 						mission_type="garrison";
 					}
 
-		garrison_button.keystroke = press_exclusive(ord("G"));		//Shortcut for hotkeys feel free to move them anywhere
+		garrison_button.keystroke = press_exclusive(ord("G"));
 		previous_squad_button.keystroke = press_exclusive(vk_left);
-	        next_squad_button.keystroke = press_exclusive(vk_tab);
+		next_squad_button.keystroke = press_exclusive(vk_tab);
 					if (array_contains(current_squad.class, "scout")) || (array_contains(current_squad.class, "bike")){
 						if (sabotage_button.draw()){
 							send_on_mission=true;
