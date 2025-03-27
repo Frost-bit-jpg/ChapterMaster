@@ -375,7 +375,7 @@ if (defeat=0) and (reduce_power=true){
                          p_owner[battle_planet] = eFACTION.Imperium
                      }              
                     dispo[battle_planet] += 10;
-                    global.enemies_cleared_count += 1;
+                    obj_controller.enemies_cleared_count += 1;
                     scr_battle_count();
                     scr_event_log("", $"{who_cleansed} cleansed from {planet_string}", name);
                     scr_alert("green", "owner", $"{who_cleansed} cleansed from {planet_string}. Control returned to {who_return}", x, y);
