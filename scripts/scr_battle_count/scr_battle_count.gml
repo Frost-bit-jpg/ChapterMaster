@@ -13,8 +13,8 @@ function scr_battle_count(){
         switch (_text_choice) {
 
             case 0: // Option 1 (Influential Ears)
-                scr_alert("blue", "reward", "Word of your Chapter's tireless defence of the Sector reaches influential ears within the Imperium.", 0, 0);
-                scr_event_log("INFO", "Imperial Factions note the Chapter's continued effectiveness in purging threats.");
+                scr_alert("c_blue", "reward", "Word of your Chapter's tireless defence of the Sector reaches influential ears within the Imperium.");
+                scr_event_log("c_blue", "Imperial Factions note the Chapter's continued effectiveness in purging threats.");
                 break;
 
             case 1: // Option 2 (Efficiency Not Unnoticed)
