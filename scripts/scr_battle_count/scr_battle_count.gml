@@ -5,10 +5,10 @@ function scr_battle_count(){
         exit; // Exit the function if the counter doesn't exist
     }
 
-    // Check if the count is positive and a multiple of 5
-    if (global.enemies_cleared_count > 0 && (global.enemies_cleared_count mod 2 == 0)) {
+    // Check if the count is positive and a multiple of 4
+    if (global.enemies_cleared_count > 0 && (global.enemies_cleared_count mod 4 == 0)) {
 
-        // --- ACTION TO PERFORM EVERY 5 CLEARS ---
+        // --- ACTION TO PERFORM EVERY 4 CLEARS ---
 
         // --- Randomly Choose Flavor Text ---
         var _num_options = 5; // <<< SET THIS to the number of text options below
@@ -58,9 +58,10 @@ function scr_battle_count(){
 
         // --- Apply disposition bonuses (without clamping - as requested previously) ---
         if (instance_exists(obj_controller)) {
-             obj_controller.disposition[eFACTION.Mechanicus] += 50;
-             obj_controller.disposition[eFACTION.Ecclesiarchy] += 50;
-             obj_controller.disposition[eFACTION.Inquisition] += 50;
+             obj_controller.disposition[eFACTION.Imperium] += 8;
+             obj_controller.disposition[eFACTION.Mechanicus] += 5;
+             obj_controller.disposition[eFACTION.Ecclesiarchy] += 6;
+             obj_controller.disposition[eFACTION.Inquisition] += 4;
         } else {
              log_error("obj_controller not found in check_purge_milestone!");
         }
