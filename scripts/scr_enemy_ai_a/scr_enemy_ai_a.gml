@@ -818,57 +818,24 @@ function scr_enemy_ai_a() {
     
 	    // 135;
 
-	    var planet_saved =  ((p_player[_run] + p_raided[_run]) > 0 && p_orks[_run] = 0 && p_tyranids[_run] < 4 && p_chaos[_run] = 0 && p_traitors[_run] = 0 && p_necrons[_run] = 0 && p_tau[_run] = 0);
-
+	 var planet_saved =  ((p_player[_run] + p_raided[_run]) > 0 && p_orks[_run] == 0 && p_tyranids[_run] < 4 && p_chaos[_run] == 0 && p_traitors[_run] == 0 && p_necrons[_run] == 0 && p_tau[_run] == 0);
 	    if (planet_saved){
-	    	var who_cleansed="";
-	    	var who_return="";
-	    	var make_alert = false;
-	    	var planet_string = $"{name} {scr_roman(_run)}";
-			if (p_owner[_run] = 7) {
-				who_cleansed="Orks"
-				make_alert=true;
-			}else if (p_owner[_run] = 8 && p_pdf[_run] = 0) {
-				who_cleansed="Tau"
-				make_alert=true;				
-			}else if (p_owner[_run] = 13) {
-				who_cleansed="Necrons"
-				make_alert=true;				
-			}else if (p_owner[_run] = 10) {
-				who_cleansed="Chaos"
-				make_alert=true;				
-			} else if (planet_feature_bool(p_feature[_run], P_features.Gene_Stealer_Cult) && p_tyranids[_run] <= 0){
-				who_cleansed="Gene Stealer Cult"
-				make_alert=true;
-				delete_features(p_feature[_run], P_features.Gene_Stealer_Cult);
-				adjust_influence(eFACTION.Tyranids, -25, _run);
-			}
-			 if (make_alert){
-				 if (p_first[_run] = 1){
-				 	p_owner[_run] = eFACTION.Player;
-				 	who_return = "your";
-				 } else if (p_first[_run] = 3 || p_type[_run]=="Forge"){
-				 	who_return="mechanicus";
-				 	obj_controller.disposition[3] += 10;
-				 	p_owner[_run] = eFACTION.Mechanicus
-				 }else  if (p_type[_run]!="Dead"){
-				 	who_return="the governor";
-				 	if (who_cleansed=="tau"){
-				 		who_return="a more suitable governer"
-				 	}
-				 	p_owner[_run] = eFACTION.Imperium;
-				 }			 	
-			 	dispo[_run] += 10;
-			 	scr_event_log("", $"{who_cleansed} cleansed from {planet_string}", name);
-			 	scr_alert("green", "owner", $"{who_cleansed} cleansed from {planet_string}. Control returned to {who_return}", x, y);
-			 	if (dispo[_run] >= 101) then p_owner[_run] = 1;
+            var who_cleansed = ""; var who_return = ""; var make_alert = false; var original_owner_before_cleanse = p_owner[_run]; var planet_string = $"{name} {scr_roman(_run)}";
+			if (original_owner_before_cleanse == eFACTION.Ork) { who_cleansed="Orks"; make_alert=true; } else if (original_owner_before_cleanse == eFACTION.Tau && p_pdf[_run] == 0) { who_cleansed="Tau"; make_alert=true; } else if (original_owner_before_cleanse == eFACTION.Necrons) { who_cleansed="Necrons"; make_alert=true; } else if (original_owner_before_cleanse == eFACTION.Chaos) { who_cleansed="Chaos"; make_alert=true; } else if (original_owner_before_cleanse == eFACTION.Tyranids || (planet_feature_bool(p_feature[_run], P_features.Gene_Stealer_Cult) && p_tyranids[_run] <= 0)){ who_cleansed="Tyranid"; if (planet_feature_bool(p_feature[_run], P_features.Gene_Stealer_Cult)) { who_cleansed = "Genestealer Cult"; delete_features(p_feature[_run], P_features.Gene_Stealer_Cult); adjust_influence(eFACTION.Tyranids, -25, _run, self); } make_alert=true; }
+			if (make_alert){
+				if (p_first[_run] == eFACTION.Player){ p_owner[_run] = eFACTION.Player; who_return = "your Chapter"; } else if (p_first[_run] == eFACTION.Mechanicus || p_type[_run]=="Forge"){ who_return = "the Adeptus Mechanicus"; obj_controller.disposition[eFACTION.Mechanicus] += 5; p_owner[_run] = eFACTION.Mechanicus; } else if (p_type[_run] != "Dead"){ who_return = "the planetary governor"; if (who_cleansed=="Tau"){ who_return = "a loyal governor"; } var _is_shrine_or_cathedral = (p_type[_run] == "Shrine" || planet_feature_bool(p_feature[_run], P_features.Sororitas_Cathedral)); if (p_first[_run] == eFACTION.Ecclesiarchy || _is_shrine_or_cathedral) { if (p_first[_run] == eFACTION.Ecclesiarchy) { p_owner[_run] = eFACTION.Ecclesiarchy; who_return = "the Ecclesiarchy"; } obj_controller.disposition[eFACTION.Ecclesiarchy] += 5; } else { p_owner[_run] = eFACTION.Imperium; } } else { if (p_first[_run] != eFACTION.Player && p_first[_run] != eFACTION.Mechanicus && p_first[_run] != eFACTION.Ecclesiarchy) { p_owner[_run] = eFACTION.Imperium; who_return = "Imperial Administration"; } }
+                if (who_return != "") {
+                    dispo[_run] = max(-90, min(100, dispo[_run] + 10));
+                    global.enemies_cleared_count += 1;
+                    scr_battle_count();
+                    scr_event_log("", $"{who_cleansed} cleansed from {planet_string}", name); scr_alert("green", "owner", $"{who_cleansed} cleansed from {planet_string}. Control returned to {who_return}.", x, y);
+                    if (dispo[_run] >= 100 && p_owner[_run] != eFACTION.Player && p_type[_run] != "Dead") { p_owner[_run] = eFACTION.Player; scr_alert("blue", "owner", $"The populace of {planet_string} pledges allegiance to your Chapter!", x, y); }
+                }
 			 }
-   	
 	    }
-	    
 	    if (p_raided[_run] > 0) then p_raided[_run] = 0;
-	    delete _planet_data;
-	} // end repeat here
+
+	}
 
 
 	    // quene player battles here
