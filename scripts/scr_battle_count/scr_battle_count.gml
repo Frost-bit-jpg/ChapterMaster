@@ -1,7 +1,7 @@
 function scr_battle_count(){
 
     // Check if the count is positive and a multiple of 4
-    if (global.enemies_cleared_count > 0 && (global.enemies_cleared_count mod 4 == 0)) {
+    if (obj_controller.enemies_cleared_count > 0 && (obj_controller.enemies_cleared_count mod 4 == 0)) {
 
         // --- ACTION TO PERFORM EVERY 4 CLEARS ---
 
