@@ -50,16 +50,11 @@ function scr_battle_count(){
         }
         // --- End Flavor Text Selection ---
 
-
         // --- Apply disposition bonuses
-        if (instance_exists(obj_controller)) {
              obj_controller.disposition[eFACTION.Imperium] += 8;
              obj_controller.disposition[eFACTION.Mechanicus] += 5;
              obj_controller.disposition[eFACTION.Ecclesiarchy] += 6;
              obj_controller.disposition[eFACTION.Inquisition] += 4;
-        } else {
-             log_error("obj_controller not found in check_purge_milestone!");
-        }
         // --- END ACTION TO PERFORM ---
     }
 }
