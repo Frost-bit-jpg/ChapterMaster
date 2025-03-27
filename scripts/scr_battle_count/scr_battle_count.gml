@@ -1,9 +1,4 @@
 function scr_battle_count(){
-	// Ensure the global variable exists (safety check)
-    if (!variable_global_exists("enemies_cleared_count")) {
-        log_error("Global variable 'enemies_cleared_count' not found in check_purge_milestone!");
-        exit; // Exit the function if the counter doesn't exist
-    }
 
     // Check if the count is positive and a multiple of 4
     if (global.enemies_cleared_count > 0 && (global.enemies_cleared_count mod 4 == 0)) {
@@ -56,7 +51,7 @@ function scr_battle_count(){
         // --- End Flavor Text Selection ---
 
 
-        // --- Apply disposition bonuses (without clamping - as requested previously) ---
+        // --- Apply disposition bonuses
         if (instance_exists(obj_controller)) {
              obj_controller.disposition[eFACTION.Imperium] += 8;
              obj_controller.disposition[eFACTION.Mechanicus] += 5;
