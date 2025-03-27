@@ -922,15 +922,13 @@ if (planet_saved) {
             dispo[_run] = max(-90, min(100, dispo[_run] + 10));
 
             // 2. Increment GLOBAL counter for enemies cleared
-            // Ensure global variable is initialized at game start!
-            if (!variable_global_exists("enemies_cleared_count")) global.enemies_cleared_count = 0;
-            global.enemies_cleared_count += 1;
+            obj_controller.enemies_cleared_count += 1;
 
-            // 3. Check for purge milestone (calls the function that handles the every-5-clears bonus)
-            scr_battle_count(); // Renamed from check_purge_milestone in user's pasted code
+            (calls the function that handles the every-4-clears bonus)
+            scr_battle_count();
 
             // 4. Log the cleanse event
-            scr_event_log("", $"{who_cleansed} cleansed from {planet_string}", name); // Keep original log type? Use "INFO" or "SUCCESS"?
+            scr_event_log("INFO", $"{who_cleansed} cleansed from {planet_string}", name); // Keep original log type? Use "INFO" or "SUCCESS"?
 
             // 5. Create a screen alert message
             scr_alert("green", "owner", $"{who_cleansed} cleansed from {planet_string}. Control returned to {who_return}.", x, y);
