@@ -818,44 +818,137 @@ function scr_enemy_ai_a() {
     
 	    // 135;
 
-	 var planet_saved =  ((p_player[_run] + p_raided[_run]) > 0 && p_orks[_run] == 0 && p_tyranids[_run] < 4 && p_chaos[_run] == 0 && p_traitors[_run] == 0 && p_necrons[_run] == 0 && p_tau[_run] == 0);
-	    if (planet_saved){
-            var who_cleansed = ""; var who_return = ""; var make_alert = false; var original_owner_before_cleanse = p_owner[_run]; var planet_string = $"{name} {scr_roman(_run)}";
-			if (original_owner_before_cleanse == eFACTION.Ork) { who_cleansed="Orks"; make_alert=true; } 
-			else if (original_owner_before_cleanse == eFACTION.Tau && p_pdf[_run] == 0) { who_cleansed="Tau"; make_alert=true; } 
-			else if (original_owner_before_cleanse == eFACTION.Necrons) { who_cleansed="Necrons"; make_alert=true; } 
-			else if (original_owner_before_cleanse == eFACTION.Chaos) { who_cleansed="Chaos"; make_alert=true; } 
-			else if (original_owner_before_cleanse == eFACTION.Tyranids || (planet_feature_bool(p_feature[_run], P_features.Gene_Stealer_Cult) && p_tyranids[_run] <= 0)){
-			who_cleansed="Tyranid"; 
-			if (planet_feature_bool(p_feature[_run], P_features.Gene_Stealer_Cult)) { who_cleansed = "Genestealer Cult"; delete_features(p_feature[_run], P_features.Gene_Stealer_Cult);
- 			adjust_influence(eFACTION.Tyranids, -25, _run, self); } 
-			make_alert=true; }
-			if (make_alert){
-			if (p_first[_run] == eFACTION.Player){ p_owner[_run] = eFACTION.Player; who_return = "your Chapter"; } 
-			else if (p_first[_run] == eFACTION.Mechanicus || p_type[_run]=="Forge"){ who_return = "the Adeptus Mechanicus"; obj_controller.disposition[eFACTION.Mechanicus] += 5; 
-			p_owner[_run] = eFACTION.Mechanicus; } 
-			else if (p_type[_run] != "Dead"){ who_return = "the planetary governor"; if (who_cleansed=="Tau"){ who_return = "a loyal governor"; } 
-			var _is_shrine_or_cathedral = (p_type[_run] == "Shrine" || planet_feature_bool(p_feature[_run], P_features.Sororitas_Cathedral)); 
-			if (p_first[_run] == eFACTION.Ecclesiarchy || _is_shrine_or_cathedral) { if (p_first[_run] == eFACTION.Ecclesiarchy) { 
-			p_owner[_run] = eFACTION.Ecclesiarchy; who_return = "the Ecclesiarchy"; } obj_controller.disposition[eFACTION.Ecclesiarchy] += 5; } 
-			else { p_owner[_run] = eFACTION.Imperium; } } 	
-			else { if (p_first[_run] != eFACTION.Player && p_first[_run] != eFACTION.Mechanicus && p_first[_run] != eFACTION.Ecclesiarchy) { 
-			p_owner[_run] = eFACTION.Imperium; who_return = "Imperial Administration"; } }
-			if (who_return != "") {
-			dispo[_run] = max(-90, min(100, dispo[_run] + 10));
-			global.enemies_cleared_count += 1;
-			scr_battle_count();
-			scr_event_log("", $"{who_cleansed} cleansed from {planet_string}", name); 
-			scr_alert("green", "owner", $"{who_cleansed} cleansed from {planet_string}. Control returned to {who_return}.", x, y);
-			if (dispo[_run] >= 100 && p_owner[_run] != eFACTION.Player && p_type[_run] != "Dead") { p_owner[_run] = eFACTION.Player; 
-			scr_alert("blue", "owner", $"The populace of {planet_string} pledges allegiance to your Chapter!", x, y); }
+// Determine if the planet qualifies as "saved" this turn.
+// Conditions: Player forces must be present (or raided flag is set), AND
+//             all major non-Imperial ground threats (Orks, significant Tyranids, Chaos forces, Necrons, Tau) are eliminated.
+var planet_saved = (
+    (p_player[_run] + p_raided[_run]) > 0 &&    // Player involved or planet was raided
+    p_orks[_run] == 0 &&                        // No Orks
+    p_tyranids[_run] < 4 &&                     // Tyranids below significant infestation level
+    p_chaos[_run] == 0 &&                       // No Chaos Space Marines / Daemons
+    p_traitors[_run] == 0 &&                    // No Heretics / Traitors
+    p_necrons[_run] == 0 &&                     // No Necrons
+    p_tau[_run] == 0                            // No Tau ground forces
+);
+
+// --- Apply Effects if Planet Was Saved ---
+if (planet_saved) {
+    // --- Initialize variables for this saved planet ---
+    var who_cleansed = "";                      // String: Describes the primary enemy cleansed
+    var who_return = "";                        // String: Describes who regains control of the planet
+    var make_alert = false;                     // Boolean: Flag to trigger alerts and apply bonuses
+    var original_owner_before_cleanse = p_owner[_run]; // Store owner ID before potential changes
+    var planet_string = $"{name} {scr_roman(_run)}"; // Formatted planet name (e.g., "SystemName II")
+
+    // --- Determine which enemy faction was primarily defeated ---
+    // This logic primarily uses the owner just before cleansing as the indicator.
+    if (original_owner_before_cleanse == eFACTION.Ork) {
+        who_cleansed = "Orks";
+        make_alert = true;
+    }
+    else if (original_owner_before_cleanse == eFACTION.Tau && p_pdf[_run] == 0) { // Special case: Tau considered cleansed only if their PDF is also gone?
+        who_cleansed = "Tau";
+        make_alert = true;
+    }
+    else if (original_owner_before_cleanse == eFACTION.Necrons) {
+        who_cleansed = "Necrons";
+        make_alert = true;
+    }
+    else if (original_owner_before_cleanse == eFACTION.Chaos) {
+        who_cleansed = "Chaos"; // Includes CSM, Daemons, possibly Traitors if owner flipped
+        make_alert = true;
+    }
+    // Check Tyranids/GSC based on previous owner OR if GSC feature was present and Nids are now low
+    else if (original_owner_before_cleanse == eFACTION.Tyranids ||
+            (planet_feature_bool(p_feature[_run], P_features.Gene_Stealer_Cult) && p_tyranids[_run] <= 0))
+    {
+        who_cleansed = "Tyranid"; // Generic term initially
+
+        // Check specifically if a Genestealer Cult feature was present
+        if (planet_feature_bool(p_feature[_run], P_features.Gene_Stealer_Cult)) {
+            who_cleansed = "Genestealer Cult"; // More specific name
+            delete_features(p_feature[_run], P_features.Gene_Stealer_Cult); // Remove the cult feature
+            adjust_influence(eFACTION.Tyranids, -25, _run, self); // Reduce residual Tyranid influence (pass 'self' for star context)
+        }
+        make_alert = true; // Trigger alert for Tyranids or GSC
+    }
+
+    // --- Apply effects ONLY if an enemy was confirmed cleansed ---
+	if (make_alert) {
+
+        // --- Determine who gets control back based on original owner (p_first) ---
+		if (p_first[_run] == eFACTION.Player) { // If originally Player owned
+		 	p_owner[_run] = eFACTION.Player;
+		 	who_return = "your Chapter";
+		}
+        else if (p_first[_run] == eFACTION.Mechanicus || p_type[_run] == "Forge") { // If originally Mechanicus or a Forge World
+		 	who_return = "the Adeptus Mechanicus";
+		 	obj_controller.disposition[eFACTION.Mechanicus] += 5; // FACTION disposition bonus
+		 	p_owner[_run] = eFACTION.Mechanicus;
+		}
+        else if (p_type[_run] != "Dead") { // If originally Imperial or other non-specific (and not dead)
+		 	who_return = "the planetary governor"; // Default return description
+		 	if (who_cleansed == "Tau") { who_return = "a loyal governor"; } // Special description for Tau cleanse
+
+            // Check if Sisters should get control or bonus
+            var _is_shrine_or_cathedral = (p_type[_run] == "Shrine" || planet_feature_bool(p_feature[_run], P_features.Sororitas_Cathedral));
+            if (p_first[_run] == eFACTION.Ecclesiarchy || _is_shrine_or_cathedral) {
+                // If originally Ecclesiarchy, give them control back
+                if (p_first[_run] == eFACTION.Ecclesiarchy) {
+                    p_owner[_run] = eFACTION.Ecclesiarchy;
+                    who_return = "the Ecclesiarchy";
                 }
-			 }
-	    }
-	    if (p_raided[_run] > 0) then p_raided[_run] = 0;
+                // Always give faction bonus if it was their original world OR a holy site
+                obj_controller.disposition[eFACTION.Ecclesiarchy] += 5; // FACTION disposition bonus
+            }
+            else { // If not originally Ecclesiarchy and not a holy site, defaults to Imperium
+		 	    p_owner[_run] = eFACTION.Imperium;
+            }
+		}
+        else { // If it's a dead world reverting
+            // If original owner wasn't Player/Mech/Eccl, default ownership to Imperium
+            if (p_first[_run] != eFACTION.Player && p_first[_run] != eFACTION.Mechanicus && p_first[_run] != eFACTION.Ecclesiarchy) {
+                p_owner[_run] = eFACTION.Imperium;
+                who_return = "Imperial Administration"; // Generic term for dead world
+            }
+            // Otherwise, it implies Player/Mech/Eccl originally owned the dead world,
+            // so the p_owner should have been set correctly by the p_first check earlier.
+        }
 
-	}
+        // --- Apply Generic Bonuses/Alerts if control returned meaningfully ---
+        if (who_return != "") {
 
+            // 1. Increase LOCAL governor disposition (capped)
+            dispo[_run] = max(-90, min(100, dispo[_run] + 10));
+
+            // 2. Increment GLOBAL counter for enemies cleared
+            // Ensure global variable is initialized at game start!
+            if (!variable_global_exists("enemies_cleared_count")) global.enemies_cleared_count = 0;
+            global.enemies_cleared_count += 1;
+
+            // 3. Check for purge milestone (calls the function that handles the every-5-clears bonus)
+            scr_battle_count(); // Renamed from check_purge_milestone in user's pasted code
+
+            // 4. Log the cleanse event
+            scr_event_log("", $"{who_cleansed} cleansed from {planet_string}", name); // Keep original log type? Use "INFO" or "SUCCESS"?
+
+            // 5. Create a screen alert message
+            scr_alert("green", "owner", $"{who_cleansed} cleansed from {planet_string}. Control returned to {who_return}.", x, y);
+
+            // 6. Check if high local disposition flips the planet to player control
+            if (dispo[_run] >= 100 && p_owner[_run] != eFACTION.Player && p_type[_run] != "Dead") {
+                 p_owner[_run] = eFACTION.Player;
+                 scr_alert("blue", "owner", $"The populace of {planet_string} pledges allegiance to your Chapter!", x, y);
+            }
+        } // End if (who_return != "")
+	 } // End if (make_alert)
+} // End if (planet_saved)
+
+// Reset raided flag if it was set for this planet
+if (p_raided[_run] > 0) then p_raided[_run] = 0;
+
+// IMPORTANT: Delete the PlanetData struct if it was used in this loop iteration
+// delete _planet_data; // This line should be present if _planet_data was created
 
 	    // quene player battles here
 
