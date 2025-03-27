@@ -919,7 +919,7 @@ if (planet_saved) {
         if (who_return != "") {
 
             // 1. Increase LOCAL governor disposition (capped)
-            dispo[_run] = max(-90, min(100, dispo[_run] + 10));
+            dispo[_run] = clamp(dispo[_run] + 10, -90, 100);
 
             // 2. Increment GLOBAL counter for enemies cleared
             obj_controller.enemies_cleared_count += 1;
