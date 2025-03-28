@@ -1,9 +1,9 @@
 function scr_battle_count(){
 
     // Check if the count is positive and a multiple of 4
-    if (obj_controller.enemies_cleared_count > 0 && (obj_controller.enemies_cleared_count%4 == 0)) {
+    if (obj_controller.enemies_cleared_count > 0 && (obj_controller.enemies_cleared_count%6 == 0)) {
 
-        // --- ACTION TO PERFORM EVERY 4 CLEARS ---
+        // --- ACTION TO PERFORM EVERY 6 CLEARS ---
 
         // --- Randomly Choose Flavor Text ---
         var _num_options = 5; // <<< SET THIS to the number of text options below
