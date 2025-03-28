@@ -924,7 +924,7 @@ if (planet_saved) {
             // 2. Increment GLOBAL counter for enemies cleared
             obj_controller.enemies_cleared_count += 1;
 
-            (calls the function that handles the every-4-clears bonus)
+            // 3. calls the function that handles the every-4-clears bonus
             scr_battle_count();
 
             // 4. Log the cleanse event
