@@ -918,7 +918,7 @@ function scr_enemy_ai_a() {
                     scr_battle_count();
 
                     // 4. Log the cleanse event
-                    scr_event_log("INFO", $"{who_cleansed} cleansed from {planet_string}", name); // Keep original log type? Use "INFO" or "SUCCESS"?
+                    scr_event_log("green", $"{who_cleansed} cleansed from {planet_string}", name);
 
                     // 5. Create a screen alert message
                     scr_alert("green", "owner", $"{who_cleansed} cleansed from {planet_string}. Control returned to {who_return}.", x, y);
@@ -926,7 +926,7 @@ function scr_enemy_ai_a() {
                     // 6. Check if high local disposition flips the planet to player control
                     if (dispo[_run] >= 100 && p_owner[_run] != eFACTION.Player && p_type[_run] != "Dead") {
                         p_owner[_run] = eFACTION.Player;
-                        scr_alert("blue", "owner", $"The populace of {planet_string} pledges allegiance to your Chapter!", x, y);
+                        scr_alert(c_blue, "owner", $"The populace of {planet_string} pledges allegiance to your Chapter!", x, y);
                     }
                 } // End if (who_return != "")
             } // End if (make_alert)
