@@ -51,10 +51,11 @@ function scr_battle_count(){
         // --- End Flavor Text Selection ---
 
         // --- Apply disposition bonuses
-             obj_controller.disposition[eFACTION.Imperium] += 8;
-             obj_controller.disposition[eFACTION.Mechanicus] += 5;
-             obj_controller.disposition[eFACTION.Ecclesiarchy] += 6;
-             obj_controller.disposition[eFACTION.Inquisition] += 4;
+             #macro FACT_DISPO obj_controller.disposition
+             FACT_DISPO[eFACTION.Imperium] = clamp(FACT_DISPO[eFACTION.Imperium] + 8, -92, 100);
+             FACT_DISPO[eFACTION.Mechanicus] = clamp(FACT_DISPO[eFACTION.Mechanicus] + 5, -95, 100);
+             FACT_DISPO[eFACTION.Ecclesiarchy] = clamp(FACT_DISPO[eFACTION.Ecclesiarchy] + 6, -94, 100);
+             FACT_DISPO[eFACTION.Inquisition] = clamp(FACT_DISPO[eFACTION.Inquisition] + 4, -96, 100);
         // --- END ACTION TO PERFORM ---
     }
 }
