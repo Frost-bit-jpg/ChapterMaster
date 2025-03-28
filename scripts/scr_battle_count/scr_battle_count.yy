@@ -1,3 +1,4 @@
+{
   "$GMScript":"v1",
   "%Name":"scr_battle_count",
   "isCompatibility":false,
