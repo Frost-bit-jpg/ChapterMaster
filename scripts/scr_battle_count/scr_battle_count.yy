@@ -7,7 +7,7 @@
   "parent":{
     "name":"Helpers",
     "path":"folders/Scripts/Helpers.yy",
-  }, 
- "resourceType":"GMScript",
+  },
+  "resourceType":"GMScript",
   "resourceVersion":"2.0",
 }
