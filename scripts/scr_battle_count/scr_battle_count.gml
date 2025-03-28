@@ -18,22 +18,26 @@ function scr_battle_count(){
                 break;
 
             case 1: // Option 2 (Efficiency Not Unnoticed)
-                scr_alert("blue", "reward", "The efficiency of your recent purges has not gone unnoticed. Certain Imperial factions mark your Chapter's progress.", 0, 0);
+-                scr_alert("blue", "reward", "The efficiency of your recent purges has not gone unnoticed. Certain Imperial factions mark your Chapter's progress.", 0, 0);
++                scr_alert("c_blue", "reward", "The efficiency of your recent purges has not gone unnoticed. Certain Imperial factions mark your Chapter's progress.", 0, 0);
                 scr_event_log("INFO", "Imperial elements acknowledge the Chapter's effectiveness against sector threats.");
                 break;
 
             case 2: // Option 3 (Bureaucratic Acknowledgment)
-                scr_alert("blue", "reward", "Data-slate communiques confirm receipt of your operational summaries. Standard commendations issued.", 0, 0);
+-                scr_alert("blue", "reward", "Data-slate communiques confirm receipt of your operational summaries. Standard commendations issued.", 0, 0);
++                scr_alert("c_blue", "reward", "Data-slate communiques confirm receipt of your operational summaries. Standard commendations issued.", 0, 0);
                 scr_event_log("INFO", "Administratum logs successful anti-xenos/heretic operations by the Chapter.");
                 break;
 
             case 3: // Option 4 (Faith and Fury)
-                scr_alert("blue", "reward", "Your Chapter's righteous fury against the enemies of Man strengthens the faith of nearby Imperial worlds.", 0, 0);
+-                scr_alert("blue", "reward", "Your Chapter's righteous fury against the enemies of Man strengthens the faith of nearby Imperial worlds.", 0, 0);
++                scr_alert("c_blue", "reward", "Your Chapter's righteous fury against the enemies of Man strengthens the faith of nearby Imperial worlds.", 0, 0);
                 scr_event_log("INFO", "Tales of the Chapter's victories inspire piety and bolster relations with the faithful.");
                 break;
 
             case 4: // Option 5 (Simple Effectiveness)
-                scr_alert("blue", "reward", "Reports highlight your Chapter's capability in neutralizing sector threats. Imperial support elements take note.", 0, 0);
+-                scr_alert("blue", "reward", "Reports highlight your Chapter's capability in neutralizing sector threats. Imperial support elements take note.", 0, 0);
++                scr_alert("c_blue", "reward", "Reports highlight your Chapter's capability in neutralizing sector threats. Imperial support elements take note.", 0, 0);
                 scr_event_log("INFO", "Chapter operations demonstrably reduce enemy presence; Imperial factions approve.");
                 break;
 
@@ -44,7 +48,8 @@ function scr_battle_count(){
             //     break;
 
             default: // Fallback in case something goes wrong
-                scr_alert("blue", "reward", "Your Chapter continues its duties effectively.", 0, 0);
+-                scr_alert("blue", "reward", "Your Chapter continues its duties effectively.", 0, 0);
++                scr_alert("c_blue", "reward", "Your Chapter continues its duties effectively.", 0, 0);
                 scr_event_log("INFO", "Chapter effectiveness noted by Imperial factions.");
                 break;
         }
