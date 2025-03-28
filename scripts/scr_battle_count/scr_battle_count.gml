@@ -1,54 +1,37 @@
 function scr_battle_count(){
 
     // Check if the count is positive and a multiple of 6
-    if (obj_controller.enemies_cleared_count > 0 && (obj_controller.enemies_cleared_count%6 == 0)) {
+    if (obj_controller.enemies_cleared_count > 0 && (obj_controller.enemies_cleared_count % 6 == 0)) {
 
         // --- ACTION TO PERFORM EVERY 6 CLEARS ---
 
         // --- Randomly Choose Flavor Text ---
-        var _num_options = 5; // <<< SET THIS to the number of text options below
-        var _text_choice = irandom(_num_options - 1); // Generates a random integer from 0 to (_num_options - 1)
-
-        // Use a switch statement for cleaner selection
-        switch (_text_choice) {
-
-            case 0: // Option 1 (Influential Ears)
-                scr_alert("c_blue", "reward", "Word of your Chapter's tireless defence of the Sector reaches influential ears within the Imperium.");
-                scr_event_log("c_blue", "Imperial Factions note the Chapter's continued effectiveness in purging threats.");
-                break;
-
-            case 1: // Option 2 (Efficiency Not Unnoticed)
-                scr_alert("c_blue", "reward", "The efficiency of your recent purges has not gone unnoticed. Certain Imperial factions mark your Chapter's progress.", 0, 0);
-                scr_event_log("INFO", "Imperial elements acknowledge the Chapter's effectiveness against sector threats.");
-                break;
-
-            case 2: // Option 3 (Bureaucratic Acknowledgment)
-                scr_alert("c_blue", "reward", "Data-slate communiques confirm receipt of your operational summaries. Standard commendations issued.", 0, 0);
-                scr_event_log("INFO", "Administratum logs successful anti-xenos/heretic operations by the Chapter.");
-                break;
-
-            case 3: // Option 4 (Faith and Fury)
-                scr_alert("c_blue", "reward", "Your Chapter's righteous fury against the enemies of Man strengthens the faith of nearby Imperial worlds.", 0, 0);
-                scr_event_log("INFO", "Tales of the Chapter's victories inspire piety and bolster relations with the faithful.");
-                break;
-
-            case 4: // Option 5 (Simple Effectiveness)
-                scr_alert("c_blue", "reward", "Reports highlight your Chapter's capability in neutralizing sector threats. Imperial support elements take note.", 0, 0);
-                scr_event_log("INFO", "Chapter operations demonstrably reduce enemy presence; Imperial factions approve.");
-                break;
-
-            // Add more cases here if you create more text options
-            // case 5:
-            //     scr_alert(...);
-            //     scr_event_log(...);
-            //     break;
-
-            default: // Fallback in case something goes wrong
-                scr_alert("c_blue", "reward", "Your Chapter continues its duties effectively.", 0, 0);
-                scr_event_log("INFO", "Chapter effectiveness noted by Imperial factions.");
-                break;
-        }
-        // --- End Flavor Text Selection ---
+        var _text_array = [
+            [{
+                alert : "Word of your Chapter's tireless defence of the Sector reaches influential ears within the Imperium.",
+                log : "Imperial Factions note the Chapter's continued effectiveness in purging threats."
+            }],
+            [{
+                alert : "The efficiency of your recent purges has not gone unnoticed. Certain Imperial factions mark your Chapter's progress.",
+                log : "Imperial elements acknowledge the Chapter's effectiveness against sector threats."
+            }],
+            [{
+                alert : "Data-slate communiques confirm receipt of your operational summaries. Standard commendations issued.",
+                log : "Administratum logs successful anti-xenos/heretic operations by the Chapter."
+            }],
+            [{
+                alert : "Your Chapter's righteous fury against the enemies of Man strengthens the faith of nearby Imperial worlds.",
+                log : "Tales of the Chapter's victories inspire piety and bolster relations with the faithful."
+            }],
+            [{
+                alert : "Your Chapter continues its duties effectively.",
+                log : "Chapter effectiveness noted by Imperial factions."
+            }]
+        ]
+        var _text_choice = irandom(array_length(_text_array) - 1);
+        // Alert doesn't seem to work, probably because of UI
+        scr_alert(c_blue, "reward", $"{_text_array[_text_choice][0].alert}");
+        scr_event_log(c_blue, $"{_text_array[_text_choice][0].log}");
 
         // --- Apply disposition bonuses
              #macro FACT_DISPO obj_controller.disposition
