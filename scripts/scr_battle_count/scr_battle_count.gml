@@ -1,6 +1,6 @@
 function scr_battle_count(){
 
-    // Check if the count is positive and a multiple of 4
+    // Check if the count is positive and a multiple of 6
     if (obj_controller.enemies_cleared_count > 0 && (obj_controller.enemies_cleared_count%6 == 0)) {
 
         // --- ACTION TO PERFORM EVERY 6 CLEARS ---
