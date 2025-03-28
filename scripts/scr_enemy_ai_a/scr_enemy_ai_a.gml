@@ -946,7 +946,7 @@ if (planet_saved) {
 if (p_raided[_run] > 0) then p_raided[_run] = 0;
 
 // IMPORTANT: Delete the PlanetData struct if it was used in this loop iteration
-// delete _planet_data; // This line should be present if _planet_data was created
+delete _planet_data; // Return allocated memory to the Omnissiah
 
 	    // quene player battles here
 
