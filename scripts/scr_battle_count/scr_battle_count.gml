@@ -30,8 +30,8 @@ function scr_battle_count(){
         ]
         var _text_choice = array_random_element(_text_array);
         // Alert doesn't seem to work, probably because of UI
-        scr_alert(c_blue, "reward", $"{_text_array[_text_choice].alert}");
-        scr_event_log(c_blue, $"{_text_array[_text_choice].log}");
+        scr_alert(c_blue, "reward", $"{_text_choice.alert}");
+        scr_event_log(c_blue, $"{_text_choice.log}");
 
         // --- Apply disposition bonuses
              #macro FACT_DISPO obj_controller.disposition
