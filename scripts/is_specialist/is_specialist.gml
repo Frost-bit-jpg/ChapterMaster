@@ -191,29 +191,6 @@ function is_specialist(unit_role, type="standard", include_trainee=false) {
 		case "captain_candidates":
 			specialists = role_groups("captain_candidates");
 			break;
-		case "chap_candidates":
-			specialists = [
-						roles[14],//chaplain
-			];
-			if (_chap_name == "Iron Hands"){
-				array_push(specialists, roles[16]);
-			}	
-			break;
-		case "tech_marine_candidates":
-			specialists = [
-						roles[16],//tech marine
-			];
-			break;
-		case "apothecary_candidates":
-			specialists = [
-						roles[15],//Apothecary marine
-			];
-			break;
-		case "librarian_candidates":
-			specialists = [
-						roles[17], //librarian
-			];
-			break;
 	}
 
 	return array_contains(specialists,unit_role);

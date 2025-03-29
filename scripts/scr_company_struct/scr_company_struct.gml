@@ -184,8 +184,7 @@ function CompanyStruct(comp) constructor{
 				}
 				  else if (unit.role() == role_set[eROLE.Chaplain]){
 					chaplain = unit;
-				}
-			          else if (unit.role() == role_set[eROLE.Apothecary]){
+				}else if (unit.role() == role_set[eROLE.Apothecary]){
 					apothecary = unit;
 				}
 				  else if (unit.role() == role_set[eROLE.Techmarine]){
