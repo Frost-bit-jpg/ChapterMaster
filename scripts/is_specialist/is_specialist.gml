@@ -92,6 +92,30 @@ function role_groups(group){
 				 roles[11],			
 			];
 			break;
+		case "chap_candidates":
+			specialists = [
+						roles[14],//chaplain
+			];
+			if (_chap_name == "Iron Hands"){
+				array_push(specialists, roles[16]);
+			}	
+			break;
+		case "tech_marine_candidates":
+			specialists = [
+						roles[16],//tech marine
+			];
+			break;
+		case "apothecary_candidates":
+			specialists = [
+						roles[15],//Apothecary marine
+			];
+			break;
+		case "librarian_candidates":
+			specialists = [
+						roles[17], //librarian
+			];
+			break;
+			
 	}
 	return role_list;
 }
