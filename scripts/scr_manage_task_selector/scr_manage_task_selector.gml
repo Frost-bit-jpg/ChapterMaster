@@ -157,7 +157,16 @@ function scr_manage_task_selector(){
 		                					endslot=i;
 		                					break;
 		                				}
-                                                                }
+		                			}
+		                			scr_move_unit_info(start_company, end_company, unit.marine_number,endslot);
+		                			with (obj_ini){
+		                				scr_company_order(start_company);
+		                				scr_company_order(end_company);
+		                			}
+		                			managing = end_company;
+		                			update_general_manage_view();
+		                			exit;
+	                				break;
 	                			case "hunt_beast":
 	                			case "train_forces":
 	                				unit = display_unit[i];
