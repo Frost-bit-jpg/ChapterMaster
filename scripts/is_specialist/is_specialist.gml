@@ -254,7 +254,7 @@ function collect_role_group(group="standard", location="", opposite=false, searc
 			if (unit.name()=="") then continue;
 			if (group!="all"){
 				if (is_array(group)){
-					_is_special_group = unit.IsSpecialist(group[0], group[1]);
+					_is_special_group = unit.IsSpecialist(group[0], group[1],group[3]);
 				} else {
 					_is_special_group = unit.IsSpecialist(group);
 				}
