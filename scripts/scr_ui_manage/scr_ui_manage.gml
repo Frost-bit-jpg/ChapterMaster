@@ -95,22 +95,21 @@ function special_role_slot_open(xx, yy, search_params, role_group_params, purpos
     draw_rectangle(xx + 25, yy + 64, xx + 974, yy + 85, 1);
     draw_set_halign(fa_center);
     draw_set_color(c_yellow);
-    draw_text(xx + 500, yy + 66, $"++{{tab_text}}++");
+    draw_text(xx + 500, yy + 66, $"++{tab_text}++");
     draw_set_halign(fa_left);
     draw_set_color(c_gray);
     if (point_and_click([xx + 25, yy + 64, xx + 974, yy + 85])) {
         var candidates = collect_role_group(role_group_params.group, role_group_params.location, role_group_params.opposite, search_params);
         group_selection(candidates, {
             purpose: purpose,
-            purpose_code: "purpose_code,
+            purpose_code: purpose_code,
             number: 1,
             system: managing,
             feature: "none",
             planet: 0,
             selections: []
         });
-        exit;
-    }    
+    } 
 }
 
 function alternative_manage_views(x1, y1) {
@@ -687,7 +686,7 @@ function scr_ui_manage() {
             }
             for (var i = 0; i < repetitions; i++) {
                 if (managing > 0 && managing <= 10 && (!cap_slot || !champ_slot || !ancient_slot || !chaplain_slot|| !tech_marine_slot || !apothecary_slot|| !lib_slot)) {
-                    if (company_data.captain == "none") {
+                    if (!cap_slot) {
                         special_role_slot_open(
                             xx,
                             yy,
@@ -705,6 +704,7 @@ function scr_ui_manage() {
                         );
                         yy += 20;
                         cap_slot = true;
+                        if (managing == -1) then exit;
                         continue;
                     }
                     if (!champ_slot) {
@@ -729,6 +729,7 @@ function scr_ui_manage() {
 
                         yy += 20;
                         champ_slot = true;
+                        if (managing == -1) then exit;
                         continue;
                     }
                     if (!ancient_slot) {
@@ -750,6 +751,7 @@ function scr_ui_manage() {
 
                         yy += 20;
                         ancient_slot = true;
+                        if (managing == -1) then exit;
                         continue;
                     }
                      if (!chaplain_slot) {
@@ -757,10 +759,10 @@ function scr_ui_manage() {
                             xx,
                             yy,
                             {
-                                companies: [managing,0];
+                                companies: [managing,0],
                             },
                             {
-                                group:"chaplain_candidates",
+                                group:["chap",false, false],
                                 location: "",
                                 opposite : false,
                             },
@@ -770,6 +772,7 @@ function scr_ui_manage() {
                         );                         
                         yy += 20;
                         chaplain_slot = true;
+                        if (managing == -1) then exit;
                         continue;
                     }
                     if (!apothecary_slot) {
@@ -777,10 +780,10 @@ function scr_ui_manage() {
                             xx,
                             yy,
                             {
-                                companies: [managing,0];
+                                companies: [managing,0],
                             },
                             {
-                                group:"apothecary_candidates",
+                                group:["apoth",false, false],
                                 location: "",
                                 opposite : false,
                             },
@@ -790,6 +793,7 @@ function scr_ui_manage() {
                         );
                         yy += 20;
                         apothecary_slot = true;
+                        if (managing == -1) then exit;
                         continue;
                     }
                     if (!tech_marine_slot) {
@@ -797,10 +801,10 @@ function scr_ui_manage() {
                             xx,
                             yy,
                             {
-                                companies: [managing,0];
+                                companies: [managing,0],
                             },
                             {
-                                group:"tech_marine_candidates",
+                                group:["forge",false, false],
                                 location: "",
                                 opposite : false,
                             },
@@ -810,6 +814,7 @@ function scr_ui_manage() {
                         );                        
                         yy += 20;
                         tech_marine_slot = true;
+                        if (managing == -1) then exit;
                         continue;
                     }
                     if (!lib_slot) {
@@ -817,10 +822,10 @@ function scr_ui_manage() {
                             xx,
                             yy,
                             {
-                                companies: [managing,0];
+                                companies: [managing,0],
                             },
                             {
-                                group:"librarian_candidates",
+                                group:["libs",false, false],
                                 location: "",
                                 opposite : false,
                             },
@@ -830,6 +835,7 @@ function scr_ui_manage() {
                         );                        
                         yy += 20;
                         lib_slot = true;
+                        if (managing == -1) then exit;
                         continue;
                     }
                 }
