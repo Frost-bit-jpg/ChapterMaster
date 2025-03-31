@@ -88,6 +88,30 @@ function load_marines_into_ship(system, ship, units, reload = false) {
     }
 }
 
+function special_role_slot_open(xx, yy, search_params, role_group_params, purpose, purpose_code, tab_text){
+    draw_set_color(c_black);
+    draw_rectangle(xx + 25, yy + 64, xx + 974, yy + 85, 0);
+    draw_set_color(c_gray);
+    draw_rectangle(xx + 25, yy + 64, xx + 974, yy + 85, 1);
+    draw_set_halign(fa_center);
+    draw_set_color(c_yellow);
+    draw_text(xx + 500, yy + 66, $"++{tab_text}++");
+    draw_set_halign(fa_left);
+    draw_set_color(c_gray);
+    if (point_and_click([xx + 25, yy + 64, xx + 974, yy + 85])) {
+        var candidates = collect_role_group(role_group_params.group, role_group_params.location, role_group_params.opposite, search_params);
+        group_selection(candidates, {
+            purpose: purpose,
+            purpose_code: purpose_code,
+            number: 1,
+            system: managing,
+            feature: "none",
+            planet: 0,
+            selections: []
+        });
+    } 
+}
+
 function alternative_manage_views(x1, y1) {
     var _squad_button = management_buttons.squad_toggle;
     _squad_button.update({
@@ -655,221 +679,163 @@ function scr_ui_manage() {
                 var cap_slot = company_data.captain != "none";
                 var champ_slot = company_data.champion != "none";
                 var ancient_slot = company_data.ancient != "none";
-		var chaplain_slot = company_data.chaplain != "none";
-		var apothecary_slot = company_data.apothecary != "none";
-		var tech_marine_slot = company_data.tech_marine != "none";
-		var lib_slot = company_data.lib != "none";
+        		var chaplain_slot = company_data.chaplain != "none";
+        		var apothecary_slot = company_data.apothecary != "none";
+        		var tech_marine_slot = company_data.tech_marine != "none";
+        		var lib_slot = company_data.lib != "none";
             }
             for (var i = 0; i < repetitions; i++) {
                 if (managing > 0 && managing <= 10 && (!cap_slot || !champ_slot || !ancient_slot || !chaplain_slot|| !tech_marine_slot || !apothecary_slot|| !lib_slot)) {
                     if (!cap_slot) {
-                        draw_set_color(c_black);
-                        draw_rectangle(xx + 25, yy + 64, xx + 974, yy + 85, 0);
-                        draw_set_color(c_gray);
-                        draw_rectangle(xx + 25, yy + 64, xx + 974, yy + 85, 1);
-                        draw_set_halign(fa_center);
-                        draw_set_color(c_yellow);
-                        draw_text(xx + 500, yy + 66, "++New Captain Required++");
-                        draw_set_halign(fa_left);
-                        draw_set_color(c_gray);
-                        if (point_and_click([xx + 25, yy + 64, xx + 974, yy + 85])) {
-                            var candidates = collect_role_group("captain_candidates");
-                            group_selection(candidates, {
-                                purpose: $"{scr_roman_numerals()[managing - 1]} Company Captain Candidates",
-                                purpose_code: "captain_promote",
-                                number: 1,
-                                system: managing,
-                                feature: "none",
-                                planet: 0,
-                                selections: []
-                            });
-                            exit;
-                        }
+                        special_role_slot_open(
+                            xx,
+                            yy,
+                            {
+
+                            },
+                            {
+                                group:"captain_candidates",
+                                location: "",
+                                opposite : false,
+                            },
+                            $"{scr_roman_numerals()[managing - 1]} Company Captain Candidates",
+                            "captain_promote",
+                            "New Captain Required"
+                        );
                         yy += 20;
                         cap_slot = true;
+                        if (managing == -1) then exit;
                         continue;
                     }
                     if (!champ_slot) {
-                        draw_set_color(c_black);
-                        draw_rectangle(xx + 25, yy + 64, xx + 974, yy + 85, 0);
-                        draw_set_color(c_gray);
-                        draw_rectangle(xx + 25, yy + 64, xx + 974, yy + 85, 1);
-                        draw_set_halign(fa_center);
-                        draw_set_color(c_yellow);
-                        draw_text(xx + 500, yy + 66, "++New Champion Required++");
-                        draw_set_halign(fa_left);
-                        draw_set_color(c_gray);
-                        if (point_and_click([xx + 25, yy + 64, xx + 974, yy + 85])) {
-                            var search_params = {
+                        special_role_slot_open(
+                            xx,
+                            yy,
+                            {
                                 companies: managing,
                                 "stat": [
                                     ["weapon_skill", 44, "more"]
                                 ]
-                            };
-                            var candidates = collect_role_group("standard", "", true, search_params);
-                            group_selection(candidates, {
-                                purpose: $"{scr_roman_numerals()[managing - 1]} Champion Candidates",
-                                purpose_code: "champion_promote",
-                                number: 1,
-                                system: managing,
-                                feature: "none",
-                                planet: 0,
-                                selections: []
-                            });
-                            exit;
-                        }
+                            },
+                            {
+                                group:"standard",
+                                location: "",
+                                opposite : false,
+                            },
+                            $"{scr_roman_numerals()[managing - 1]} Champion Candidates",
+                            "champion_promote",
+                            "New Champion Required"
+                        );
+
                         yy += 20;
                         champ_slot = true;
+                        if (managing == -1) then exit;
                         continue;
                     }
                     if (!ancient_slot) {
-                        draw_set_color(c_black);
-                        draw_rectangle(xx + 25, yy + 64, xx + 974, yy + 85, 0);
-                        draw_set_color(c_gray);
-                        draw_rectangle(xx + 25, yy + 64, xx + 974, yy + 85, 1);
-                        draw_set_halign(fa_center);
-                        draw_set_color(c_yellow);
-                        draw_text(xx + 500, yy + 66, "++New Ancient Required++");
-                        draw_set_halign(fa_left);
-                        draw_set_color(c_gray);
-                        if (point_and_click([xx + 25, yy + 64, xx + 974, yy + 85])) {
-                            var search_params = {
+                        special_role_slot_open(
+                            xx,
+                            yy,
+                            {
                                 companies: managing
-                            };
-                            var candidates = collect_role_group("standard", "", true, search_params);
-                            group_selection(candidates, {
-                                purpose: $"{scr_roman_numerals()[managing - 1]} Company Ancient Candidates",
-                                purpose_code: "ancient_promote",
-                                number: 1,
-                                system: managing,
-                                feature: "none",
-                                planet: 0,
-                                selections: []
-                            });
-                            exit;
-                        }
+                            },
+                            {
+                                group:"standard",
+                                location: "",
+                                opposite : true,
+                            },
+                            $"{scr_roman_numerals()[managing - 1]} Company Ancient Candidates",
+                            "ancient_promote",
+                            "New Ancient Required"
+                        );                        
+
                         yy += 20;
                         ancient_slot = true;
+                        if (managing == -1) then exit;
                         continue;
                     }
                      if (!chaplain_slot) {
-                        draw_set_color(c_black);
-                        draw_rectangle(xx + 25, yy + 64, xx + 974, yy + 85, 0);
-                        draw_set_color(c_gray);
-                        draw_rectangle(xx + 25, yy + 64, xx + 974, yy + 85, 1);
-                        draw_set_halign(fa_center);
-                        draw_set_color(c_yellow);
-                        draw_text(xx + 500, yy + 66, "++New Chaplain Required++");
-                        draw_set_halign(fa_left);
-                        draw_set_color(c_gray);
-                        if (point_and_click([xx + 25, yy + 64, xx + 974, yy + 85])) {
-                            var search_params = {
-                                companies: managing
-                            };
-                            var candidates = collect_role_group("chap_candidates");
-                            group_selection(candidates, {
-                                purpose: $"{scr_roman_numerals()[managing - 1]} Company Chaplain Candidates",
-                                purpose_code: "chaplain_promote",
-                                number: 1,
-                                system: managing,
-                                feature: "none",
-                                planet: 0,
-                                selections: []
-                            });
-                            exit;
-                        }
+                        special_role_slot_open(
+                            xx,
+                            yy,
+                            {
+                                companies: [managing,0],
+                            },
+                            {
+                                group:["chap",false, false],
+                                location: "",
+                                opposite : false,
+                            },
+                            $"{scr_roman_numerals()[managing - 1]} Company Chaplain Candidates",
+                            "chaplain_promote",
+                            "New Company Chaplain Required"
+                        );                         
                         yy += 20;
                         chaplain_slot = true;
+                        if (managing == -1) then exit;
                         continue;
                     }
                     if (!apothecary_slot) {
-                        draw_set_color(c_black);
-                        draw_rectangle(xx + 25, yy + 64, xx + 974, yy + 85, 0);
-                        draw_set_color(c_gray);
-                        draw_rectangle(xx + 25, yy + 64, xx + 974, yy + 85, 1);
-                        draw_set_halign(fa_center);
-                        draw_set_color(c_yellow);
-                        draw_text(xx + 500, yy + 66, "++New Apothecary Required++");
-                        draw_set_halign(fa_left);
-                        draw_set_color(c_gray);
-                        if (point_and_click([xx + 25, yy + 64, xx + 974, yy + 85])) {
-                            var search_params = {
-                                companies: managing
-                            };
-                            var candidates = collect_role_group("apothecary_candidates");
-                            group_selection(candidates, {
-                                purpose: $"{scr_roman_numerals()[managing - 1]} Company Apothecary Candidates",
-                                purpose_code: "apothecary_promote",
-                                number: 1,
-                                system: managing,
-                                feature: "none",
-                                planet: 0,
-                                selections: []
-                            });
-                            exit;
-                        }
+                        special_role_slot_open(
+                            xx,
+                            yy,
+                            {
+                                companies: [managing,0],
+                            },
+                            {
+                                group:["apoth",false, false],
+                                location: "",
+                                opposite : false,
+                            },
+                            $"{scr_roman_numerals()[managing - 1]} Company Apothecary Candidates",
+                            "apothecary_promote",
+                            "New Company Apothecary Required"
+                        );
                         yy += 20;
                         apothecary_slot = true;
+                        if (managing == -1) then exit;
                         continue;
                     }
                     if (!tech_marine_slot) {
-                        draw_set_color(c_black);
-                        draw_rectangle(xx + 25, yy + 64, xx + 974, yy + 85, 0);
-                        draw_set_color(c_gray);
-                        draw_rectangle(xx + 25, yy + 64, xx + 974, yy + 85, 1);
-                        draw_set_halign(fa_center);
-                        draw_set_color(c_yellow);
-                        draw_text(xx + 500, yy + 66, "++New Tech Marine Required++");
-                        draw_set_halign(fa_left);
-                        draw_set_color(c_gray);
-                        if (point_and_click([xx + 25, yy + 64, xx + 974, yy + 85])) {
-                            var search_params = {
-                                companies: managing
-                            };
-                            var candidates = collect_role_group("tech_marine_candidates");
-                            group_selection(candidates, {
-                                purpose: $"{scr_roman_numerals()[managing - 1]} Company Tech Marine Candidates",
-                                purpose_code: "tech_marine_promote",
-                                number: 1,
-                                system: managing,
-                                feature: "none",
-                                planet: 0,
-                                selections: []
-                            });
-                            exit;
-                        }
+                        special_role_slot_open(
+                            xx,
+                            yy,
+                            {
+                                companies: [managing,0],
+                            },
+                            {
+                                group:["forge",false, false],
+                                location: "",
+                                opposite : false,
+                            },
+                            $"{scr_roman_numerals()[managing - 1]} Company Tech Marine Candidates",
+                            "tech_marine_promote",
+                            "New Company Tech Marine Required"
+                        );                        
                         yy += 20;
                         tech_marine_slot = true;
+                        if (managing == -1) then exit;
                         continue;
                     }
                     if (!lib_slot) {
-                        draw_set_color(c_black);
-                        draw_rectangle(xx + 25, yy + 64, xx + 974, yy + 85, 0);
-                        draw_set_color(c_gray);
-                        draw_rectangle(xx + 25, yy + 64, xx + 974, yy + 85, 1);
-                        draw_set_halign(fa_center);
-                        draw_set_color(c_yellow);
-                        draw_text(xx + 500, yy + 66, "++New Librarian Required++");
-                        draw_set_halign(fa_left);
-                        draw_set_color(c_gray);
-                        if (point_and_click([xx + 25, yy + 64, xx + 974, yy + 85])) {
-                            var search_params = {
-                                companies: managing
-                            };
-                            var candidates = collect_role_group("librarian_candidates");
-                            group_selection(candidates, {
-                                purpose: $"{scr_roman_numerals()[managing - 1]} Company Librarian Candidates",
-                                purpose_code: "librarian_promote",
-                                number: 1,
-                                system: managing,
-                                feature: "none",
-                                planet: 0,
-                                selections: []
-                            });
-                            exit;
-                        }
+                        special_role_slot_open(
+                            xx,
+                            yy,
+                            {
+                                companies: [managing,0],
+                            },
+                            {
+                                group:["libs",false, false],
+                                location: "",
+                                opposite : false,
+                            },
+                            $"{scr_roman_numerals()[managing - 1]} Company Librarian Candidates",
+                            "librarian_promote",
+                            "New Company Librarian Required"
+                        );                        
                         yy += 20;
                         lib_slot = true;
+                        if (managing == -1) then exit;
                         continue;
                     }
                 }

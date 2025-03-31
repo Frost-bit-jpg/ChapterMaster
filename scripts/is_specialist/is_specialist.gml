@@ -92,11 +92,12 @@ function role_groups(group){
 				 roles[11],			
 			];
 			break;
+
 	}
 	return role_list;
 }
 
-function is_specialist(unit_role, type="standard", include_trainee=false) {
+function is_specialist(unit_role, type="standard", include_trainee=false, include_heads=true) {
 
 	// unit_role
 	//TODO need to make all string roles not strings but array references
@@ -136,36 +137,46 @@ function is_specialist(unit_role, type="standard", include_trainee=false) {
 			if (include_trainee){
 				array_push(specialists,  string("{0} Aspirant",roles[17]));
 			}
+			if (include_heads){
+				array_push(specialists,  string("Chief {0}",roles[17]));
+			}
 			break;
 		case "forge":
 			specialists = role_groups("forge");
 			if (include_trainee){
 				array_push(specialists,  string("{0} Aspirant",roles[16]));
+			}
+			if (include_heads){
+				array_push(specialists,  "Forge Master");
 			}			
 			break;
 		case "chap":
 			specialists = [
 						roles[14],//chaplain
-						"Master of Sanctity",
 			];
 			if (include_trainee){
 				array_push(specialists,  string("{0} Aspirant",roles[14]));
 			}
 			if (_chap_name == "Iron Hands"){
 				array_push(specialists, roles[16]);
-			}	
+			}
+			if (include_heads){
+				array_push(specialists,  "Master of Sanctity");
+			}		
 			break;
 		case "apoth":
 			specialists = [
 						roles[15],
-						"Master of the Apothecarion",
 			];
 			if (include_trainee){
 				array_push(specialists,  string("{0} Aspirant",roles[15]));
 			}	
 			if (_chap_name == "Space Wolves"){
 				array_push(specialists, roles[14]);
-			}		
+			}
+			if (include_heads){
+				array_push(specialists,  "Master of the Apothecarion");
+			}					
 			break;
 		case "heads":
 			specialists = role_groups("heads");
@@ -190,29 +201,6 @@ function is_specialist(unit_role, type="standard", include_trainee=false) {
 			break;
 		case "captain_candidates":
 			specialists = role_groups("captain_candidates");
-			break;
-		case "chap_candidates":
-			specialists = [
-						roles[14],//chaplain
-			];
-			if (_chap_name == "Iron Hands"){
-				array_push(specialists, roles[16]);
-			}	
-			break;
-		case "tech_marine_candidates":
-			specialists = [
-						roles[16],//tech marine
-			];
-			break;
-		case "apothecary_candidates":
-			specialists = [
-						roles[15],//Apothecary marine
-			];
-			break;
-		case "librarian_candidates":
-			specialists = [
-						roles[17], //librarian
-			];
 			break;
 	}
 
@@ -266,7 +254,7 @@ function collect_role_group(group="standard", location="", opposite=false, searc
 			if (unit.name()=="") then continue;
 			if (group!="all"){
 				if (is_array(group)){
-					_is_special_group = unit.IsSpecialist(group[0], group[1]);
+					_is_special_group = unit.IsSpecialist(group[0], group[1],group[3]);
 				} else {
 					_is_special_group = unit.IsSpecialist(group);
 				}
