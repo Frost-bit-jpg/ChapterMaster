@@ -173,6 +173,10 @@ function calculate_block_distances(first_block, second_block) {
 	}
 }
 
+/// @description Check if the current position of the unit block collides with the other.
+/// @param {real} position_x X position of the unit block
+/// @param {real} position_y Y position of the unit block
+/// @return {bool}
 function block_position_collision(position_x, position_y) {
 	try {
 		return collision_point(position_x, position_y, obj_enunit, 0, 1) || collision_point(position_x, position_y, obj_pnunit, 0, 1);
@@ -181,29 +185,56 @@ function block_position_collision(position_x, position_y) {
 	}
 }
 
-function move_unit_block(direction = "east", blocks = 1, allow_collision = false, allow_passing = false) {
-	try {
-		distance = 10 * blocks;
-		if (direction == "east") {
-			var _new_pos = x + distance;
-			if (allow_collision == false) {
-				if (!block_position_collision(_new_pos, y)) {
-					x = _new_pos;
-				}
-			} else {
-				x = _new_pos;
-			}
-		} else if (direction == "west") {
-			var _new_pos = x - distance;
-			if (allow_collision == false) {
-				if (!block_position_collision(_new_pos, y)) {
-					x = _new_pos;
-				}
-			} else {
-				x = _new_pos;
-			}
+/// @description Attempts to move an unit block and returns whenever the move succeeded or not.
+/// @param {string} direction In what direction to move ("east" or "west")
+/// @param {real} blocks How far to move (in unit blocks)
+/// @param {bool} allow_collision Are unit blocks allowed to passthrough other unit blocks
+/// @return {bool}
+/// @mixin
+function move_unit_block(direction, blocks = 1, allow_collision = false) {
+    try {
+        var distance = 10 * blocks;
+        var _new_pos = x;
+        
+        if (direction == "east") {
+            _new_pos = x + distance;
+        } else if (direction == "west") {
+            _new_pos = x - distance;
+        }
+
+        if (allow_collision == true || !block_position_collision(_new_pos, y)) {
+			x = _new_pos;
+			return true;
+        } else {
+			return false;
 		}
-	} catch (_exception) {
-		handle_exception(_exception);
+    } catch (_exception) {
+        handle_exception(_exception);
+    }
+}
+
+/// @description Attempts to move an enemy unit block, choosing direction based on whenever they are flanking or not, only if `obj_nfort` doesn't exists.
+/// @mixin
+function move_enemy_block() {
+	if (instance_exists(obj_nfort)) {
+		exit;
 	}
+
+	var _direction = flank ? "east" : "west";
+	move_unit_block(_direction);
+}
+
+/// @description Creates a priority queue of enemy units based on their x-position and then moves each with `move_enemy_block()`.
+function move_enemy_blocks() {
+	var _enemy_movement_queue = ds_priority_create();
+	with (obj_enunit) {
+		ds_priority_add(_enemy_movement_queue, id, x);
+	}
+	while (!ds_priority_empty(_enemy_movement_queue)) {
+		var _enemy_block = ds_priority_delete_min(_enemy_movement_queue);
+		with (_enemy_block) {
+			move_enemy_block();
+		}
+	}
+	ds_priority_destroy(_enemy_movement_queue);
 }
