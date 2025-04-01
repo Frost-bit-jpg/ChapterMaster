@@ -3,7 +3,7 @@ function active_roles(){
 	return _roles;
 }
 
-function role_groups(group, include_trainee = true, include_heads = true) {
+function role_groups(group, include_trainee = false, include_heads = true) {
     var _role_list = [];
     var _roles = active_roles();
 	var _chap_name = instance_exists(obj_creation) ? obj_creation.chapter_name : global.chapter_name;
