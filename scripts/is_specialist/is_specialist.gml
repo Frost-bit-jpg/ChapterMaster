@@ -3,18 +3,23 @@ function active_roles(){
 	return _roles;
 }
 
-function role_groups(group) {
+function role_groups(group, include_trainee = true, include_heads = true) {
     var role_list = [];
     var roles = active_roles();
 
     switch (group) {
         case "lib":
             role_list = [
-                $"Chief {roles[eROLE.Librarian]}",
                 roles[eROLE.Librarian],
                 "Codiciery",
                 "Lexicanum"
             ];
+			if (include_trainee) {
+				array_push(role_list, $"{roles[eROLE.Librarian]} Aspirant");
+            }
+			if (include_heads) {
+				array_push(role_list, $"Chief {roles[eROLE.Librarian]}");
+            }
             break;
         case "trainee":
             role_list = [
@@ -77,9 +82,14 @@ function role_groups(group) {
         case "forge":
             role_list = [
                 roles[eROLE.Techmarine],
-                "Forge Master",
                 "Techpriest"
             ];
+			if (include_trainee) {
+				array_push(role_list, $"{roles[eROLE.Techmarine]} Aspirant");
+            }
+			if (include_heads) {
+				array_push(role_list, "Forge Master");
+            }
             break;
         case "captain_candidates":
             role_list = [
@@ -126,10 +136,10 @@ function is_specialist(unit_role, type = "standard", include_trainee = true, inc
             break;
 
         case "libs":
-            _specialists = role_groups("lib");
+            _specialists = role_groups("lib", include_trainee, include_heads);
             break;
         case "forge":
-            _specialists = role_groups("forge");
+            _specialists = role_groups("forge", include_trainee, include_heads);
             break;
         case "chap":
             _specialists = [_roles[eROLE.Chaplain]];
