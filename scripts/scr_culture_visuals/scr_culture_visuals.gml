@@ -315,13 +315,13 @@ global.modular_drawing_items = [
         sprite : spr_gear_librarian,
         body_types :[0],
         position : "right_pauldron_icons",
-        role_type : ["libs"],
+        role_type : ["lib"],
     },
     {
         sprite : spr_gear_librarian_term,
         body_types :[2],
         position : "right_pauldron_icons",
-        role_type : ["libs"],
+        role_type : ["lib"],
     },
     {
         sprite : spr_roman_centurian_crest,
@@ -545,7 +545,7 @@ global.modular_drawing_items = [
         sprite : spr_gear_hood2,
         body_types :[0],
         position : "mouth_variants", 
-        role_type : ["libs"],
+        role_type : ["lib"],
         chapter_disadv : ["Warp Tainted"],    
     },
     {
