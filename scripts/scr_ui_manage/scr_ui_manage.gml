@@ -88,6 +88,14 @@ function load_marines_into_ship(system, ship, units, reload = false) {
     }
 }
 
+/// @desc Displays a selectable prompt for special roles to be assigned.
+/// @param {number} xx - X coordinate for the UI element
+/// @param {number} yy - Y coordinate for the UI element
+/// @param {struct} search_params - Criteria for the role search
+/// @param {struct} role_group_params - Parameters defining the role group
+/// @param {string} purpose - Display purpose for the selection
+/// @param {string} purpose_code - Code that identifies the selection’s purpose
+/// @param {string} tab_text - The prompt text displayed in the UI
 function special_role_slot_open(xx, yy, search_params, role_group_params, purpose, purpose_code, tab_text){
     draw_set_color(c_black);
     draw_rectangle(xx + 25, yy + 64, xx + 974, yy + 85, 0);
