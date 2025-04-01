@@ -543,7 +543,7 @@ function add_unit_to_battle(unit,meeting, is_local){
 
         //librarium roles
 
-    }else if (unit.IsSpecialist("lib",true)){
+    }else if (unit.IsSpecialist(SPECIALISTS_LIBRARIANS,true)){
         col = obj_controller.bat_librarian_column;                  //librarium
         new_combat.librarians++;
         moov = 1;

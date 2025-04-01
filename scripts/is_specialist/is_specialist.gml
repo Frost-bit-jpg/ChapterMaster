@@ -1,3 +1,8 @@
+#macro SPECIALISTS_APOTHECARIES "apothecaries"
+#macro SPECIALISTS_CHAPLAINS "chaplains"
+#macro SPECIALISTS_LIBRARIANS "librarians"
+#macro SPECIALISTS_TECHS "techs"
+
 function active_roles(){
 	var _roles =  instance_exists(obj_creation) ?  obj_creation.role[100] : obj_ini.role[100];
 	return _roles;
@@ -31,7 +36,7 @@ function role_groups(group, include_trainee = false, include_heads = true) {
             }
             break;
 
-        case "lib":
+        case SPECIALISTS_LIBRARIANS:
             _role_list = [
                 _roles[eROLE.Librarian],
                 "Codiciery",
@@ -44,7 +49,7 @@ function role_groups(group, include_trainee = false, include_heads = true) {
 				array_push(_role_list, $"Chief {_roles[eROLE.Librarian]}");
             }
             break;
-		case "forge":
+		case SPECIALISTS_TECHS:
 			_role_list = [
 				_roles[eROLE.Techmarine],
 				"Techpriest"
@@ -56,7 +61,7 @@ function role_groups(group, include_trainee = false, include_heads = true) {
 				array_push(_role_list, "Forge Master");
 			}
 			break;
-		case "chap":
+		case SPECIALISTS_CHAPLAINS:
 			_role_list = [_roles[eROLE.Chaplain]];
 			if (_chap_name == "Iron Hands") {
 				array_push(_role_list, _roles[eROLE.Techmarine]);
@@ -74,7 +79,7 @@ function role_groups(group, include_trainee = false, include_heads = true) {
 				array_push(_role_list, "Master of Sanctity");
 			}
 			break;
-		case "apoth":
+		case SPECIALISTS_APOTHECARIES:
 			_role_list = [_roles[eROLE.Apothecary]];
 			if (_chap_name == "Space Wolves") {
 				array_push(_role_list, _roles[eROLE.Chaplain]);

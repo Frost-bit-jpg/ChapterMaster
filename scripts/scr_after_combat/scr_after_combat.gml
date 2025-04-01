@@ -441,7 +441,7 @@ function after_battle_part1() {
             
             if (!marine_dead[i]){
                 // Apothecaries for saving marines;
-                if (unit.IsSpecialist("apoth", true)) {
+                if (unit.IsSpecialist(SPECIALISTS_APOTHECARIES, true)) {
                     skill_level = unit.intelligence * 0.0125;
                     if (marine_gear[i]=="Narthecium"){
                         skill_level*=2;
@@ -452,7 +452,7 @@ function after_battle_part1() {
                 }
 
                 // Techmarines for saving vehicles;
-                if (unit.IsSpecialist("forge", true)) {
+                if (unit.IsSpecialist(SPECIALISTS_TECHS, true)) {
                     skill_level = unit.technology / 10;
                     if (marine_mobi[i]=="Servo-arm") {
                         skill_level *= 1.5; 

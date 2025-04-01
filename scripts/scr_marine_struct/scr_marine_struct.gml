@@ -466,7 +466,7 @@ function TTRPG_stats(faction, comp, mar, class = "marine", other_spawn_data = {}
         experience = new_val;
         var _powers_learned = 0;
 
-        if (IsSpecialist("lib")) {
+        if (IsSpecialist(SPECIALISTS_LIBRARIANS)) {
             _powers_learned = update_powers();
         }
 
@@ -974,7 +974,7 @@ function TTRPG_stats(faction, comp, mar, class = "marine", other_spawn_data = {}
             var _cloak_chance = 5;
             if (role() == obj_ini.role[100][eROLE.Chaplain]) {
                 _cloak_chance += 25;
-            } else if (IsSpecialist("lib")) {
+            } else if (IsSpecialist(SPECIALISTS_LIBRARIANS)) {
                 _cloak_chance += 75;
             }
             if (irandom(100) <= _cloak_chance) {
@@ -1680,7 +1680,7 @@ function TTRPG_stats(faction, comp, mar, class = "marine", other_spawn_data = {}
                 var psychic_bonus = psionic * 20;
                 psychic_bonus *= 0.5 + (wisdom / 100);
                 psychic_bonus *= 0.5 + (experience / 100);
-                psychic_bonus *= IsSpecialist("lib") ? 1 : 0.25;
+                psychic_bonus *= IsSpecialist(SPECIALISTS_LIBRARIANS) ? 1 : 0.25;
                 psychic_bonus = round(psychic_bonus);
                 primary_weapon.attack += psychic_bonus;
                 basic_wep_string += $"Psychic Power: +{psychic_bonus}#";

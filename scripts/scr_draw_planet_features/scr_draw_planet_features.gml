@@ -17,7 +17,7 @@ function FeatureSelected(Feature, system, planet) constructor{
 	if (feature.f_type == P_features.Forge){
 		var _worker_caps = [2,4,8];
 		worker_capacity = _worker_caps[feature.size-1];	
-		techs = collect_role_group("forge", obj_star_select.target.name);
+		techs = collect_role_group(SPECIALISTS_TECHS, obj_star_select.target.name);
 		feature.techs_working = 0;
 		for (var i=0;i<array_length(techs);i++){
 			var _cur_tech = techs[i];

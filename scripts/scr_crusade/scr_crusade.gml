@@ -89,7 +89,7 @@ function scr_crusade() {
                     scr_kill_unit(co,i);
                     seed+=2;
                 } else {
-                	if (unit.IsSpecialist("apoth")) and (obj_ini.gear[co][i]="Narthecium") then apoth++;
+                	if (unit.IsSpecialist(SPECIALISTS_APOTHECARIES)) and (obj_ini.gear[co][i]="Narthecium") then apoth++;
                 	unit.add_exp(irandom(death_data[3][0])+death_data[3][1]);
                 
                     if (irandom(99)==1 && irandom(20)<unit.luck){

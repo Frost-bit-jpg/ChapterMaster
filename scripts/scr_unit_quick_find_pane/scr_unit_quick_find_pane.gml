@@ -44,9 +44,9 @@ function UnitQuickFindPanel() constructor{
 	    				array_push(garrison_log[$ unit_location[2]].units, unit);
 	    			}
 	    			group = garrison_log[$ unit_location[2]];
-	    			if (unit.IsSpecialist("apoth")){
+	    			if (unit.IsSpecialist(SPECIALISTS_APOTHECARIES)){
 						group.healers++;
-	    			} else if (unit.IsSpecialist("forge")){
+	    			} else if (unit.IsSpecialist(SPECIALISTS_TECHS)){
 						group.techies++;
 	    			}
 	    		} else if (unit_location[0]==location_types.ship){

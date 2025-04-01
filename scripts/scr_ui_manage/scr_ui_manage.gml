@@ -746,7 +746,7 @@ function scr_ui_manage() {
                         special_role_slot_open(xx, yy, {
                             companies: [managing, 0]
                         }, {
-                            group: ["chap", false, false],
+                            group: [SPECIALISTS_CHAPLAINS, false, false],
                             location: "",
                             opposite: false
                         }, $"{scr_roman_numerals()[managing - 1]} Company Chaplain Candidates", "chaplain_promote", "New Company Chaplain Required");
@@ -761,7 +761,7 @@ function scr_ui_manage() {
                         special_role_slot_open(xx, yy, {
                             companies: [managing, 0]
                         }, {
-                            group: ["apoth", false, false],
+                            group: [SPECIALISTS_APOTHECARIES, false, false],
                             location: "",
                             opposite: false
                         }, $"{scr_roman_numerals()[managing - 1]} Company Apothecary Candidates", "apothecary_promote", "New Company Apothecary Required");
@@ -776,7 +776,7 @@ function scr_ui_manage() {
                         special_role_slot_open(xx, yy, {
                             companies: [managing, 0]
                         }, {
-                            group: ["forge", false, false],
+                            group: [SPECIALISTS_TECHS, false, false],
                             location: "",
                             opposite: false
                         }, $"{scr_roman_numerals()[managing - 1]} Company Tech Marine Candidates", "tech_marine_promote", "New Company Tech Marine Required");
@@ -791,7 +791,7 @@ function scr_ui_manage() {
                         special_role_slot_open(xx, yy, {
                             companies: [managing, 0]
                         }, {
-                            group: ["lib", false, false],
+                            group: [SPECIALISTS_LIBRARIANS, false, false],
                             location: "",
                             opposite: false
                         }, $"{scr_roman_numerals()[managing - 1]} Company Librarian Candidates", "librarian_promote", "New Company Librarian Required");
