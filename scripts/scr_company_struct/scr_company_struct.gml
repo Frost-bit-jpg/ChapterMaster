@@ -181,16 +181,13 @@ function CompanyStruct(comp) constructor{
 					ancient = unit;
 				} else if (unit.role() == role_set[eROLE.Champion]){
 					champion = unit;
-				}
-				  else if (unit.role() == role_set[eROLE.Chaplain]){
+				} else if (unit.role() == role_set[eROLE.Chaplain]){
 					chaplain = unit;
-				}else if (unit.role() == role_set[eROLE.Apothecary]){
+				} else if (unit.role() == role_set[eROLE.Apothecary]){
 					apothecary = unit;
-				}
-				  else if (unit.role() == role_set[eROLE.Techmarine]){
+				} else if (unit.role() == role_set[eROLE.Techmarine]){
 					tech_marine = unit;
-				}
-				  else if (unit.role() == role_set[eROLE.Librarian]){
+				} else if (unit.role() == role_set[eROLE.Librarian]){
 					lib = unit;
 				}
 			}
