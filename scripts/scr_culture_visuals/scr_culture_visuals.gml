@@ -801,8 +801,8 @@ function DummyMarine()constructor{
             return mobi[100][livery_picker.role_set > 0  ? livery_picker.role_set :eROLE.Tactical];
         }
     }
-    static IsSpecialist = function(search_type="standard",include_trainee=false){
-        return is_specialist(role(), search_type,include_trainee)
+    static IsSpecialist = function(search_type="standard",include_trainee=true, include_heads=true){
+        return is_specialist(role(), search_type,include_trainee, include_heads);
     }
     static has_trait = marine_has_trait;
 

@@ -503,8 +503,8 @@ function TTRPG_stats(faction, comp, mar, class = "marine", other_spawn_data = {}
         return string(temp_role);
     };
 
-    static IsSpecialist = function(search_type = "standard", include_trainee = false) {
-        return is_specialist(role(), search_type, include_trainee);
+    static IsSpecialist = function(search_type = "standard", include_trainee = true, include_heads = true) {
+        return is_specialist(role(), search_type, include_trainee, include_heads);
     };
 
     static update_role = function(new_role) {
