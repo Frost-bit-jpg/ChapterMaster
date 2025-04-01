@@ -4,117 +4,13 @@ function active_roles(){
 }
 
 function role_groups(group, include_trainee = true, include_heads = true) {
-    var role_list = [];
-    var roles = active_roles();
+    var _role_list = [];
+    var _roles = active_roles();
+	var _chap_name = instance_exists(obj_creation) ? obj_creation.chapter_name : global.chapter_name;
 
     switch (group) {
-        case "lib":
-            role_list = [
-                roles[eROLE.Librarian],
-                "Codiciery",
-                "Lexicanum"
-            ];
-			if (include_trainee) {
-				array_push(role_list, $"{roles[eROLE.Librarian]} Aspirant");
-            }
-			if (include_heads) {
-				array_push(role_list, $"Chief {roles[eROLE.Librarian]}");
-            }
-            break;
-        case "trainee":
-            role_list = [
-                $"{roles[eROLE.Librarian]} Aspirant",
-                $"{roles[eROLE.Apothecary]} Aspirant",
-                $"{roles[eROLE.Chaplain]} Aspirant",
-                $"{roles[eROLE.Techmarine]} Aspirant"
-            ];
-            break;
-        case "heads":
-            role_list = [
-                "Master of Sanctity",
-                $"Chief {roles[eROLE.Librarian]}",
-                "Forge Master",
-                "Chapter Master",
-                "Master of the Apothecarion"
-            ];
-            break;
-        case "veterans":
-            role_list = [
-                roles[eROLE.Veteran],
-                roles[eROLE.Terminator],
-                roles[eROLE.VeteranSergeant],
-                roles[eROLE.HonourGuard]
-            ];
-            break;
-        case "rank_and_file":
-            role_list = [
-                roles[eROLE.Tactical],
-                roles[eROLE.Devastator],
-                roles[eROLE.Assault],
-                roles[eROLE.Scout]
-            ];
-            break;
-        case "squad_leaders":
-            role_list = [
-                roles[eROLE.Sergeant],
-                roles[eROLE.VeteranSergeant]
-            ];
-            break;
-        case "command":
-            role_list = [
-                roles[eROLE.Captain],
-                roles[eROLE.Apothecary],
-                roles[eROLE.Chaplain],
-                roles[eROLE.Techmarine],
-                roles[eROLE.Librarian],
-                "Codiciery",
-                "Lexicanum",
-                roles[eROLE.Ancient],
-                roles[eROLE.Champion]
-            ];
-            break;
-        case "dreadnoughts":
-            role_list = [
-                roles[eROLE.Dreadnought],
-                $"Venerable {roles[eROLE.Dreadnought]}"
-            ];
-            break;
-        case "forge":
-            role_list = [
-                roles[eROLE.Techmarine],
-                "Techpriest"
-            ];
-			if (include_trainee) {
-				array_push(role_list, $"{roles[eROLE.Techmarine]} Aspirant");
-            }
-			if (include_heads) {
-				array_push(role_list, "Forge Master");
-            }
-            break;
-        case "captain_candidates":
-            role_list = [
-                roles[eROLE.Sergeant],
-                roles[eROLE.VeteranSergeant],
-                roles[eROLE.Champion],
-                roles[eROLE.Captain],
-                roles[eROLE.Terminator],
-                roles[eROLE.Veteran],
-                roles[eROLE.Ancient]
-            ];
-            break;
-    }
-
-    return role_list;
-}
-
-function is_specialist(unit_role, type = "standard", include_trainee = true, include_heads = true) {
-    var _roles = active_roles();
-    var _chap_name = instance_exists(obj_creation) ? obj_creation.chapter_name : global.chapter_name;
-    var _specialists = [];
-
-    switch (type) {
         case "standard":
-            _specialists = [
+            _role_list = [
                 _roles[eROLE.Captain],
                 _roles[eROLE.Dreadnought],
                 $"Venerable {_roles[eROLE.Dreadnought]}",
@@ -128,81 +24,152 @@ function is_specialist(unit_role, type = "standard", include_trainee = true, inc
                 _roles[eROLE.HonourGuard]
             ];
             if (include_trainee) {
-				_specialists = array_concat(_specialists, role_groups("trainee"));
+				_role_list = array_concat(_roles, role_groups("trainee"));
             }
 			if (include_heads) {
-				_specialists = array_concat(_specialists, role_groups("heads"));
+				_role_list = array_concat(_roles, role_groups("heads"));
             }
             break;
 
-        case "libs":
-            _specialists = role_groups("lib", include_trainee, include_heads);
-            break;
-        case "forge":
-            _specialists = role_groups("forge", include_trainee, include_heads);
-            break;
-        case "chap":
-            _specialists = [_roles[eROLE.Chaplain]];
-            if (_chap_name == "Iron Hands") {
-                array_push(_specialists, _roles[eROLE.Techmarine]);
-				if (include_trainee) {
-					array_push(_specialists, $"{_roles[eROLE.Techmarine]} Aspirant");
-				}
-				if (include_heads) {
-					array_push(_specialists, "Forge Master");
-				}
-            }
+        case "lib":
+            _role_list = [
+                _roles[eROLE.Librarian],
+                "Codiciery",
+                "Lexicanum"
+            ];
 			if (include_trainee) {
-				array_push(_specialists, $"{_roles[eROLE.Chaplain]} Aspirant");
-			}
-			if (include_heads) {
-				array_push(_specialists, "Master of Sanctity");
-			}
-            break;
-        case "apoth":
-            _specialists = [_roles[eROLE.Apothecary]];
-            if (_chap_name == "Space Wolves") {
-                array_push(_specialists, _roles[eROLE.Chaplain]);
-				if (include_trainee) {
-					array_push(_specialists, $"{_roles[eROLE.Chaplain]} Aspirant");
-				}
-				if (include_heads) {
-					array_push(_specialists, "Master of Sanctity");
-				}
-            }
-			if (include_trainee) {
-				array_push(_specialists, $"{_roles[eROLE.Apothecary]} Aspirant");
+				array_push(_role_list, $"{_roles[eROLE.Librarian]} Aspirant");
             }
 			if (include_heads) {
-				array_push(_specialists, "Master of the Apothecarion");
+				array_push(_role_list, $"Chief {_roles[eROLE.Librarian]}");
             }
             break;
+		case "forge":
+			_role_list = [
+				_roles[eROLE.Techmarine],
+				"Techpriest"
+			];
+			if (include_trainee) {
+				array_push(_role_list, $"{_roles[eROLE.Techmarine]} Aspirant");
+			}
+			if (include_heads) {
+				array_push(_role_list, "Forge Master");
+			}
+			break;
+		case "chap":
+			_role_list = [_roles[eROLE.Chaplain]];
+			if (_chap_name == "Iron Hands") {
+				array_push(_role_list, _roles[eROLE.Techmarine]);
+				if (include_trainee) {
+					array_push(_role_list, $"{_roles[eROLE.Techmarine]} Aspirant");
+				}
+				if (include_heads) {
+					array_push(_role_list, "Forge Master");
+				}
+			}
+			if (include_trainee) {
+				array_push(_role_list, $"{_roles[eROLE.Chaplain]} Aspirant");
+			}
+			if (include_heads) {
+				array_push(_role_list, "Master of Sanctity");
+			}
+			break;
+		case "apoth":
+			_role_list = [_roles[eROLE.Apothecary]];
+			if (_chap_name == "Space Wolves") {
+				array_push(_role_list, _roles[eROLE.Chaplain]);
+				if (include_trainee) {
+					array_push(_role_list, $"{_roles[eROLE.Chaplain]} Aspirant");
+				}
+				if (include_heads) {
+					array_push(_role_list, "Master of Sanctity");
+				}
+			}
+			if (include_trainee) {
+				array_push(_role_list, $"{_roles[eROLE.Apothecary]} Aspirant");
+			}
+			if (include_heads) {
+				array_push(_role_list, "Master of the Apothecarion");
+			}
+			break;
 
-        case "heads":
-            _specialists = role_groups("heads");
-            break;
-        case "command":
-            _specialists = role_groups("command");
-            break;
         case "trainee":
-            _specialists = role_groups("trainee");
+            _role_list = [
+                $"{_roles[eROLE.Librarian]} Aspirant",
+                $"{_roles[eROLE.Apothecary]} Aspirant",
+                $"{_roles[eROLE.Chaplain]} Aspirant",
+                $"{_roles[eROLE.Techmarine]} Aspirant"
+            ];
             break;
-        case "rank_and_file":
-            _specialists = role_groups("rank_and_file");
-            break;
-        case "squad_leaders":
-            _specialists = role_groups("squad_leaders");
-            break;
-        case "dreadnoughts":
-            _specialists = role_groups("dreadnoughts");
+        case "heads":
+            _role_list = [
+                "Master of Sanctity",
+                $"Chief {_roles[eROLE.Librarian]}",
+                "Forge Master",
+                "Chapter Master",
+                "Master of the Apothecarion"
+            ];
             break;
         case "veterans":
-            _specialists = role_groups("veterans");
+            _role_list = [
+                _roles[eROLE.Veteran],
+                _roles[eROLE.Terminator],
+                _roles[eROLE.VeteranSergeant],
+                _roles[eROLE.HonourGuard]
+            ];
+            break;
+        case "rank_and_file":
+            _role_list = [
+                _roles[eROLE.Tactical],
+                _roles[eROLE.Devastator],
+                _roles[eROLE.Assault],
+                _roles[eROLE.Scout]
+            ];
+            break;
+        case "squad_leaders":
+            _role_list = [
+                _roles[eROLE.Sergeant],
+                _roles[eROLE.VeteranSergeant]
+            ];
+            break;
+        case "command":
+            _role_list = [
+                _roles[eROLE.Captain],
+                _roles[eROLE.Apothecary],
+                _roles[eROLE.Chaplain],
+                _roles[eROLE.Techmarine],
+                _roles[eROLE.Librarian],
+                "Codiciery",
+                "Lexicanum",
+                _roles[eROLE.Ancient],
+                _roles[eROLE.Champion]
+            ];
+            break;
+        case "dreadnoughts":
+            _role_list = [
+                _roles[eROLE.Dreadnought],
+                $"Venerable {_roles[eROLE.Dreadnought]}"
+            ];
             break;
         case "captain_candidates":
-            _specialists = role_groups("captain_candidates");
+            _role_list = [
+                _roles[eROLE.Sergeant],
+                _roles[eROLE.VeteranSergeant],
+                _roles[eROLE.Champion],
+                _roles[eROLE.Captain],
+                _roles[eROLE.Terminator],
+                _roles[eROLE.Veteran],
+                _roles[eROLE.Ancient]
+            ];
             break;
     }
+
+    return _role_list;
+}
+
+function is_specialist(unit_role, type = "standard", include_trainee = true, include_heads = true) {
+    var _roles = active_roles();
+    var _specialists = role_groups(type, include_trainee, include_heads);
 
     return array_contains(_specialists, unit_role);
 }
