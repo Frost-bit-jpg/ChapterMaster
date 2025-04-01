@@ -573,7 +573,7 @@ function add_unit_to_battle(unit,meeting, is_local){
         }
     }
 
-    if (_unit_role = _role[15]) or (_unit_role = _role[14]) or (unit.IsSpecialist(SPECIALISTS_CAPTAIN_CANDIDATES)) {
+    if (_unit_role = _role[15]) or (_unit_role = _role[14]) or (unit.IsSpecialist(SPECIALISTS_TRAINEES)) {
         if (_unit_role = string(_role[14]) + " Aspirant") {
             col = obj_controller.bat_tactical_column;
             new_combat.tacticals++;

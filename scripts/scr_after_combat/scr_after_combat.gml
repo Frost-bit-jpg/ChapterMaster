@@ -177,7 +177,7 @@ function after_battle_part2() {
             if (_unit.IsSpecialist(SPECIALISTS_STANDARD,true)){
                 obj_ncombat.final_command_deaths+=1;
                 var recent=true;
-                if (is_specialist(_unit.role, SPECIALISTS_CAPTAIN_CANDIDATES)){
+                if (is_specialist(_unit.role, SPECIALISTS_TRAINEES)){
                     recent=false
                 } else if (array_contains([string("Venerable {0}",obj_ini.role[100][6]), "Codiciery", "Lexicanum"], _unit.role())){
                     recent=false

@@ -38,7 +38,7 @@ function role_groups(group, include_trainee = false, include_heads = true) {
                 _roles[eROLE.HonourGuard]
             ];
             if (include_trainee) {
-				_role_list = array_concat(_role_list, role_groups(SPECIALISTS_CAPTAIN_CANDIDATES));
+				_role_list = array_concat(_role_list, role_groups(SPECIALISTS_TRAINEES));
             }
 			if (include_heads) {
 				_role_list = array_concat(_role_list, role_groups(SPECIALISTS_HEADS));
@@ -107,7 +107,7 @@ function role_groups(group, include_trainee = false, include_heads = true) {
 			}
 			break;
 
-        case SPECIALISTS_CAPTAIN_CANDIDATES:
+        case SPECIALISTS_TRAINEES:
             _role_list = [
                 $"{_roles[eROLE.Librarian]} Aspirant",
                 $"{_roles[eROLE.Apothecary]} Aspirant",
