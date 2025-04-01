@@ -328,7 +328,7 @@ global.modular_drawing_items = [
         body_types :[0],
         cultures : ["Roman", "Greek", "Gladiator"],
         position : "crest",
-        role_type : ["captain_candidates"],
+        role_type : [SPECIALISTS_CAPTAIN_CANDIDATES],
         assign_by_rank : 2,
     },
     {
@@ -801,7 +801,7 @@ function DummyMarine()constructor{
             return mobi[100][livery_picker.role_set > 0  ? livery_picker.role_set :eROLE.Tactical];
         }
     }
-    static IsSpecialist = function(search_type="standard",include_trainee=false, include_heads=true){
+    static IsSpecialist = function(search_type=SPECIALISTS_STANDARD,include_trainee=false, include_heads=true){
         return is_specialist(role(), search_type,include_trainee, include_heads);
     }
     static has_trait = marine_has_trait;

@@ -351,7 +351,7 @@ function scr_add_unit_to_roster(unit, is_local=false,is_ally=false){
     if (is_local){
         local_forces=true;
     }
-    if (unit.IsSpecialist("dreadnoughts")){
+    if (unit.IsSpecialist(SPECIALISTS_DREADNOUGHTS)){
         dreads++;
     } else {
         men++;

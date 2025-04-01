@@ -8,7 +8,7 @@ for (o=0;o<array_length(origin.board_co);o++){
     if (unit.hp()<=-15) and (obj_ini.race[co][i]=1) and (unit.name()!=""){
         var seed_lost=0;
         if (apothecary<=0){
-            if (unit.IsSpecialist("standard")){
+            if (unit.IsSpecialist(SPECIALISTS_STANDARD)){
                 obj_fleet.fallen_command+=1;
             }else {
                 obj_fleet.fallen+=1;

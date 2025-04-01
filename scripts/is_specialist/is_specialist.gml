@@ -2,6 +2,15 @@
 #macro SPECIALISTS_CHAPLAINS "chaplains"
 #macro SPECIALISTS_LIBRARIANS "librarians"
 #macro SPECIALISTS_TECHS "techs"
+#macro SPECIALISTS_STANDARD "standard"
+#macro SPECIALISTS_VETERANS "veterans"
+#macro SPECIALISTS_RANK_AND_FILE "rank_and_file"
+#macro SPECIALISTS_SQUAD_LEADERS "squad_leaders"
+#macro SPECIALISTS_COMMAND "command"
+#macro SPECIALISTS_DREADNOUGHTS "dreadnoughts"
+#macro SPECIALISTS_CAPTAIN_CANDIDATES "captain_candidates"
+#macro SPECIALISTS_TRAINEES "trainees"
+#macro SPECIALISTS_HEADS "heads"
 
 function active_roles(){
 	var _roles =  instance_exists(obj_creation) ?  obj_creation.role[100] : obj_ini.role[100];
@@ -14,7 +23,7 @@ function role_groups(group, include_trainee = false, include_heads = true) {
 	var _chap_name = instance_exists(obj_creation) ? obj_creation.chapter_name : global.chapter_name;
 
     switch (group) {
-        case "standard":
+        case SPECIALISTS_STANDARD:
             _role_list = [
                 _roles[eROLE.Captain],
                 _roles[eROLE.Dreadnought],
@@ -29,10 +38,10 @@ function role_groups(group, include_trainee = false, include_heads = true) {
                 _roles[eROLE.HonourGuard]
             ];
             if (include_trainee) {
-				_role_list = array_concat(_role_list, role_groups("trainee"));
+				_role_list = array_concat(_role_list, role_groups(SPECIALISTS_CAPTAIN_CANDIDATES));
             }
 			if (include_heads) {
-				_role_list = array_concat(_role_list, role_groups("heads"));
+				_role_list = array_concat(_role_list, role_groups(SPECIALISTS_HEADS));
             }
             break;
 
@@ -98,7 +107,7 @@ function role_groups(group, include_trainee = false, include_heads = true) {
 			}
 			break;
 
-        case "trainee":
+        case SPECIALISTS_CAPTAIN_CANDIDATES:
             _role_list = [
                 $"{_roles[eROLE.Librarian]} Aspirant",
                 $"{_roles[eROLE.Apothecary]} Aspirant",
@@ -106,7 +115,7 @@ function role_groups(group, include_trainee = false, include_heads = true) {
                 $"{_roles[eROLE.Techmarine]} Aspirant"
             ];
             break;
-        case "heads":
+        case SPECIALISTS_HEADS:
             _role_list = [
                 "Master of Sanctity",
                 $"Chief {_roles[eROLE.Librarian]}",
@@ -115,7 +124,7 @@ function role_groups(group, include_trainee = false, include_heads = true) {
                 "Master of the Apothecarion"
             ];
             break;
-        case "veterans":
+        case SPECIALISTS_VETERANS:
             _role_list = [
                 _roles[eROLE.Veteran],
                 _roles[eROLE.Terminator],
@@ -123,7 +132,7 @@ function role_groups(group, include_trainee = false, include_heads = true) {
                 _roles[eROLE.HonourGuard]
             ];
             break;
-        case "rank_and_file":
+        case SPECIALISTS_RANK_AND_FILE:
             _role_list = [
                 _roles[eROLE.Tactical],
                 _roles[eROLE.Devastator],
@@ -131,13 +140,13 @@ function role_groups(group, include_trainee = false, include_heads = true) {
                 _roles[eROLE.Scout]
             ];
             break;
-        case "squad_leaders":
+        case SPECIALISTS_SQUAD_LEADERS:
             _role_list = [
                 _roles[eROLE.Sergeant],
                 _roles[eROLE.VeteranSergeant]
             ];
             break;
-        case "command":
+        case SPECIALISTS_COMMAND:
             _role_list = [
                 _roles[eROLE.Captain],
                 _roles[eROLE.Apothecary],
@@ -150,13 +159,13 @@ function role_groups(group, include_trainee = false, include_heads = true) {
                 _roles[eROLE.Champion]
             ];
             break;
-        case "dreadnoughts":
+        case SPECIALISTS_DREADNOUGHTS:
             _role_list = [
                 _roles[eROLE.Dreadnought],
                 $"Venerable {_roles[eROLE.Dreadnought]}"
             ];
             break;
-        case "captain_candidates":
+        case SPECIALISTS_CAPTAIN_CANDIDATES:
             _role_list = [
                 _roles[eROLE.Sergeant],
                 _roles[eROLE.VeteranSergeant],
@@ -172,7 +181,7 @@ function role_groups(group, include_trainee = false, include_heads = true) {
     return _role_list;
 }
 
-function is_specialist(unit_role, type = "standard", include_trainee = false, include_heads = true) {
+function is_specialist(unit_role, type = SPECIALISTS_STANDARD, include_trainee = false, include_heads = true) {
     var _specialists = role_groups(type, include_trainee, include_heads);
 
     return array_contains(_specialists, unit_role);
@@ -189,7 +198,7 @@ function is_specialist(unit_role, type = "standard", include_trainee = false, in
 	// any stat allowed by the stat_valuator basically allows you to look for marines whith certain stat lines
 	// job allows you to find marines forfuling certain tasks like garrison or forge etc
 
-function collect_role_group(group="standard", location="", opposite=false, search_conditions = {companies:"all"}){
+function collect_role_group(group=SPECIALISTS_STANDARD, location="", opposite=false, search_conditions = {companies:"all"}){
 	var _units = [], unit, count=0, _add=false, _is_special_group;
 	var _max_count = 0;
 	var _total_count = 0;

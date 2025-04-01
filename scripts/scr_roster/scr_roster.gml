@@ -555,7 +555,7 @@ function add_unit_to_battle(unit,meeting, is_local){
         col = obj_controller.bat_honor_column;
         new_combat.honors++;
 
-    } else if (unit.IsSpecialist("dreadnoughts")){
+    } else if (unit.IsSpecialist(SPECIALISTS_DREADNOUGHTS)){
         col = obj_controller.bat_dreadnought_column;                //dreadnoughts
         new_combat.dreadnoughts++;
     }else if (_unit_role = obj_ini.role[100][4]) {         //terminators
@@ -573,7 +573,7 @@ function add_unit_to_battle(unit,meeting, is_local){
         }
     }
 
-    if (_unit_role = _role[15]) or (_unit_role = _role[14]) or (unit.IsSpecialist("trainee")) {
+    if (_unit_role = _role[15]) or (_unit_role = _role[14]) or (unit.IsSpecialist(SPECIALISTS_CAPTAIN_CANDIDATES)) {
         if (_unit_role = string(_role[14]) + " Aspirant") {
             col = obj_controller.bat_tactical_column;
             new_combat.tacticals++;
@@ -621,7 +621,7 @@ function add_unit_to_battle(unit,meeting, is_local){
             new_combat.chapter_master_psyker = 0;
         }
     }
-    if (unit.IsSpecialist("heads")){
+    if (unit.IsSpecialist(SPECIALISTS_HEADS)){
         col = obj_controller.bat_command_column;
         new_combat.important_dudes++;                       
     };

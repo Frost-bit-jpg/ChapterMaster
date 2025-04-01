@@ -382,7 +382,7 @@ function scr_ui_manage() {
             if (view_squad && company_data != {}) {
                 if (company_data.cur_squad != 0) {
                     var cur_squad = company_data.grab_current_squad();
-                    var sgt_possible = cur_squad.type != "command_squad" && !selected_unit.IsSpecialist("squad_leaders");
+                    var sgt_possible = cur_squad.type != "command_squad" && !selected_unit.IsSpecialist(SPECIALISTS_SQUAD_LEADERS);
                     if (selected_unit != cur_squad.squad_leader) {
                         if (point_and_click(draw_unit_buttons([xx + 1208 + 50, yy + 210 + 260], "Make Sgt", [1, 1], #50a076, , , sgt_possible ? 1 : 0.5)) && sgt_possible) {
                             cur_squad.change_sgt(selected_unit);
@@ -696,7 +696,7 @@ function scr_ui_manage() {
                 if (managing > 0 && managing <= 10 && (!cap_slot || !champ_slot || !ancient_slot || !chaplain_slot || !tech_marine_slot || !apothecary_slot || !lib_slot)) {
                     if (!cap_slot) {
                         special_role_slot_open(xx, yy, {}, {
-                            group: "captain_candidates",
+                            group: SPECIALISTS_CAPTAIN_CANDIDATES,
                             location: "",
                             opposite: false
                         }, $"{scr_roman_numerals()[managing - 1]} Company Captain Candidates", "captain_promote", "New Captain Required");
@@ -714,7 +714,7 @@ function scr_ui_manage() {
                                 ["weapon_skill", 44, "more"]
                             ]
                         }, {
-                            group: "standard",
+                            group: SPECIALISTS_STANDARD,
                             location: "",
                             opposite: false
                         }, $"{scr_roman_numerals()[managing - 1]} Champion Candidates", "champion_promote", "New Champion Required");
@@ -730,7 +730,7 @@ function scr_ui_manage() {
                         special_role_slot_open(xx, yy, {
                             companies: managing
                         }, {
-                            group: "standard",
+                            group: SPECIALISTS_STANDARD,
                             location: "",
                             opposite: true
                         }, $"{scr_roman_numerals()[managing - 1]} Company Ancient Candidates", "ancient_promote", "New Ancient Required");
@@ -979,7 +979,7 @@ function scr_ui_manage() {
 
                             var god = 0, nuuum = 0;
                             for (var f = 0; f < array_length(display_unit); f++) {
-                                if ((ma_promote[f] >= 1 || is_specialist(ma_role[f], "rank_and_file") || is_specialist(ma_role[f], "squad_leaders")) && man_sel[f] == 1) {
+                                if ((ma_promote[f] >= 1 || is_specialist(ma_role[f], SPECIALISTS_RANK_AND_FILE) || is_specialist(ma_role[f], SPECIALISTS_SQUAD_LEADERS)) && man_sel[f] == 1) {
                                     nuuum += 1;
                                     if (pip.min_exp == 0) {
                                         pip.min_exp = ma_exp[f];

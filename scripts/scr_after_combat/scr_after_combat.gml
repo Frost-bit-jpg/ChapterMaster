@@ -174,10 +174,10 @@ function after_battle_part2() {
         var destroy;destroy=0;
         if ((marine_dead[i]>0) or (obj_ncombat.defeat!=0)) and (marine_type[i]!="") and (ally[i]=false){
             var comm=false;
-            if (_unit.IsSpecialist("standard",true)){
+            if (_unit.IsSpecialist(SPECIALISTS_STANDARD,true)){
                 obj_ncombat.final_command_deaths+=1;
                 var recent=true;
-                if (is_specialist(_unit.role, "trainee")){
+                if (is_specialist(_unit.role, SPECIALISTS_CAPTAIN_CANDIDATES)){
                     recent=false
                 } else if (array_contains([string("Venerable {0}",obj_ini.role[100][6]), "Codiciery", "Lexicanum"], _unit.role())){
                     recent=false

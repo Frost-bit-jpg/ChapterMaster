@@ -259,7 +259,7 @@ function FeatureSelected(Feature, system, planet) constructor{
 						help = $"A task best suited to the more knowledgable or wise of your Commanders"
 						button_text = "Assign Officer";
 						button_function = function(){
-							var dudes = collect_role_group("captain_candidates", obj_star_select.target.name);
+							var dudes = collect_role_group(SPECIALISTS_CAPTAIN_CANDIDATES, obj_star_select.target.name);
 							group_selection(dudes,{
 								purpose:"Select Officer",
 								purpose_code : feature.problem,

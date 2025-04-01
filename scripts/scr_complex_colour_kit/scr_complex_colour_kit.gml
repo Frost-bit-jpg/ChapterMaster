@@ -413,7 +413,7 @@ function setup_complex_livery_shader(setup_role, game_setup=false, unit = "none"
         var data_set = obj_ini.full_liveries[0];
         if (is_specialist(setup_role, SPECIALISTS_LIBRARIANS)){
             data_set = _full_liveries[eROLE.Librarian];
-        } else if (is_specialist(setup_role, "heads")){
+        } else if (is_specialist(setup_role, SPECIALISTS_HEADS)){
             if (is_specialist(setup_role, SPECIALISTS_APOTHECARIES)){
                 data_set = _full_liveries[eROLE.Apothecary];
             } else if (is_specialist(setup_role, SPECIALISTS_TECHS)){
