@@ -90,7 +90,7 @@ function unit_stat_growth(grow_stat=false){
 
 	var group_growths = [
 		["forge" , "technology"],
-		["libs" , "intelligence"],
+		["lib" , "intelligence"],
 		["chap" , "charisma"],
 		["apoth" , "intelligence"],
 	];
@@ -258,7 +258,7 @@ function add_unit_exp(add_val){
 		instace_stat_point_gains = handle_stat_growth(true);
 	}
 
-	if (IsSpecialist("libs")) {
+	if (IsSpecialist("lib")) {
 		_powers_learned = update_powers()
 	}
 	role_refresh();

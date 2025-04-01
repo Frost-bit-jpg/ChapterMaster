@@ -51,7 +51,7 @@ function scr_drop_fiddle(argument0, argument1, argument2, argument3) {
 	
 					if (obj_ini.role[comp][i] == obj_ini.role[100][5]) then capts++;
 					if (unit.IsSpecialist("chap", true)) then chaplains++;
-					if (unit.IsSpecialist("libs", true)) then psykers++;
+					if (unit.IsSpecialist("lib", true)) then psykers++;
 					if (unit.IsSpecialist("apoth", true)) then apothecaries++;
 					if (unit.IsSpecialist("forge", true)) then techmarines++;
 	
@@ -119,7 +119,7 @@ function scr_drop_fiddle(argument0, argument1, argument2, argument3) {
 	
 					if (obj_ini.role[comp][i] == obj_ini.role[100][5]) then capts--;
 					if (unit.IsSpecialist("chap", true)) then chaplains--;
-					if (unit.IsSpecialist("libs", true)) then psykers--;
+					if (unit.IsSpecialist("lib", true)) then psykers--;
 					if (unit.IsSpecialist("apoth", true)) then apothecaries--;
 					if (unit.IsSpecialist("forge", true)) then techmarines--;
 	

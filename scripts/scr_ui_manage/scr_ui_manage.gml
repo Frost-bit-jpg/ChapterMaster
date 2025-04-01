@@ -783,7 +783,7 @@ function scr_ui_manage() {
                         special_role_slot_open(xx, yy, {
                             companies: [managing, 0]
                         }, {
-                            group: ["libs", false, false],
+                            group: ["lib", false, false],
                             location: "",
                             opposite: false
                         }, $"{scr_roman_numerals()[managing - 1]} Company Librarian Candidates", "librarian_promote", "New Company Librarian Required");

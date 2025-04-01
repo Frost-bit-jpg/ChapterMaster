@@ -24,10 +24,10 @@ function role_groups(group, include_trainee = true, include_heads = true) {
                 _roles[eROLE.HonourGuard]
             ];
             if (include_trainee) {
-				_role_list = array_concat(_roles, role_groups("trainee"));
+				_role_list = array_concat(_role_list, role_groups("trainee"));
             }
 			if (include_heads) {
-				_role_list = array_concat(_roles, role_groups("heads"));
+				_role_list = array_concat(_role_list, role_groups("heads"));
             }
             break;
 
@@ -220,7 +220,11 @@ function collect_role_group(group="standard", location="", opposite=false, searc
 			if (unit.name()=="") then continue;
 			if (group!="all"){
 				if (is_array(group)){
-					_is_special_group = unit.IsSpecialist(group[0], group[1],group[2]);
+					if (array_length == 3) {
+						_is_special_group = unit.IsSpecialist(group[0], group[1], group[2]);
+					} else {
+						_is_special_group = unit.IsSpecialist(group[0], group[1]);
+					}
 				} else {
 					_is_special_group = unit.IsSpecialist(group);
 				}

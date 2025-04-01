@@ -347,7 +347,7 @@ function scr_draw_unit_image(_background = false) {
                             unit_specialization = UnitSpecialization.Apothecary;
                         }
                     } else // Librarian
-                        if (is_specialist(unit_role, "libs")) {
+                        if (is_specialist(unit_role, "lib")) {
                             unit_specialization = UnitSpecialization.Librarian;
                         } else // Death Company
                             if (unit_role == "Death Company") {

@@ -66,7 +66,7 @@ function scr_special_view(command_group) {
 
 	v=0;
 	if (command_group==13) or (command_group==0){// Librarium
-		var libs = collect_role_group(["libs",true]);
+		var libs = collect_role_group(["lib",true]);
 		for (var i=0;i<array_length(libs);i++){
 			unit = libs[i];
 			add_man_to_manage_arrays(libs[i]);
