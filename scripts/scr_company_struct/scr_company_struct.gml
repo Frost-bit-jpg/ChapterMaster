@@ -145,8 +145,8 @@ function CompanyStruct(comp) constructor{
 	captain = "none";
 	champion = "none";
 	ancient = "none";
-        chaplain = "none";
-        apothecary = "none";
+    chaplain = "none";
+    apothecary = "none";
 	tech_marine = "none";
 	lib = "none";
 
