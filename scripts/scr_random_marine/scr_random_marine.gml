@@ -8,7 +8,7 @@ function scr_random_marine(role, exp_req, search_params="none"){
 	company=0;i=0;
 	var company_list = [0,1,2,3,4,5,6,7,8,9,10]
 	if (role == "lib"){
-		role = role_groups("");
+		role = role_groups("lib");
 	}
 	for (var comp_shuffle=0;comp_shuffle<11;comp_shuffle++){
 		// this ensures that companies are searched randomly
