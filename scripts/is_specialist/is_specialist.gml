@@ -145,12 +145,36 @@ function is_specialist(unit_role, type = "standard", include_trainee = true, inc
             _specialists = [_roles[eROLE.Chaplain]];
             if (_chap_name == "Iron Hands") {
                 array_push(_specialists, _roles[eROLE.Techmarine]);
+				if (include_trainee) {
+					array_push(_specialists, $"{_roles[eROLE.Techmarine]} Aspirant");
+				}
+				if (include_heads) {
+					array_push(_specialists, "Forge Master");
+				}
             }
+			if (include_trainee) {
+				array_push(_specialists, $"{_roles[eROLE.Chaplain]} Aspirant");
+			}
+			if (include_heads) {
+				array_push(_specialists, "Master of Sanctity");
+			}
             break;
         case "apoth":
             _specialists = [_roles[eROLE.Apothecary]];
             if (_chap_name == "Space Wolves") {
                 array_push(_specialists, _roles[eROLE.Chaplain]);
+				if (include_trainee) {
+					array_push(_specialists, $"{_roles[eROLE.Chaplain]} Aspirant");
+				}
+				if (include_heads) {
+					array_push(_specialists, "Master of Sanctity");
+				}
+            }
+			if (include_trainee) {
+				array_push(_specialists, $"{_roles[eROLE.Apothecary]} Aspirant");
+            }
+			if (include_heads) {
+				array_push(_specialists, "Master of the Apothecarion");
             }
             break;
 
