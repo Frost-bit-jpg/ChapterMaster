@@ -685,160 +685,117 @@ function scr_ui_manage() {
         		var lib_slot = company_data.lib != "none";
             }
             for (var i = 0; i < repetitions; i++) {
-                if (managing > 0 && managing <= 10 && (!cap_slot || !champ_slot || !ancient_slot || !chaplain_slot|| !tech_marine_slot || !apothecary_slot|| !lib_slot)) {
+                if (managing > 0 && managing <= 10 && (!cap_slot || !champ_slot || !ancient_slot || !chaplain_slot || !tech_marine_slot || !apothecary_slot || !lib_slot)) {
                     if (!cap_slot) {
-                        special_role_slot_open(
-                            xx,
-                            yy,
-                            {
-
-                            },
-                            {
-                                group:"captain_candidates",
-                                location: "",
-                                opposite : false,
-                            },
-                            $"{scr_roman_numerals()[managing - 1]} Company Captain Candidates",
-                            "captain_promote",
-                            "New Captain Required"
-                        );
+                        special_role_slot_open(xx, yy, {}, {
+                            group: "captain_candidates",
+                            location: "",
+                            opposite: false
+                        }, $"{scr_roman_numerals()[managing - 1]} Company Captain Candidates", "captain_promote", "New Captain Required");
                         yy += 20;
                         cap_slot = true;
-                        if (managing == -1) then exit;
+                        if (managing == -1) {
+                            exit;
+                        }
                         continue;
                     }
                     if (!champ_slot) {
-                        special_role_slot_open(
-                            xx,
-                            yy,
-                            {
-                                companies: managing,
-                                "stat": [
-                                    ["weapon_skill", 44, "more"]
-                                ]
-                            },
-                            {
-                                group:"standard",
-                                location: "",
-                                opposite : false,
-                            },
-                            $"{scr_roman_numerals()[managing - 1]} Champion Candidates",
-                            "champion_promote",
-                            "New Champion Required"
-                        );
-
+                        special_role_slot_open(xx, yy, {
+                            companies: managing,
+                            "stat": [
+                                ["weapon_skill", 44, "more"]
+                            ]
+                        }, {
+                            group: "standard",
+                            location: "",
+                            opposite: false
+                        }, $"{scr_roman_numerals()[managing - 1]} Champion Candidates", "champion_promote", "New Champion Required");
+                
                         yy += 20;
                         champ_slot = true;
-                        if (managing == -1) then exit;
+                        if (managing == -1) {
+                            exit;
+                        }
                         continue;
                     }
                     if (!ancient_slot) {
-                        special_role_slot_open(
-                            xx,
-                            yy,
-                            {
-                                companies: managing
-                            },
-                            {
-                                group:"standard",
-                                location: "",
-                                opposite : true,
-                            },
-                            $"{scr_roman_numerals()[managing - 1]} Company Ancient Candidates",
-                            "ancient_promote",
-                            "New Ancient Required"
-                        );                        
-
+                        special_role_slot_open(xx, yy, {
+                            companies: managing
+                        }, {
+                            group: "standard",
+                            location: "",
+                            opposite: true
+                        }, $"{scr_roman_numerals()[managing - 1]} Company Ancient Candidates", "ancient_promote", "New Ancient Required");
+                
                         yy += 20;
                         ancient_slot = true;
-                        if (managing == -1) then exit;
+                        if (managing == -1) {
+                            exit;
+                        }
                         continue;
                     }
-                     if (!chaplain_slot) {
-                        special_role_slot_open(
-                            xx,
-                            yy,
-                            {
-                                companies: [managing,0],
-                            },
-                            {
-                                group:["chap",false, false],
-                                location: "",
-                                opposite : false,
-                            },
-                            $"{scr_roman_numerals()[managing - 1]} Company Chaplain Candidates",
-                            "chaplain_promote",
-                            "New Company Chaplain Required"
-                        );                         
+                    if (!chaplain_slot) {
+                        special_role_slot_open(xx, yy, {
+                            companies: [managing, 0]
+                        }, {
+                            group: ["chap", false, false],
+                            location: "",
+                            opposite: false
+                        }, $"{scr_roman_numerals()[managing - 1]} Company Chaplain Candidates", "chaplain_promote", "New Company Chaplain Required");
                         yy += 20;
                         chaplain_slot = true;
-                        if (managing == -1) then exit;
+                        if (managing == -1) {
+                            exit;
+                        }
                         continue;
                     }
                     if (!apothecary_slot) {
-                        special_role_slot_open(
-                            xx,
-                            yy,
-                            {
-                                companies: [managing,0],
-                            },
-                            {
-                                group:["apoth",false, false],
-                                location: "",
-                                opposite : false,
-                            },
-                            $"{scr_roman_numerals()[managing - 1]} Company Apothecary Candidates",
-                            "apothecary_promote",
-                            "New Company Apothecary Required"
-                        );
+                        special_role_slot_open(xx, yy, {
+                            companies: [managing, 0]
+                        }, {
+                            group: ["apoth", false, false],
+                            location: "",
+                            opposite: false
+                        }, $"{scr_roman_numerals()[managing - 1]} Company Apothecary Candidates", "apothecary_promote", "New Company Apothecary Required");
                         yy += 20;
                         apothecary_slot = true;
-                        if (managing == -1) then exit;
+                        if (managing == -1) {
+                            exit;
+                        }
                         continue;
                     }
                     if (!tech_marine_slot) {
-                        special_role_slot_open(
-                            xx,
-                            yy,
-                            {
-                                companies: [managing,0],
-                            },
-                            {
-                                group:["forge",false, false],
-                                location: "",
-                                opposite : false,
-                            },
-                            $"{scr_roman_numerals()[managing - 1]} Company Tech Marine Candidates",
-                            "tech_marine_promote",
-                            "New Company Tech Marine Required"
-                        );                        
+                        special_role_slot_open(xx, yy, {
+                            companies: [managing, 0]
+                        }, {
+                            group: ["forge", false, false],
+                            location: "",
+                            opposite: false
+                        }, $"{scr_roman_numerals()[managing - 1]} Company Tech Marine Candidates", "tech_marine_promote", "New Company Tech Marine Required");
                         yy += 20;
                         tech_marine_slot = true;
-                        if (managing == -1) then exit;
+                        if (managing == -1) {
+                            exit;
+                        }
                         continue;
                     }
                     if (!lib_slot) {
-                        special_role_slot_open(
-                            xx,
-                            yy,
-                            {
-                                companies: [managing,0],
-                            },
-                            {
-                                group:["libs",false, false],
-                                location: "",
-                                opposite : false,
-                            },
-                            $"{scr_roman_numerals()[managing - 1]} Company Librarian Candidates",
-                            "librarian_promote",
-                            "New Company Librarian Required"
-                        );                        
+                        special_role_slot_open(xx, yy, {
+                            companies: [managing, 0]
+                        }, {
+                            group: ["libs", false, false],
+                            location: "",
+                            opposite: false
+                        }, $"{scr_roman_numerals()[managing - 1]} Company Librarian Candidates", "librarian_promote", "New Company Librarian Required");
                         yy += 20;
                         lib_slot = true;
-                        if (managing == -1) then exit;
+                        if (managing == -1) {
+                            exit;
+                        }
                         continue;
                     }
                 }
+                
                 if (sel >= array_length(display_unit)) {
                     break;
                 }
@@ -860,7 +817,6 @@ function scr_ui_manage() {
                         man_current++;
                     }
                 }
-
                 yy += 20;
                 sel += 1;
             }
