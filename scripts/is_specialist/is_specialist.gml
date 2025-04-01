@@ -167,7 +167,7 @@ function role_groups(group, include_trainee = false, include_heads = true) {
     return _role_list;
 }
 
-function is_specialist(unit_role, type = "standard", include_trainee = true, include_heads = true) {
+function is_specialist(unit_role, type = "standard", include_trainee = false, include_heads = true) {
     var _specialists = role_groups(type, include_trainee, include_heads);
 
     return array_contains(_specialists, unit_role);
