@@ -79,9 +79,10 @@ function scr_destroy_planet(destruction_method) {
 
 	// Relation penalties here, if applicable
 	if (you.p_type[baid]="Daemon"){
-	    obj_controller.disposition[4]+=5;
-    
-	    obj_controller.disposition[5]+=5;
+        obj_controller.disposition[2]+=5;
+        obj_controller.disposition[3]+=5;
+	obj_controller.disposition[4]+=5;
+	obj_controller.disposition[5]+=5;
 	    var o=0;
 		if (scr_has_adv("Reverent Guardians")) then o=500;
 		if (o>100) then obj_controller.disposition[5]+=5;
@@ -93,7 +94,7 @@ function scr_destroy_planet(destruction_method) {
 	}
 
 	//TODO a shitload of helper functions to make this sort of stuff easier
-	if ((you.p_owner[baid]=3) or (you.p_first[baid]=3)) and (obj_controller.faction_status[eFACTION.Mechanicus]!="War"){
+	if ((you.p_owner[baid]=3) or (you.p_first[baid]=3)) and (obj_controller.faction_status[eFACTION.Mechanicus]!="War") and (you.p_type[baid]!="Daemon"){
 	    obj_controller.loyalty-=50;
 	    obj_controller.loyalty_hidden-=50;
 	    obj_controller.disposition[eFACTION.Imperium]-=50;
@@ -130,7 +131,7 @@ function scr_destroy_planet(destruction_method) {
 	    }
 
 	}
-	if (enemy9=5) and (obj_controller.faction_status[eFACTION.Ecclesiarchy]!="War"){
+	if (enemy9=5) and (obj_controller.faction_status[eFACTION.Ecclesiarchy]!="War") and (you.p_type[baid]!="Daemon"){
 	    obj_controller.loyalty-=50;
 	    obj_controller.loyalty_hidden-=50;
 	    obj_controller.disposition[eFACTION.Imperium]-=50;
@@ -157,8 +158,8 @@ function scr_destroy_planet(destruction_method) {
 
 
 
-	if (you.p_tyranids[baid]<5){
-	    if (you.p_first[baid]=2) and (you.p_type[baid]="Hive") and (planet_feature_bool(you.p_feature[baid], P_features.Daemonic_Incursion)==0) and (obj_controller.faction_status[eFACTION.Imperium]!="War"){
+	if (you.p_tyranids[baid]<5) and (you.p_type[baid]!="Daemon"){
+	    if (you.p_first[baid]=2) and (you.p_type[baid]="Hive") and (obj_controller.faction_status[eFACTION.Imperium]!="War"){
 	        obj_controller.loyalty-=50;
 	        obj_controller.loyalty_hidden-=50;
 	        obj_controller.disposition[eFACTION.Imperium]-=60;
