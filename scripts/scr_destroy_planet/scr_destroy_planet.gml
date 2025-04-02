@@ -79,10 +79,13 @@ function scr_destroy_planet(destruction_method) {
 
 	// Relation penalties here, if applicable
 	if (you.p_type[baid]="Daemon"){
-        obj_controller.disposition[2]+=5;
-        obj_controller.disposition[3]+=5;
-	obj_controller.disposition[4]+=5;
-	obj_controller.disposition[5]+=5;
+if (you.p_type[baid]="Daemon"){
+    // Increase disposition for all Imperial factions when destroying daemon worlds
+    obj_controller.disposition[2]+=5;
+    obj_controller.disposition[3]+=5;
+    obj_controller.disposition[4]+=5;
+    obj_controller.disposition[5]+=5;
+}
 	    var o=0;
 		if (scr_has_adv("Reverent Guardians")) then o=500;
 		if (o>100) then obj_controller.disposition[5]+=5;
