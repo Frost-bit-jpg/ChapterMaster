@@ -238,3 +238,57 @@ function move_enemy_blocks() {
 	}
 	ds_priority_destroy(_enemy_movement_queue);
 }
+
+/// @mixin
+function block_composition_string() {
+    var _composition_string = "";
+
+	_composition_string = $"{unit_count}x Total; ";
+	if (men > 0) {
+		_composition_string += $"{string_plural_count("Normal Unit", men)}; ";
+	}
+	if (medi > 0) {
+		_composition_string += $"{string_plural_count("Big Unit", medi)}; ";
+	}
+	if (dreads > 0) {
+		_composition_string += $"{string_plural_count("Walker", dreads)}; ";
+	}
+	if (veh > 0) {
+		_composition_string += $"{string_plural_count("Vehicle", veh)}; ";
+	}
+	_composition_string += $"\n";
+
+
+	_composition_string += arrays_to_string_with_counts(dudes, dudes_num, true, false);
+
+	return _composition_string;
+}
+
+function draw_block_composition(_x1, _composition_string) {
+	draw_set_alpha(1);
+	draw_set_color(38144);
+	draw_line_width(_x1+5,450,817,685, 2);
+	draw_set_font(fnt_40k_14b);
+	draw_text(817,688,"Row Composition:");
+	draw_set_font(fnt_40k_14);
+	draw_text_ext(817,710,_composition_string,-1,758);   
+}
+
+function draw_block_fadein() {
+	if (obj_ncombat.fadein > 0) {
+		draw_set_color(c_black);
+		draw_set_alpha(obj_ncombat.fadein/30);
+		draw_rectangle(822,239,1574,662,0);
+		draw_set_alpha(1);
+	}
+}
+
+/// @mixin
+function update_block_size() {
+	column_size = (men*0.5)+(medi)+(dreads*2)+(veh*2.5);
+}
+
+/// @mixin
+function update_block_unit_count() {
+	unit_count = men + medi + dreads + veh;
+}

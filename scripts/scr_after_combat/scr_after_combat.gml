@@ -74,7 +74,7 @@ function add_vehicles_to_recovery() {
     }
 
     for (var i = 0; i < array_length(veh_dead); i++) {
-        if (veh_dead[i]) && (!veh_ally[i]) {
+        if (veh_dead[i] && !veh_ally[i] && veh_type[i] != "") {
             var _priority = 1;
             if (struct_exists(_vehicles_priority, veh_type[i])) {
                 _priority = _vehicles_priority[$ veh_type[i]];
@@ -141,13 +141,12 @@ function after_battle_part2() {
         }
         if (_unit.base_group=="astartes"){
             if (marine_dead[i]=0) and (_unit.gene_seed_mutations.mucranoid==1) and (ally[i]=false){
-                var muck=floor(random(200))+1;
-                if (muck=50){    //slime is armour destroyed due to mucranoid
-                    var _power_armour = ARR_power_armour;
-                    if (array_contains(_power_armour,_unit.armour())){
-                        _unit.update_armour("", false, false);
+                var muck=roll_personal_dice(1,100,"high",_unit);
+                if (muck==1){    //slime  armour damaged due to mucranoid
+                    if (_unit.armour != ""){
+                        obj_controller.specialist_point_handler.add_to_armoury_repair(_unit.armour());
                         obj_ncombat.mucra[marine_co[i]]=1;
-                        obj_ncombat.slime+=1;
+                        obj_ncombat.slime+=_unit.get_armour_data("maintenance");
                     }
                 }
             }
@@ -175,10 +174,10 @@ function after_battle_part2() {
         var destroy;destroy=0;
         if ((marine_dead[i]>0) or (obj_ncombat.defeat!=0)) and (marine_type[i]!="") and (ally[i]=false){
             var comm=false;
-            if (_unit.IsSpecialist("standard",true)){
+            if (_unit.IsSpecialist(SPECIALISTS_STANDARD,true)){
                 obj_ncombat.final_command_deaths+=1;
                 var recent=true;
-                if (is_specialist(_unit.role, "trainee")){
+                if (is_specialist(_unit.role, SPECIALISTS_TRAINEES)){
                     recent=false
                 } else if (array_contains([string("Venerable {0}",obj_ini.role[100][6]), "Codiciery", "Lexicanum"], _unit.role())){
                     recent=false
@@ -202,19 +201,24 @@ function after_battle_part2() {
             if (obj_ini.race[marine_co[i], marine_id[i]] == 1) {
                 var _birthday = obj_ini.age[marine_co[i], marine_id[i]];
                 var _current_year = (obj_controller.millenium * 1000) + obj_controller.year;
-                var _harvestable_seed = 0;
+                var _seed_harvestable = 0;
+                var _seed_lost = 0;
 
                 if (_birthday <= (_current_year - 10) && obj_ini.zygote == 0) {
-                    if (irandom_range(1, 20) > 1) {
-                        _harvestable_seed++;
+                    _seed_lost++;
+                    if (irandom_range(1, 10) > 1) {
+                        _seed_harvestable++;
                     }
                 }
                 if (_birthday <= (_current_year - 5)) {
-                    if (irandom_range(1, 20) > 1) {
-                        _harvestable_seed++;
+                    _seed_lost++;
+                    if (irandom_range(1, 10) > 1) {
+                        _seed_harvestable++;
                     }
                 }
-                obj_ncombat.seed_max += _harvestable_seed;
+
+                obj_ncombat.seed_harvestable += _seed_harvestable;
+                obj_ncombat.seed_lost += _seed_lost;
             }
 
             var last=0;
@@ -437,7 +441,7 @@ function after_battle_part1() {
             
             if (!marine_dead[i]){
                 // Apothecaries for saving marines;
-                if (unit.IsSpecialist("apoth", true)) {
+                if (unit.IsSpecialist(SPECIALISTS_APOTHECARIES, true)) {
                     skill_level = unit.intelligence * 0.0125;
                     if (marine_gear[i]=="Narthecium"){
                         skill_level*=2;
@@ -448,7 +452,7 @@ function after_battle_part1() {
                 }
 
                 // Techmarines for saving vehicles;
-                if (unit.IsSpecialist("forge", true)) {
+                if (unit.IsSpecialist(SPECIALISTS_TECHS, true)) {
                     skill_level = unit.technology / 10;
                     if (marine_mobi[i]=="Servo-arm") {
                         skill_level *= 1.5; 

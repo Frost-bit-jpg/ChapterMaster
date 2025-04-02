@@ -466,7 +466,7 @@ function TTRPG_stats(faction, comp, mar, class = "marine", other_spawn_data = {}
         experience = new_val;
         var _powers_learned = 0;
 
-        if (IsSpecialist("libs")) {
+        if (IsSpecialist(SPECIALISTS_LIBRARIANS)) {
             _powers_learned = update_powers();
         }
 
@@ -503,8 +503,8 @@ function TTRPG_stats(faction, comp, mar, class = "marine", other_spawn_data = {}
         return string(temp_role);
     };
 
-    static IsSpecialist = function(search_type = "standard", include_trainee = false) {
-        return is_specialist(role(), search_type, include_trainee);
+    static IsSpecialist = function(search_type = "standard", include_trainee = false, include_heads = true) {
+        return is_specialist(role(), search_type, include_trainee, include_heads);
     };
 
     static update_role = function(new_role) {
@@ -974,7 +974,7 @@ function TTRPG_stats(faction, comp, mar, class = "marine", other_spawn_data = {}
             var _cloak_chance = 5;
             if (role() == obj_ini.role[100][eROLE.Chaplain]) {
                 _cloak_chance += 25;
-            } else if (IsSpecialist("libs")) {
+            } else if (IsSpecialist(SPECIALISTS_LIBRARIANS)) {
                 _cloak_chance += 75;
             }
             if (irandom(100) <= _cloak_chance) {
@@ -1680,7 +1680,7 @@ function TTRPG_stats(faction, comp, mar, class = "marine", other_spawn_data = {}
                 var psychic_bonus = psionic * 20;
                 psychic_bonus *= 0.5 + (wisdom / 100);
                 psychic_bonus *= 0.5 + (experience / 100);
-                psychic_bonus *= IsSpecialist("libs") ? 1 : 0.25;
+                psychic_bonus *= IsSpecialist(SPECIALISTS_LIBRARIANS) ? 1 : 0.25;
                 psychic_bonus = round(psychic_bonus);
                 primary_weapon.attack += psychic_bonus;
                 basic_wep_string += $"Psychic Power: +{psychic_bonus}#";

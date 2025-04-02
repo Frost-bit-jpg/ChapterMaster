@@ -314,7 +314,7 @@ function scr_flavor2(lost_units_count, target_type, hostile_range, hostile_weapo
         units_lost = lost_num[role_index];
         if (unit_role != "" && units_lost > 0) {
             special = (
-                is_specialist(unit_role, "heads") ||
+                is_specialist(unit_role, SPECIALISTS_HEADS) ||
                 unit_role == "Chapter Master" ||
                 unit_role == "Venerable " + string(obj_ini.role[100][6]) ||
                 unit_role == obj_ini.role[100][5] ||
