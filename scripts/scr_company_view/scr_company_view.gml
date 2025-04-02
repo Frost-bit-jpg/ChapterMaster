@@ -248,7 +248,7 @@ function other_manage_data(){
 	        if (unit.squad == "none"){
 
 
-	            if (is_specialist(squad_type,"heads")) then n=1;
+	            if (is_specialist(squad_type,SPECIALISTS_HEADS)) then n=1;
 	            if (squad_type==obj_ini.role[100][6]) and (squad_type!=ma_role[v]) and (squad_type!="Venerable "+string(ma_role[v])) then n=2;
 	            if (squad_type==obj_ini.role[100][6]) and (ma_role[v]=obj_ini.role[100][6]) then n=0;
 	            if (squad_type==obj_ini.role[100][6]) and (ma_role[v]="Venerable "+string(obj_ini.role[100][6])) then n=0;
@@ -322,7 +322,7 @@ function other_manage_data(){
 	    if (unit.role()=obj_ini.role[100][16]) then ma_promote[v]=1;
 
 		var target_company = 0;
-	    if (unit.IsSpecialist("rank_and_file")){
+	    if (unit.IsSpecialist(SPECIALISTS_RANK_AND_FILE)){
 			if (unit.company >= 8) then target_company = unit.company - 1;
 			else if (unit.company >= 6) then target_company = 5;
 			else if (unit.company >= 2) then target_company = 1;
