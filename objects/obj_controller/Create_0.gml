@@ -72,6 +72,8 @@
     
     The Machine God watches over you.
 */
+show_debug_message("Creating Controller");
+log_message("Creating Controller");
 marine_surface = surface_create(600, 600);
 scr_colors_initialize();
 is_test_map=false;
@@ -468,7 +470,6 @@ managing=0;
 formating=0;
 man_current=0;
 man_max=0;
-man_see=0;
 ship_current=0;
 ship_max=0;
 ship_see=0;
@@ -1346,6 +1347,48 @@ try{
 catch(_exception){
     global.star_name_colors[1] = make_color_rgb(col_r[1],col_g[1],col_b[1]);
 }
+
+#region save/load serialization 
+
+/// Called from save function to take all object variables and convert them to a json savable format and return it 
+serialize = function(){
+    var object_controller = self;
+    
+    var save_data = {
+        obj: object_get_name(object_index),
+        x,
+        y,
+        chaos_gods,
+        master_of_forge,
+        stc_research,
+        production_research,
+        player_forge_data,
+        end_turn_insights,
+        recruit_data,
+        marines,
+        loyalty,
+        spec_train_data,
+        forge_queue: specialist_point_handler.forge_queue,
+        techs: specialist_point_handler.techs,
+        apoths: specialist_point_handler.apoths,
+        forge_points: specialist_point_handler.forge_points,
+        point_breakdown: specialist_point_handler.point_breakdown,
+        apothecary_points: specialist_point_handler.apothecary_points,
+
+    }
+    var excluded_from_save = ["temp", "serialize", "deserialize", "build_chaos_gods", "company_data","menu_buttons",
+            "location_viewer", "production_research_pathways", "specialist_point_handler", "spec_train_data"]
+    var excluded_from_save_start = ["restart_"];
+
+    copy_serializable_fields(object_controller, save_data, excluded_from_save, excluded_from_save_start);
+
+    return save_data;
+}
+
+// Deserialization is done within scr_load
+#endregion
+
+
 // ** Loads the game **
 if (global.load>0){
     load_game=global.load;
@@ -1362,6 +1405,18 @@ if (global.load>0){
     if (global.restart>0) then log_message("Restarting Game");
     exit;
 }
+
+///! ************************************************************ */
+///! ************************************************************ */
+///! ************************************************************ */
+///! NOTHING BEYOND THIS POINT WILL BE SET AFTER A LOAD FROM SAVE */
+///! ************************************************************ */
+///! ************************************************************ */
+///! ************************************************************ */
+///! ************************************************************ */
+
+
+
 
 var xx,yy,me,dist,go,planet;
 global.custom=1;
@@ -1648,7 +1703,7 @@ temp[60] = $"{temp[59]}\n\n{temp[34]}\n\n{temp[35]}##{temp[36]}##{temp[37]}##{te
 
 
 temp[61]="\n\nYour armamentarium contains some spare equipment- \n";
-temp[61] += arrays_to_string_with_counts(obj_ini.equipment, obj_ini.equipment_number, true, true);
+temp[61] += equipment_struct_to_string(obj_ini.equipment, true, true);
 
 
 temp[62]="##Your fleet contains ";
@@ -1786,6 +1841,10 @@ if (welcome_pages>=5){
     }
 }
 remov=string_length(string(temp[65])+string(temp[66])+string(temp[67])+string(temp[68])+string(temp[69]))+1;
-action_set_alarm(2, 0);
 
 instance_create(0,0,obj_tooltip );
+
+action_set_alarm(2, 0);
+
+
+//**! DO NOT PUT THINGS AT THE BOTTOM OF THIS FILE IF YOU NEED THEM TO WORK AFTER LOADING FROM A SAVE, SEE LINE 1550 -ish   */
