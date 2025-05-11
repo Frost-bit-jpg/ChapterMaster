@@ -12,9 +12,7 @@ function scr_save_controller(save_id){
     ini_write_real("Save","play_time",play_time);
     ini_write_real("Save","game_seed",global.game_seed);
     ini_write_real("Save","use_custom_icon",obj_ini.use_custom_icon);
-    ini_write_real("Controller", "enemies_cleared_count", obj_controller.enemies_cleared_count);
 
-   
     // obj_controller variables here
     ini_write_real("boolean", "cheat_req", global.cheat_req);
     ini_write_real("boolean", "cheat_gene", global.cheat_gene);
@@ -42,7 +40,7 @@ function scr_save_controller(save_id){
     ini_write_real("Controller","tau_stars",obj_controller.tau_stars);
     ini_write_real("Controller","tau_messenger",obj_controller.tau_messenger);
     ini_write_real("Controller","fleet_all",obj_controller.fleet_all);
-    ini_write_real("Controller","tolerant",obj_ini.tolerant);
+    // ini_write_real("Controller","tolerant",obj_ini.tolerant);
     ini_write_real("Controller","stability",obj_ini.stability);
     ini_write_real("Controller","purity",obj_ini.purity);
     ini_write_real("Controller","unload",obj_controller.unload);
@@ -176,6 +174,7 @@ function scr_save_controller(save_id){
     ini_write_real("Controller","trial",obj_controller.recruit_trial);
     ini_write_real("Controller","recruits",obj_controller.recruits);
     ini_write_real("Controller","recruit_last",obj_controller.recruit_last);
+    ini_write_real("Controller", "enemies_cleared_count", obj_controller.enemies_cleared_count);
     //
     var g=-1;
     repeat(30){g+=1;
