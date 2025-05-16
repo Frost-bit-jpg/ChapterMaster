@@ -1,9 +1,9 @@
 function scr_battle_count(){
 
-    // Check if the count is positive and a multiple of 15
-    if (obj_controller.enemies_cleared_count > 0 && (obj_controller.enemies_cleared_count % 15 == 0)) {
+    // Check if the count is positive and a multiple of 10
+    if (obj_controller.enemies_cleared_count > 0 && (obj_controller.enemies_cleared_count % 10 == 0)) {
 
-        // --- ACTION TO PERFORM EVERY 15 CLEARS ---
+        // --- ACTION TO PERFORM EVERY 10 CLEARS ---
 
         // --- Randomly Choose Flavor Text ---
         var _text_array = [
