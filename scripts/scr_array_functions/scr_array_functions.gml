@@ -61,6 +61,15 @@ function array_replace_value(choice_array, value, r_value){
 	}
 }
 
+function array_delete_value(choice_array, value){
+	// Iterate backwards to avoid index shifting problems
+	for (var i = array_length(choice_array) - 1; i >= 0; i--) {
+		if (choice_array[i] == value) {
+			array_delete(choice_array, i, 1);
+		}
+	}
+}
+
 function array_random_element(choice_array){
 	return choice_array[irandom(array_length(choice_array) - 1)];
 }
@@ -144,6 +153,50 @@ function arrays_to_string_with_counts(_names_array, _counts_array, _exclude_null
 	return _result_string;
 }
 
+/// @description Converts the equipment struct into a formatted string with pluralized counts
+/// @param {struct} _equipment The equipment struct
+/// @param {bool} _exclude_null Whether to exclude entries with zero total
+/// @param {bool} _dot_end Whether to end the string with a period
+/// @return {string}
+function equipment_struct_to_string(_equipment, _exclude_null = false, _dot_end = true) {
+	var _names_array = [];
+	var _counts_array = [];
+
+	var _item_keys = variable_struct_get_names(_equipment);
+	var _count = 0;
+
+	for (var i = 0; i < array_length(_item_keys); i++) {
+		var _item_name = _item_keys[i];
+		var _item_data = _equipment[$ _item_name];
+
+		if (!is_struct(_item_data) || !struct_exists(_item_data, "quantity")) {
+			continue;
+		}
+
+		var _quantities = _item_data.quantity;
+		var _quality_keys = variable_struct_get_names(_quantities);
+		var _total = 0;
+
+		for (var q = 0; q < array_length(_quality_keys); q++) {
+			_total += _quantities[$ _quality_keys[q]];
+		}
+
+		if (_exclude_null && _total == 0) {
+			continue;
+		}
+
+		array_push(_names_array, _item_name);
+		array_push(_counts_array, _total);
+		_count++;
+	}
+
+	if (_count == 0) {
+		return "";
+	}
+
+	return arrays_to_string_with_counts(_names_array, _counts_array, false, _dot_end);
+}
+
 /// @function alter_deep_array
 /// @description Modifies a value in a deeply nested array structure.
 /// @param {array} array The array to modify
@@ -188,4 +241,52 @@ function smart_delimeter_sign(_array_or_length, _loop_iteration, _dot_end = true
     }
 
     return _delimeter;
+}
+
+/// @description Checks whether an array is "simple," meaning it does not exceed a specified depth and contains only simple variables. Recursively evaluates nested arrays.
+/// @param {array} _array - The array to check.
+/// @param {real} _max_depth - The maximum allowed depth for the array.
+/// @param {real} _current_depth (DON'T PASS ANYTHING) The current recursion depth, used internally.
+/// @returns {bool}
+function is_basic_array(_array, _max_depth = 1, _current_depth = 1) {
+    if (_current_depth > _max_depth) {
+        return false;
+    }
+
+    for (var i = 0, _len = array_length(_array); i < _len; i++) {
+        var _var = _array[i];
+        if (is_array(_var)) {
+            if (!is_basic_array(_var, _max_depth, _current_depth + 1)) {
+                return false;
+            }
+        } else if (!is_basic_variable(_var)) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+/// @description Sets a range of elements in an array to a specific value.
+/// @param {Array} _array The array to modify.
+/// @param {Real} _start_index The starting index (inclusive).
+/// @param {Real} _end_index The ending index (inclusive).
+/// @param {Any} _value The value to set for the elements.
+function array_set_range(_array, _start_index, _end_index, _value) {
+	for (var i = _start_index; i <= _end_index; i++) {
+		_array[@ i] = _value;
+	}
+}
+
+/// @description Similar to array_create, but uses `variable_clone()` to clone the default if it's a complex type (array/struct). Supports default with nesting.
+/// @param {Real} _size The size of the array to create.
+/// @param {Any} _default The value to set for the elements.
+function array_create_advanced(_size = 1, _default = 0) {
+	var _array = array_create(_size);
+
+	for (var i = 0; i < _size; i++) {
+		_array[@ i] = variable_clone(_default);
+	}
+
+	return _array;
 }

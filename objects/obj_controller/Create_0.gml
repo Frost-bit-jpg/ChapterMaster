@@ -72,7 +72,8 @@
     
     The Machine God watches over you.
 */
-marine_surface = surface_create(600, 600);
+show_debug_message("Creating Controller");
+log_message("Creating Controller");
 scr_colors_initialize();
 is_test_map=false;
 target_navy_number=5;
@@ -93,9 +94,10 @@ complex_event=false;
 current_eventing="";
 chaos_rating=0;
 chapter_made = 0;
-obj_cuicons.alarm[1]=1; // Clean up custom icons
+// obj_cuicons.alarm[1]=1; // Clean up custom icons
 map_scale = 1;
 scale_mod = 1;
+
 
 diplomacy_pathway = "";
 option_selections=[];
@@ -123,7 +125,6 @@ obj_controller.restart_founding="";
 obj_controller.restart_secret="";
 for(var i=0; i<=11; i++){obj_controller.restart_title[i]="";}
 obj_controller.restart_icon=0;
-obj_controller.restart_icon_name="";
 obj_controller.restart_powers="";
 for(var ad=0; ad<5; ad ++){
     obj_controller.restart_adv[ad]="";
@@ -194,7 +195,7 @@ for(var i=100; i<103; i++){
     obj_controller.r_role[i,3]="Veteran";
     obj_controller.r_wep1[i,3]="Chainsword";
     obj_controller.r_wep2[i,3]="Bolter";
-    obj_controller.r_armour[i,3]="Power Armour";
+    obj_controller.r_armour[i,3]=STR_ANY_POWER_ARMOUR;
     obj_controller.r_mobi[i,3]="";
     obj_controller.r_gear[i,3]="";
     
@@ -208,7 +209,7 @@ for(var i=100; i<103; i++){
     obj_controller.r_role[i,5]="Captain";
     obj_controller.r_wep1[i,5]="Power Sword";
     obj_controller.r_wep2[i,5]="Bolt Pistol";
-    obj_controller.r_armour[i,5]="Power Armour";
+    obj_controller.r_armour[i,5]=STR_ANY_POWER_ARMOUR;
     obj_controller.r_mobi[i,5]="";
     obj_controller.r_gear[i,5]="Iron Halo";
     
@@ -222,35 +223,35 @@ for(var i=100; i<103; i++){
     obj_controller.r_role[i,7]="Champion";
     obj_controller.r_wep1[i,7]="Power Sword";
     obj_controller.r_wep2[i,7]="Bolt Pistol";
-    obj_controller.r_armour[i,7]="Power Armour";
+    obj_controller.r_armour[i,7]=STR_ANY_POWER_ARMOUR;
     obj_controller.r_mobi[i,7]="";
     obj_controller.r_gear[i,7]="Combat Shield";
     
     obj_controller.r_role[i,8]="Tactical Marine";
     obj_controller.r_wep1[i,8]="Bolter";
     obj_controller.r_wep2[i,8]="Combat Knife";
-    obj_controller.r_armour[i,8]="Power Armour";
+    obj_controller.r_armour[i,8]=STR_ANY_POWER_ARMOUR;
     obj_controller.r_mobi[i,8]="";
     obj_controller.r_gear[i,8]="";
     
     obj_controller.r_role[i,9]="Devastator Marine";
     obj_controller.r_wep1[i,9]="";
     obj_controller.r_wep2[i,9]="Combat Knife";
-    obj_controller.r_armour[i,9]="Power Armour";
+    obj_controller.r_armour[i,9]=STR_ANY_POWER_ARMOUR;
     obj_controller.r_mobi[i,9]="";
     obj_controller.r_gear[i,9]="";
     
     obj_controller.r_role[i,10]="Assault Marine";
     obj_controller.r_wep1[i,10]="Chainsword";
     obj_controller.r_wep2[i,10]="Bolt Pistol";
-    obj_controller.r_armour[i,10]="Power Armour";
+    obj_controller.r_armour[i,10]=STR_ANY_POWER_ARMOUR;
     obj_controller.r_mobi[i,10]="Jump Pack";
     obj_controller.r_gear[i,10]="";
     
     obj_controller.r_role[i,11]="Ancient";
     obj_controller.r_wep1[i,11]="Company Standard";
     obj_controller.r_wep2[i,11]="Power Sword";
-    obj_controller.r_armour[i,11]="Power Armour";
+    obj_controller.r_armour[i,11]=STR_ANY_POWER_ARMOUR;
     obj_controller.r_mobi[i,11]="";
     obj_controller.r_gear[i,11]="";
 
@@ -264,14 +265,14 @@ for(var i=100; i<103; i++){
     obj_controller.r_role[i,14]="Chaplain";
     obj_controller.r_wep1[i,14]="Power Sword";
     obj_controller.r_wep2[i,14]="Bolt Pistol";
-    obj_controller.r_armour[i,14]="Power Armour";
+    obj_controller.r_armour[i,14]=STR_ANY_POWER_ARMOUR;
     obj_controller.r_gear[i,14]="Rosarius";
     obj_controller.r_mobi[i,14]="";
     
     obj_controller.r_role[i,15]="Apothecary";
     obj_controller.r_wep1[i,15]="Chainsword";
     obj_controller.r_wep2[i,15]="Bolt Pistol";
-    obj_controller.r_armour[i,15]="Power Armour";
+    obj_controller.r_armour[i,15]=STR_ANY_POWER_ARMOUR;
     obj_controller.r_gear[i,15]="Narthecium";
     obj_controller.r_mobi[i,15]="";
     
@@ -285,21 +286,21 @@ for(var i=100; i<103; i++){
     obj_controller.r_role[i,17]="Librarian";
     obj_controller.r_wep1[i,17]="Force Staff";
     obj_controller.r_wep2[i,17]="Storm Bolter";
-    obj_controller.r_armour[i,17]="Power Armour";
+    obj_controller.r_armour[i,17]=STR_ANY_POWER_ARMOUR;
     obj_controller.r_gear[i,17]="Psychic Hood";
     obj_controller.r_mobi[i,17]="";
                 
     obj_controller.r_role[i,18]="Sergeant";
     obj_controller.r_wep1[i,18]="Chainsword";
     obj_controller.r_wep2[i,18]="Storm Bolter";
-    obj_controller.r_armour[i,18]="Power Armour";
+    obj_controller.r_armour[i,18]=STR_ANY_POWER_ARMOUR;
     obj_controller.r_gear[i,18]="";
     obj_controller.r_mobi[i,18]=""; 
 
     obj_controller.r_role[i,19]="Veteran Sergeant";
     obj_controller.r_wep1[i,19]="Chainsword";
     obj_controller.r_wep2[i,19]="Storm Bolter";
-    obj_controller.r_armour[i,19]="Power Armour";
+    obj_controller.r_armour[i,19]=STR_ANY_POWER_ARMOUR;
     obj_controller.r_gear[i,19]="";
     obj_controller.r_mobi[i,19]="";                     
 } // 100 is defaults, 101 is the allowable starting equipment
@@ -333,6 +334,7 @@ music_volume=ini_read_real("Settings","music_volume",1);
 large_text=ini_read_real("Settings","large_text",0);
 settings_heresy=ini_read_real("Settings","settings_heresy",0);
 settings_fullscreen=ini_read_real("Settings","fullscreen",1);
+settings_autosave=ini_read_real("Settings","settings_autosave",1);
 settings_window_data=ini_read_string("Settings","window_data","fullscreen");
 if (is_test_map) then global.cheat_debug=true;
 ini_close();
@@ -443,7 +445,6 @@ ui_ranged_penalty=0;
 current_target=false;
 click=0;
 click2=0;
-mouse_left=0;
 dropdown_open=0;
 scrollbar_engaged=0;
 born_leader=0;
@@ -461,6 +462,7 @@ gene_sold=0;
 gene_xeno=0;
 gene_tithe=24;
 gene_iou=0;
+draw_helms = true;
 
 // ** Sets default views and in game values on creation **
 managing=0;
@@ -546,7 +548,6 @@ selecting_planet=0;
 selecting_ship=-1;
 fleet_minimized=0;
 fleet_all=1;
-tolerant=0;
 unload=0;
 new_vehicles=1;
 menu=500;
@@ -708,6 +709,7 @@ sel_owner=0;
 sel_system_x=0;
 sel_system_y=0;
 popup_master_crafted=0;
+close_popups = true;
 // ** Sets starting turn **
 turn=1;
 // turn=40;
@@ -746,14 +748,11 @@ trade_chip=0;
 trade_info=0;
 zui=0;
 // Variables for management
-for(var t=0; i<200; t++){
-    temp[t]="";
-}
-temp[90]=0;
-temp[9000]="";
-for(var t=4700; t<=4719; t++){
-    temp[t]=0;temp[t+100]=0;
-}
+var array_size = 9001;
+temp = array_create(array_size, 0);
+array_set_range(temp, 0, 199, "");
+temp[90] = 0;
+temp[9000] = "";
 // ** Resets all audiences **
 audiences=0;
 audien[0]=0;
@@ -799,25 +798,27 @@ recruit_training[0]=0;
 recruit_exp[0]=0;
 recruit_data[0]={};
 
-for(var i=0; i<501; i++){
-    
-    // For loyalty penalties
-    if (i<=50){
-        loyal[i]="";
-        loyal_num[i]=0;// If less than 1 and greater than 0; that x100 is the chance for discovery
-        loyal_time[i]=0;
-    }
-    if (i<=10){
-        inquisitor_gender[i]=choose(0,0,0,1,1,1,1); // 4:3 chance of male Inquisitor
-        inquisitor_type[i]=choose("Ordo Malleus","Ordo Xenos","Ordo Hereticus","Ordo Hereticus","Ordo Hereticus","Ordo Hereticus","Ordo Hereticus","Ordo Hereticus");
-        inquisitor[i]=global.name_generator.generate_imperial_name(inquisitor_gender[i]);// For 'random inquisitor wishes to inspect your fleet
-    }
-    if (i<60){
-        quest[i]="";// 300req
-        quest_faction[i]=0;// 6
-        quest_end[i]=0;// like 4 or so after the turn this is created
-    }
+// ** Sets loyalty variables **
+loyal = array_create(51, "");
+loyal_num = array_create(51, 0);
+loyal_time = array_create(51, 0);
+
+// ** Sets quest variables **
+quest = array_create(60, "");
+quest_faction = array_create(60, 0);
+quest_end = array_create(60, 0);
+
+// ** Sets inquisitor variables **
+inquisitor_gender = array_create(11, 0);
+inquisitor_type = array_create(11, "");
+inquisitor = array_create(11, "");
+
+for (var i = 0, l = array_length(inquisitor_gender); i < l; i++) {
+    inquisitor_gender[i] = choose(0, 0, 0, 1, 1, 1, 1);
+    inquisitor_type[i] = choose("Ordo Malleus", "Ordo Xenos", "Ordo Hereticus", "Ordo Hereticus", "Ordo Hereticus", "Ordo Hereticus", "Ordo Hereticus", "Ordo Hereticus");
+    inquisitor[i] = global.name_generator.generate_imperial_name(inquisitor_gender[i]);
 }
+
 // ** Sets diplomacy variables **
 diplo_last="";
 diplo_text="";
@@ -1053,9 +1054,8 @@ faction[12]="";
 disposition[12]=0;
 faction[13]="Necrons";
 disposition[13]=-20;
-// ** Max disposition for imperials **
-disposition_max[0]=0;
-disposition_max[1]=0;
+// ** Max disposition **
+disposition_max = array_create(14, 0);
 disposition_max[2]=40;
 disposition_max[3]=40;
 disposition_max[4]=40;
@@ -1070,108 +1070,63 @@ if (instance_exists(obj_ini)){
     disposition_max[5]=40+obj_ini.ecclesiarchy_disposition;
     if (disposition_max[5]>100) then disposition_max[5]=100;
 }
-// ** Max disposition for non imperials **
-disposition_max[6]=0;
-disposition_max[7]=0;
-disposition_max[8]=0;
-disposition_max[9]=0;
-disposition_max[10]=0;
-disposition_max[11]=0;
-disposition_max[12]=0;
-disposition_max[13]=0;
 // ** Sets up faction leader names as well as player faction stuff **
-faction_leader[0]="";
-faction_title[0]="";
-faction_status[0]="";
-faction_leader[1]="";
-faction_title[1]="";
-faction_status[1]="";
+faction_leader = array_create(14, "");
+faction_title = array_create(14, "");
+faction_status = array_create(14, "");
 // Sector Command faction
 faction_leader[eFACTION.Imperium]=global.name_generator.generate_imperial_name();
-faction_title[2]="Sector Commander";
+faction_title[eFACTION.Imperium]="Sector Commander";
 faction_status[eFACTION.Imperium]="Allied";
 // Mechanicus faction
 faction_leader[eFACTION.Mechanicus]=global.name_generator.generate_imperial_name();
-faction_title[3]="Magos";
+faction_title[eFACTION.Mechanicus]="Magos";
 faction_status[eFACTION.Mechanicus]="Allied";
 if (faction_leader[eFACTION.Mechanicus]==faction_leader[eFACTION.Imperium]) then faction_leader[eFACTION.Mechanicus]=global.name_generator.generate_space_marine_name();
 // Inquisition faction
 faction_leader[eFACTION.Inquisition]=global.name_generator.generate_imperial_name();
 if (faction_leader[eFACTION.Inquisition]==faction_leader[eFACTION.Mechanicus]) then faction_leader[eFACTION.Inquisition]=global.name_generator.generate_imperial_name();
-faction_title[4]="Inquisitor Lord";
+faction_title[eFACTION.Inquisition]="Inquisitor Lord";
 faction_status[eFACTION.Inquisition]="Allied";
 // Sisters faction
 faction_leader[eFACTION.Ecclesiarchy]=global.name_generator.generate_imperial_name(false);
-faction_title[5]="Prioress";
+faction_title[eFACTION.Ecclesiarchy]="Prioress";
 faction_status[eFACTION.Ecclesiarchy]="Allied";
 // Eldar faction
 faction_leader[eFACTION.Eldar]=global.name_generator.generate_eldar_name(2);
-faction_title[6]="Farseer";
+faction_title[eFACTION.Eldar]="Farseer";
 faction_status[eFACTION.Eldar]="Antagonism";// If disposition = 0 then instead set it to "Antagonism"
 // Orkz faction
 faction_leader[eFACTION.Ork]=global.name_generator.generate_ork_name();
-faction_title[7]="Warboss";
+faction_title[eFACTION.Ork]="Warboss";
 faction_status[eFACTION.Ork]="War";
 // Tau faction
 faction_leader[eFACTION.Tau] = global.name_generator.generate_tau_leader_name();
-faction_title[8]="Diplomat";
+faction_title[eFACTION.Tau]="Diplomat";
 faction_status[eFACTION.Tau]="Antagonism";
 // Other factions unkown to player
-faction_leader[eFACTION.Tyranids]="";
-faction_title[9]="";
 faction_status[eFACTION.Tyranids]="War";
-
-faction_leader[eFACTION.Chaos]=":D";
-faction_title[10]="Chaos Lord";
+faction_title[eFACTION.Chaos]="Chaos Lord";
 faction_status[eFACTION.Chaos]="War";
-
-faction_leader[eFACTION.Heretics]="";
-faction_title[11]="";
 faction_status[eFACTION.Heretics]="War";
-
-faction_leader[12]="";
-faction_title[12]="";
-faction_status[12]="War";
-
-faction_leader[eFACTION.Necrons]="";
-faction_title[13]="";
+faction_status[eFACTION.Genestealer]="War";
 faction_status[eFACTION.Necrons]="War";
 // ** Sets faction gender for names **
-faction_gender[0]=1;
-faction_gender[1]=1;
-faction_gender[2]=1;
-faction_gender[3]=1;
-faction_gender[4]=1;
-faction_gender[10]=1;
-faction_gender[5]=1;
+faction_gender = array_create(14, 1);
 faction_gender[6]=choose(1,2);
-faction_gender[7]=1;
 faction_gender[8]=choose(1,1,2);
-faction_gender[9]=1;
 if (faction_gender[4]=2) then faction_leader[eFACTION.Inquisition]=global.name_generator.generate_imperial_name(false);
 faction_gender[10]=choose(1,1,1,2,2);
 if (faction_gender[10]==1) then faction_leader[eFACTION.Chaos]=choose("1","1","1","2");
 if (faction_gender[10]==2) then faction_leader[eFACTION.Chaos]=choose("1","2","2","2");
 if (faction_leader[eFACTION.Chaos]=="1") then faction_leader[eFACTION.Chaos]=global.name_generator.generate_space_marine_name();
 if (faction_leader[eFACTION.Chaos]=="2") then faction_leader[eFACTION.Chaos]=global.name_generator.generate_chaos_name();
-faction_gender[11]=1;
-faction_gender[12]=1;
-faction_gender[13]=1;
 
+known = array_create(14, 0);
 known[0]=2;
 known[eFACTION.Player]=999;
 known[eFACTION.Imperium]=1;
 known[eFACTION.Mechanicus]=1;
-known[eFACTION.Inquisition]=0;
-known[eFACTION.Ecclesiarchy]=0;
-known[eFACTION.Eldar]=0;
-known[eFACTION.Ork]=0;
-known[eFACTION.Tau]=0;
-known[eFACTION.Tyranids]=0;
-known[eFACTION.Chaos]=0;
-known[eFACTION.Heretics]=0;
-known[12]=0;
-known[eFACTION.Necrons]=0;
 
 // UI testing
 // known[eFACTION.Inquisition]=1;known[eFACTION.Ecclesiarchy]=1;known[eFACTION.Eldar]=1;known[eFACTION.Ork]=1;known[eFACTION.Tau]=1;known[eFACTION.Tyranids]=1;known[eFACTION.Chaos]=1;
@@ -1181,35 +1136,9 @@ known[eFACTION.Necrons]=0;
 // disposition[4]=90;
 // disposition[3]=60;
 // ** Sets diplomacy annoyed status **
-annoyed[0]=0;
-annoyed[eFACTION.Player]=0;
-annoyed[eFACTION.Imperium]=0;
-annoyed[eFACTION.Mechanicus]=0;
-annoyed[eFACTION.Inquisition]=0;
-annoyed[eFACTION.Ecclesiarchy]=0;
-annoyed[eFACTION.Eldar]=0;
-annoyed[eFACTION.Ork]=0;
-annoyed[eFACTION.Tau]=0;
-annoyed[eFACTION.Tyranids]=0;
-annoyed[eFACTION.Chaos]=0;
-annoyed[eFACTION.Heretics]=0;
-annoyed[12]=0;
-annoyed[eFACTION.Necrons]=0;
+annoyed = array_create(14, 0);
 // ** Sets diplomacy ignore status **
-ignore[0]=0;
-ignore[eFACTION.Player]=0;
-ignore[eFACTION.Imperium]=0;
-ignore[eFACTION.Mechanicus]=0;
-ignore[eFACTION.Inquisition]=0;
-ignore[eFACTION.Ecclesiarchy]=0;
-ignore[eFACTION.Eldar]=0;
-ignore[eFACTION.Ork]=0;
-ignore[eFACTION.Tau]=0;
-ignore[eFACTION.Tyranids]=0;
-ignore[eFACTION.Chaos]=0;
-ignore[eFACTION.Heretics]=0;
-ignore[12]=0;
-ignore[eFACTION.Necrons]=0;
+ignore = array_create(14, 0);
 // ** Sets diplomacy turns to be ignored **
 turns_ignored[0]=0;
 turns_ignored[1]=0;
@@ -1286,7 +1215,7 @@ other1="";
 // ** Sets up bonuses once chapter is created **
 if (instance_exists(obj_ini)){
     // General setup
-    if (global.load==0){
+    if (global.load==-1){
         // Tolerant trait
         if (scr_has_disadv("Tolerant")) {
             obj_controller.disposition[6]+=5;
@@ -1344,8 +1273,45 @@ try{
 catch(_exception){
     global.star_name_colors[1] = make_color_rgb(col_r[1],col_g[1],col_b[1]);
 }
+
+#region save/load serialization 
+
+/// Called from save function to take all object variables and convert them to a json savable format and return it 
+serialize = function(){
+    var object_controller = self;
+    
+    var save_data = {
+        obj: object_get_name(object_index),
+        x,
+        y,
+        chaos_gods,
+        master_of_forge,
+        stc_research,
+        production_research,
+        player_forge_data,
+        end_turn_insights,
+        recruit_data,
+        marines,
+        loyalty,
+        spec_train_data,
+        forge_queue: specialist_point_handler.forge_queue,
+
+    }
+    var excluded_from_save = ["temp", "serialize", "deserialize", "build_chaos_gods", "company_data","menu_buttons",
+            "location_viewer", "production_research_pathways", "specialist_point_handler", "spec_train_data"]
+    var excluded_from_save_start = ["restart_"];
+
+    copy_serializable_fields(object_controller, save_data, excluded_from_save, excluded_from_save_start);
+
+    return save_data;
+}
+
+// Deserialization is done within scr_load
+#endregion
+
+
 // ** Loads the game **
-if (global.load>0){
+if (global.load>=0){
     load_game=global.load;
     successor_chapters=0;
     instance_create(0,0,obj_saveload);
@@ -1361,8 +1327,20 @@ if (global.load>0){
     exit;
 }
 
+///! ************************************************************ */
+///! ************************************************************ */
+///! ************************************************************ */
+///! NOTHING BEYOND THIS POINT WILL BE SET AFTER A LOAD FROM SAVE */
+///! ************************************************************ */
+///! ************************************************************ */
+///! ************************************************************ */
+///! ************************************************************ */
+
+
+
+
 var xx,yy,me,dist,go,planet;
-global.custom=1;
+global.custom=eCHAPTER_TYPE.RANDOM;
 
 // ** Sets up base training level and trainees at game start **
 training_apothecary=0;
@@ -1455,7 +1433,7 @@ ork=1;
 eldar=1;
 // if tau = 1 then tau spawn. also does eldar 
 /*
-if (global.custom=1){ 
+if (global.custom==eCHAPTER_TYPE.RANDOM){ 
     tau=choose(0,0,1);
     eldar=choose(0,1);
 }
@@ -1492,7 +1470,7 @@ marines+=obj_ini.sixths+obj_ini.sevenths+obj_ini.eighths+obj_ini.ninths+obj_ini.
 command=0;
 command=obj_ini.commands;
 // Removes the command marines from marine count
-if (global.load==0) then marines-=command;
+if (global.load==-1) then marines-=command;
 // **** INTRO SCREEN ****
 temp[30]=string(check_number)+" "+string(year_fraction)+" "+string(year)+".M"+string(millenium);// Date
 temp[31]=string_upper(adept_name);// Adept name
@@ -1506,22 +1484,23 @@ var njm=34,com=0,vih=0,word="",masta=0,forga=0,chapla=0,apa=0,liba=0,techa=0,lib
 
 var honoh=0,termi=0,veter=0,capt=0,chap=0,apoth=0,stand=0,dread=0,champ=0,tact=0,assa=0,deva=0,rhino=0,speeder=0,raider=0,standard=0,bike=0,scou=0,whirl=0,pred=0,lib=0,serg=0,vet_serg=0;
 for(var mm=0; mm<=100; mm++){
-    if (obj_ini.role[com,mm]=="Chapter Master") then masta=1;
+    if (obj_ini.role[com,mm]==obj_ini.role[100][eROLE.ChapterMaster]) then masta=1;
     if (obj_ini.role[com,mm]=="Forge Master") then forga=1;
     if (obj_ini.role[com,mm]=="Master of Sanctity") then chapla=1;
     if (obj_ini.role[com,mm]=="Master of the Apothecarion") then apa=1;
-    if (obj_ini.role[com,mm]=="Chief "+string(obj_ini.role[100,17])) then liba=1;
-    if (obj_ini.role[com,mm]==obj_ini.role[100][16]) then techa+=1;
-    if (obj_ini.role[com,mm]==obj_ini.role[100,17]) then libra+=1;
+    if (obj_ini.role[com,mm]=="Chief "+string(obj_ini.role[100][eROLE.Librarian])) then liba=1;
+    if (obj_ini.role[com,mm]==obj_ini.role[100][eROLE.Techmarine]) then techa+=1;
+    if (obj_ini.role[com,mm]==obj_ini.role[100][eROLE.Librarian]) then libra+=1;
     if (obj_ini.role[com,mm]=="Codiciery") then coda+=1;
     if (obj_ini.role[com,mm]=="Lexicanum") then lexa+=1;
-    if (obj_ini.role[com,mm]==obj_ini.role[100][14]) then old_dudes+=1;
-    if (obj_ini.role[com,mm]==obj_ini.role[100][15]) then apotha+=1;
-    if (obj_ini.role[com,mm]==obj_ini.role[100][2]) then honoh+=1;
+    if (obj_ini.role[com,mm]==obj_ini.role[100][eROLE.Chaplain]) then old_dudes+=1;
+    if (obj_ini.role[com,mm]==obj_ini.role[100][eROLE.Apothecary]) then apotha+=1;
+    if (obj_ini.role[com,mm]==obj_ini.role[100][eROLE.HonourGuard]) then honoh+=1;
 }
 
 temp[njm]="Command staff made of";
 
+// Command staff names start at index 1 rather than 0 to align with the chapter company structure
 if (masta == 1) then temp[njm] += $", your majesty Chapter Master {obj_ini.name[com][0]}";
 if (forga == 1) then temp[njm] += $", Forge Master {obj_ini.name[com][1]}";
 if (chapla == 1) then temp[njm] += $", Master of Sanctity {obj_ini.name[com][2]}";
@@ -1646,7 +1625,7 @@ temp[60] = $"{temp[59]}\n\n{temp[34]}\n\n{temp[35]}##{temp[36]}##{temp[37]}##{te
 
 
 temp[61]="\n\nYour armamentarium contains some spare equipment- \n";
-temp[61] += arrays_to_string_with_counts(obj_ini.equipment, obj_ini.equipment_number, true, true);
+temp[61] += equipment_struct_to_string(obj_ini.equipment, true, true);
 
 
 temp[62]="##Your fleet contains ";
@@ -1784,6 +1763,10 @@ if (welcome_pages>=5){
     }
 }
 remov=string_length(string(temp[65])+string(temp[66])+string(temp[67])+string(temp[68])+string(temp[69]))+1;
-action_set_alarm(2, 0);
 
 instance_create(0,0,obj_tooltip );
+
+action_set_alarm(2, 0);
+
+
+//**! DO NOT PUT THINGS AT THE BOTTOM OF THIS FILE IF YOU NEED THEM TO WORK AFTER LOADING FROM A SAVE, SEE LINE 1550 -ish   */

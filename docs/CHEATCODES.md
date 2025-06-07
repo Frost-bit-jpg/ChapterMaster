@@ -18,6 +18,7 @@ Arguments with stars `(argument*)` can be omitted.
 - `artifact (type*) (number*)` - spawns an artifact of a random type, if unspecified.
     - `(type*)` - possible values: random, random_nodemon, Weapon, Armour, Gear, Device, Robot, Tome, chaos_gift, good. Case sensitive.
 - `artifactpopulate` - spawns artifacts on all planets.
+- `stcpopulate` - spawns an STC fragment on all planets.
 - `additem "(name)" (number*) (quality*)` - spawns an item(s) with specified parameters.
     - `"(name)"` - item name in quotes, as it's written in the game. Case sensitive. "Bolter", "Power Axe", etc.
     - `(quality*)` - possible values: standard, master_crafted, artificer, artifact, exemplary. Case insensitive.
@@ -45,6 +46,17 @@ Arguments with stars `(argument*)` can be omitted.
     - `slaughtersong` - triggers the Starship event.
 - `inquisarti` - triggers the Artifact Loan quest.
 - `govmission` - spawns governor missions on all planets.
+- `inquismission (mission*)` - triggers an inquisition mission. You must have met the inquisition for this to work
+    - `planet` - investigate planet mission
+    - `purge` - purge planet mission
+    - `artifact` - hold artifact mission
+    - `spyrer` - hunt spyrer mission
+    - `tomb_world` - destroy tomb world mission. Needs at least 1 planet with a dormant necron tomb on the map
+    - `ethereal` - not implemented yet
+    - `tyranid_organism` - capture tyranis mission
+    - `demon` clear demon world mission. Requires at least one planet to have demons on it
+
+    
 ### Disposition:
 - `depall (number*)` - sets disposition of everyone to specified value.
 - `depmec (number*)` - sets disposition of Mechanicus to specified value.

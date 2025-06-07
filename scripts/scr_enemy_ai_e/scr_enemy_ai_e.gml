@@ -101,19 +101,32 @@ function scr_enemy_ai_e() {
             if (present_fleet[f] > 0) {
                 obj_controller.temp[1049] = self.id;
                 obj_controller.temp[1050] = f;
-
+                var _orbiting = self.id;
+                var _wanted_owner = f;
+                var fleet_strength = 0;
                 with(obj_en_fleet) {
-                    if (orbiting = obj_controller.temp[1049]) and(owner = obj_controller.temp[1050]) {
-                        obj_controller.temp[1051] = self.escort_number + (self.frigate_number * 4) + (self.capital_number * 8);
+                    if (orbiting = _orbiting) and(owner = _wanted_owner) {
+                        fleet_strength = self.escort_number + (self.frigate_number * 4) + (self.capital_number * 8);
+                        if (owner == fleet_has_cargo("ork_warboss")){
+                            fleet_strength*=1.5;
+                        }
                     }
                 }
 
-                strength[f] = obj_controller.temp[1051];
+                strength[f] = fleet_strength;
 
-                if (f = 7) and(strength[7] > 0) then strength[f] = strength[f] * 0.8;
-                if (f = 9) and(strength[9] > 0) then strength[f] = strength[f] * 1.1;
-                if (f = 10) and(strength[10] > 0) then strength[f] = strength[f] * 1.1;
-                if (f = 11) and(strength[13] > 0) then strength[13] = strength[13] * 2;
+                if (f = 7) and(strength[7] > 0){
+                    strength[f] = strength[f] * 0.8;
+                }
+                else if (f = 9) and(strength[9] > 0){
+                    strength[f] = strength[f] * 1.1;
+                }
+                else if (f = 10) and(strength[10] > 0){
+                    strength[f] = strength[f] * 1.1;
+                }
+                else if (f = 11) and(strength[13] > 0){
+                    strength[13] = strength[13] * 2;
+                }
 
                 // if (f=10) or (f=2) then show_message("["+string(f)+"] Fleet strength: "+string(strength[f]));
 
@@ -504,9 +517,11 @@ function scr_enemy_ai_e() {
             }
 
         }
-        if (p_player[run] > 0) and(has_problem_planet(run,"bomb")) {
+        if (p_player[run] > 0 && has_problem_planet(run,"necron")) {
+            log_message($"player on planet with necron mission {name} planet: {run}")
             var have_bomb;
             have_bomb = scr_check_equip("Plasma Bomb", name, run, 0);
+            log_message($"have bomb? {have_bomb} ")
             if (have_bomb > 0) {
                 var tixt;
                 tixt = "Your marines on " + planet_numeral_name(run);
@@ -699,7 +714,7 @@ function scr_enemy_ai_e() {
                 good = 0;
                 if (obj_ini.role[co, i] != "") and(obj_ini.loc[co, i] = name) and(obj_ini.TTRP[co, i].planet_location == floor(chaos_meeting)) then good += 1;
                 if (obj_ini.role[co, i] != obj_ini.role[100, 6]) and(obj_ini.role[co, i] != "Venerable " + string(obj_ini.role[100, 6])) then good += 1;
-                if (string_count("Dread", obj_ini.armour[co, i]) = 0) or(obj_ini.role[co, i] = "Chapter Master") then good += 1;
+                if (string_count("Dread", obj_ini.armour[co, i]) = 0) or(obj_ini.role[co, i] == obj_ini.role[100][eROLE.ChapterMaster]) then good += 1;
 
                 if (good = 3) {
                     obj_temp_meeting.dudes += 1;
@@ -707,7 +722,7 @@ function scr_enemy_ai_e() {
                     obj_temp_meeting.present[otm] = 1;
                     obj_temp_meeting.co[otm] = co;
                     obj_temp_meeting.ide[otm] = i;
-                    if (obj_ini.role[co, i] = "Chapter Master") then master_present = 1;
+                    if (obj_ini.role[co, i] == obj_ini.role[100][eROLE.ChapterMaster]) then master_present = 1;
                 }
             }
         }

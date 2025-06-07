@@ -31,7 +31,7 @@ global.religions = {
         "name": "The Eight Fold Path"
     }
 };
-#macro ARR_power_armour ["MK7 Aquila", "MK6 Corvus", "MK5 Heresy", "MK3 Iron Armour", "MK4 Maximus", "Power Armour"]
+
 enum location_types {
     planet,
     ship,
@@ -71,7 +71,7 @@ global.base_stats = {
         dexterity: [40, 3],
         intelligence: [40, 3],
         wisdom: [40, 3],
-        charisma: [30, 5],
+        charisma: [32, 6],
         religion: "imperial_cult",
         piety: [30, 3],
         luck: 10,
@@ -85,7 +85,7 @@ global.base_stats = {
             }
         },
         start_gear: {
-            "armour": "Power Armour",
+            "armour": STR_ANY_POWER_ARMOUR,
             "wep1": "Chainsword",
             "wep2": "Chainsword"
         },
@@ -114,7 +114,7 @@ global.base_stats = {
             }
         },
         start_gear: {
-            "armour": "Power Armour",
+            "armour": STR_ANY_POWER_ARMOUR,
             "wep1": "Bolter",
             "wep2": "Chainsword"
         }, // Scouts should probably have access only to scout armour, and perhaps some stuff from hirelings
@@ -143,7 +143,7 @@ global.base_stats = {
             }
         },
         start_gear: {
-            "armour": "Power Armour",
+            "armour": STR_ANY_POWER_ARMOUR,
             "wep1": "Bolter",
             "wep2": "Chainsword"
         },
@@ -462,6 +462,9 @@ function TTRPG_stats(faction, comp, mar, class = "marine", other_spawn_data = {}
     turn_stat_gains = {};
     powers_known = [];
 
+    personal_livery = {};
+    personal_culture = [];
+
     static set_exp = function(new_val) {
         experience = new_val;
         var _powers_learned = 0;
@@ -646,17 +649,16 @@ function TTRPG_stats(faction, comp, mar, class = "marine", other_spawn_data = {}
         var arm = armour();
         var sz = 0;
         sz = 1;
-        var bulky_armour = ["Terminator Armour", "Tartaros"];
         if (string_count("Dread", arm) > 0) {
             sz += 5;
-        } else if (array_contains(bulky_armour, arm)) {
+        } else if (array_contains(LIST_TERMINATOR_ARMOUR, arm)) {
             sz += 1;
         }
         //var mobi =  mobility_item();
         /*if (mobi == "Jump Pack"){
 			sz++;
 		}*/
-        if (unit_role == "Chapter Master") {
+        if (unit_role == obj_ini.role[100][eROLE.ChapterMaster]) {
             sz++;
         }
         size = sz;
@@ -861,6 +863,20 @@ function TTRPG_stats(faction, comp, mar, class = "marine", other_spawn_data = {}
 	that could be chosen to give boostes to the other stats
 	so as an example salamanders could have the chapter values as  */
     loyalty = 0;
+    static alter_loyalty = function(alt_val){
+        if (alt_val < 0){
+            if (has_trait("honorable")){
+                alt_val/=2;
+            }
+            if (has_trait("jaded")){
+                alt_val*=2;
+            }
+        }
+        if (has_trait("old_guard")){
+            alt_val/=2;
+        }
+        loyalty = clamp(loyalty + alt_val, 0, 100);
+    }
     switch (base_group) {
         case "astartes": //basic marine class //adds specific mechanics not releveant to most units
             loyalty = 100;
@@ -914,7 +930,7 @@ function TTRPG_stats(faction, comp, mar, class = "marine", other_spawn_data = {}
             };
 
             static assign_random_mutations = function() {
-                var _mutation_roll = roll_personal_dice(1, 100, "high", self);
+                var _mutation_roll = roll_dice_unit(1, 100, "high", self);
                 var _mutation_threshold = 100 - obj_ini.stability;
                 if (_mutation_roll <= _mutation_threshold) {
                     var _mutation_names = struct_get_names(gene_seed_mutations);
@@ -956,6 +972,10 @@ function TTRPG_stats(faction, comp, mar, class = "marine", other_spawn_data = {}
                 religion_sub_cult = "The Promethean Cult";
             } else if (global.chapter_name == "Iron Hands" || obj_ini.progenitor == ePROGENITOR.IRON_HANDS) {
                 religion_sub_cult = "The Cult of Iron";
+            }
+
+            if (global.chapter_name == "Deathwatch"){
+                personal_livery.right_pauldron = irandom(30);
             }
 
             var _robe_chance = 5;
@@ -1261,16 +1281,16 @@ function TTRPG_stats(faction, comp, mar, class = "marine", other_spawn_data = {}
 
     static roll_psionics = function() {
         var _dice_count = marine_ascension == "pre_game" ? 1 : 2;
-        var _psionics_roll = roll_dice(_dice_count, 100);
+        var _psionics_roll = roll_dice_chapter(_dice_count, 100);
 
         if (scr_has_adv("Warp Touched")) {
             if (_psionics_roll < 170) {
-                var _second_roll = roll_personal_dice(_dice_count, 100, "high", self);
+                var _second_roll = roll_dice_unit(_dice_count, 100, "high", self);
                 _psionics_roll = _second_roll > _psionics_roll ? _second_roll : _psionics_roll;
             }
         } else if (scr_has_disadv("Psyker Intolerant")) {
             if (_psionics_roll >= 170) {
-                var _second_roll = roll_personal_dice(_dice_count, 100, "low", self);
+                var _second_roll = roll_dice_unit(_dice_count, 100, "low", self);
                 _psionics_roll = _second_roll < _psionics_roll ? _second_roll : _psionics_roll;
             }
         }
@@ -1544,6 +1564,7 @@ function TTRPG_stats(faction, comp, mar, class = "marine", other_spawn_data = {}
                 explanation_string += $"Secondary: +{second_attack}#";
             }
         }
+        final_range_attack = floor(final_range_attack * range_multiplyer);
         ranged_damage_data = [final_range_attack, explanation_string, carry_data, primary_weapon, secondary_weapon];
         return ranged_damage_data;
     };
@@ -1729,7 +1750,7 @@ function TTRPG_stats(faction, comp, mar, class = "marine", other_spawn_data = {}
                     secondary_modifier = 0;
                 } else {
                     secondary_modifier = 0.6;
-                    side_arm_data = "Pistol: x0.8";
+                    side_arm_data = "Pistol: x0.6";
                 }
             } else if (secondary_weapon.has_tag("flame")) {
                 secondary_modifier = 0.3;
@@ -1869,7 +1890,7 @@ function TTRPG_stats(faction, comp, mar, class = "marine", other_spawn_data = {}
             location_name = obj_ini.loc[company][marine_number]; //system marine is in
         } else {
             location_type = location_types.ship; //marine is on ship
-            location_id = ship_location; //ship array position
+            location_id = ship_location > -1 ? ship_location : 0; //ship array position
             if (location_id < array_length(obj_ini.ship_location)) {
                 location_name = obj_ini.ship_location[location_id]; //location of ship
             } else {
@@ -2184,11 +2205,11 @@ function TTRPG_stats(faction, comp, mar, class = "marine", other_spawn_data = {}
     };
 
 	static perils_strength = function() {
-		var _perils_strength = roll_personal_dice(1, 100, "low", self);
+		var _perils_strength = roll_dice_unit(1, 100, "low", self);
 	
 		// I hope you like demons
 		if (has_trait("warp_tainted")) {
-			var _second_roll = roll_personal_dice(1, 100, "high", self);
+			var _second_roll = roll_dice_unit(1, 100, "high", self);
 			if (_second_roll > _perils_strength) {
 				_perils_strength = _second_roll;
 			}
@@ -2200,7 +2221,7 @@ function TTRPG_stats(faction, comp, mar, class = "marine", other_spawn_data = {}
 	}
 
 	static perils_test = function() {
-		var _roll = roll_personal_dice(1, 1000, "high", self);
+		var _roll = roll_dice_unit(1, 1000, "high", self);
 		var _perils_threshold = perils_threshold();
 	
 		return _roll <= _perils_threshold;
@@ -2216,13 +2237,13 @@ function TTRPG_stats(faction, comp, mar, class = "marine", other_spawn_data = {}
 	}
 
 	static psychic_focus_test = function() {
-		var _cast_roll = roll_personal_dice(1, 100, "high", self);
+		var _cast_roll = roll_dice_unit(1, 100, "high", self);
 		var _cast_difficulty = psychic_focus_difficulty();
 		var _test_successful = _cast_roll >= _cast_difficulty;
 
 		if (_test_successful) {
 			roll_psionic_increase();
-			if (roll_personal_dice(2, 10, "high", self) == 20) {
+			if (roll_dice_unit(2, 10, "high", self) == 20) {
 				add_exp(1 * (_cast_difficulty / 100));
 			}
 		}
@@ -2234,7 +2255,7 @@ function TTRPG_stats(faction, comp, mar, class = "marine", other_spawn_data = {}
 		if (psionic < 12) {
 			var _psionic_difficulty = max(1, (psionic * 50) - experience);
 
-			var _dice_roll = roll_personal_dice(1, _psionic_difficulty, "high", self);
+			var _dice_roll = roll_dice_unit(1, _psionic_difficulty, "high", self);
 			if (_dice_roll == _psionic_difficulty) {
 				psionic++;
 				add_battle_log_message($"{name_role()} was touched by the warp!", 999, 135);
@@ -2269,7 +2290,7 @@ function TTRPG_stats(faction, comp, mar, class = "marine", other_spawn_data = {}
     };
 }
 
-function jsonify_marine_struct(company, marine) {
+function jsonify_marine_struct(company, marine, stringify=true) {
     var copy_marine_struct = obj_ini.TTRPG[company, marine]; //grab marine structure
     var new_marine = {};
     var copy_part;
@@ -2277,12 +2298,16 @@ function jsonify_marine_struct(company, marine) {
     for (var name = 0; name < array_length(names); name++) {
         //loop through keys to find which ones are methods as they can't be saved as a json string
         if (!is_method(copy_marine_struct[$ names[name]])) {
-            copy_part = DeepCloneStruct(copy_marine_struct[$ names[name]]);
+            copy_part = variable_clone(copy_marine_struct[$ names[name]]);
             variable_struct_set(new_marine, names[name], copy_part); //if key value is not a method add to copy structure
             delete copy_part;
         }
     }
-    return json_stringify(new_marine);
+    if(stringify){
+        return json_stringify(new_marine, true);
+    } else {
+        return new_marine;
+    }
 }
 
 /// @param {Array<Real>} unit where unit[0] is company and unit[1] is the position
