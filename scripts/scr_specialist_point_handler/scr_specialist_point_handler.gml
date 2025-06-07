@@ -251,6 +251,7 @@ function SpecialistPointHandler() constructor{
                             } else if (charisma_test[0]==2){
                                 if (charisma_test[1] > 40 && _noticed_heresy=false){
                                     scr_alert("purple","Tech Heresy",$"{_current_tech.name_role()} contacts you concerned of Tech Heresy in the Armentarium");
+                                    scr_event_log("purple",$"{_current_tech.name_role()} contacts you concerned of Tech Heresy in the Armentarium");
                                     _noticed_heresy=true;
                                 }
                             }
