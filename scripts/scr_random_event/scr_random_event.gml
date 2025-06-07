@@ -304,6 +304,7 @@ function scr_random_event(execute_now) {
 		}
 		
 		scr_popup("Promotions!",text,"distinguished","");
+                scr_event_log("green",text);
 		evented = true;
 	}
     
@@ -661,6 +662,7 @@ function scr_random_event(execute_now) {
 				break;
 		}
 	    scr_alert("color","lol",text,0,0);
+            scr_event_log("red",text); 
 		evented = true;
 	}
 
@@ -696,9 +698,11 @@ function scr_random_event(execute_now) {
 			evented = true;
 			if (own==1){
 				scr_alert("red","Warp","Warp Storms rage across the "+string(star_id.name)+" system.",star_id.x,star_id.y);
+                                scr_event_log("red","Warp Storms rage across the "+string(star_id.name)+" system.",star_id.x,star_id.y);
 			}
 			else{
 				scr_alert("green","Warp","Warp Storms rage across the "+string(star_id.name)+" system.",star_id.x,star_id.y);
+                                scr_event_log("red","Warp Storms rage across the "+string(star_id.name)+" system.",star_id.x,star_id.y);
 			}	
 		}
 	}
@@ -778,6 +782,7 @@ function scr_random_event(execute_now) {
 					exit;
 			}
 			scr_alert("red","enemy",string(text)+" forces suddenly appear at "+string(star_id.name)+" "+string(planet)+"!",star_id.x,star_id.y);
+                        scr_event_log("red",string(text)+" forces suddenly appear at "+string(star_id.name)+" "+string(planet)+"!",star_id.x,star_id.y);
 			evented = true;
 		}
 	}
