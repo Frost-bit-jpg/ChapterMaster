@@ -515,7 +515,6 @@ function scr_enemy_ai_e() {
                     }
                 }
             }
-
         }
         if (p_player[run] > 0 && has_problem_planet(run,"necron")) {
             log_message($"player on planet with necron mission {name} planet: {run}")
