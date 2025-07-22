@@ -22,7 +22,7 @@ function get_none_or_any_item_names(_item_names, _with_none=false, _with_any=fal
 /// @param {array} _item_names - The list of ranged weapons to append to.
 /// @returns {void}
 function push_marine_ranged_weapons_item_names(_item_names) {
-    var item_count = 29
+    var item_count = 29;
     var initial_size = array_length(_item_names);
     array_resize(_item_names, initial_size + item_count);
 
