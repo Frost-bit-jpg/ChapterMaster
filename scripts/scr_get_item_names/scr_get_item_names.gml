@@ -50,7 +50,7 @@ function push_marine_ranged_weapons_item_names(_item_names) {
     _item_names[@ index++] = "Missile Launcher";
     _item_names[@ index++] = "Multi-Melta";
     _item_names[@ index++] = "Autocannon";
-    _item_names[@ index++] = "Plasma Cannon"
+    _item_names[@ index++] = "Plasma Cannon";
     _item_names[@ index++] = "Plasma Gun";
     _item_names[@ index++] = "Plasma Pistol";
     _item_names[@ index++] = "Sniper Rifle";
